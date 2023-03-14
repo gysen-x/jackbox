@@ -2,7 +2,7 @@
 import ATYPES from './types';
 
 const initialState = {
-  user: {},
+  user: null,
 };
 
 const redusers = (state = initialState, action) => {
@@ -13,11 +13,12 @@ const redusers = (state = initialState, action) => {
         user: {
           username: action.payload.user.name,
           userid: action.payload.user.id,
-          isAuth: action.payload.user.isAuth,
         },
       };
 
     case ATYPES.SIGN_OUT_USER:
+      console.log(1);
+      localStorage.removeItem('token');
       return { ...state, user: null };
 
     default:

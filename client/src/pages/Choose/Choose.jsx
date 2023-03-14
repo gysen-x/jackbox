@@ -1,18 +1,18 @@
 import React from 'react';
-import './Homepage.css';
+import './Choose.css';
 
-export default function Homepage() {
+export default function Choose() {
   return (
     <div className="homepageWrapper">
-      <hi className="homepageH1">GAME BOX</hi>
+      <hi className="homepageH1">GAME</hi>
       <button className="buttonAction" type="button">
         <span className="button_top button_login">
-          Login
+          Enter
         </span>
       </button>
       <button className="buttonAction" type="button">
         <span className="button_top button_play">
-          Play
+          Create
         </span>
       </button>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
