@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 
 const { User } = require('../../db/models');
@@ -14,7 +15,7 @@ exports.signInAndSendStatus = async (req, res) => {
       return res.status(401).json({ errMsg: 'Wrong email or password!' });
     }
     if (isSamePassword) {
-      const { id, name } = userFromDatabase;
+      const { id, login: name } = userFromDatabase;
       const token = generateAccessToken(id);
       console.log(id, name, token);
       res.status(200).json({ token, user: { id, name } });
@@ -29,13 +30,14 @@ exports.signInAndSendStatus = async (req, res) => {
 };
 
 exports.signUpAndSendStatus = async (req, res) => {
-  const { name: uName, email, password } = req.body;
+  const { login, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name: uName, email, password: hashPassword });
+    const user = await User.create({ login, email, password: hashPassword });
 
-    const { id, name } = user;
+    const { id, login: name } = user;
     const token = generateAccessToken(id);
+    console.log(id, name, token);
     res.json({ token, user: { id, name } });
   } catch (err) {
     let errMsg = err.message;
@@ -45,10 +47,12 @@ exports.signUpAndSendStatus = async (req, res) => {
 };
 
 exports.check = async (req, res) => {
-  const oldToken = req.headers.authorization.split(' ')[1];
-  if (!oldToken) {
-    res.json({ fail: 'fail' });
-  } else {
+  try {
+    console.log('req: =>>>>>>>>>>', req.headers);
+
+    const oldToken = req.headers.authentication.split(' ')[1];
+    console.log('oldToken: ', oldToken);
+
     const decoded = decodeToken(oldToken);
     const { id: userId } = decoded;
 
@@ -56,7 +60,9 @@ exports.check = async (req, res) => {
 
     const user = await User.findByPk(userId);
 
-    const { id, name } = user;
+    const { id, login: name } = user;
     res.json({ token, user: { id, name } });
+  } catch (error) {
+    res.json({ fail: 'fail' });
   }
 };
