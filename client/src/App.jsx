@@ -1,14 +1,22 @@
+import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Leftbar from './global/Leftbar';
-import Homepage from './pages/Homepage';
+import Topbar from './global/Topbar/Topbar';
+import { ColorModeContext, useMode } from './theme';
 
 function App() {
-  return (
-    <div className="App">
-      <Leftbar />
+  const [theme, colorMode] = useMode();
 
-      <Homepage />
-    </div>
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Topbar />
+        <Leftbar />
+        <main className="main" />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
