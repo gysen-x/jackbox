@@ -3,6 +3,10 @@ import { useDispatch } from 'react-redux';
 import { Container, Box } from '@mui/material';
 import { setUser } from '../../store/actions';
 
+import './Signin.css';
+import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomButton from '../../components/CustomButton/CustomButton';
+
 export default function Signin() {
   const dispatch = useDispatch();
 
@@ -58,57 +62,35 @@ export default function Signin() {
         >
 
           <h1> Sign In</h1>
-          <div className="mb-3">
-            <label
-              className="form-label w-100"
-              htmlFor="exampleInputEmail1"
-            >
-              <div
-                className="form-text"
-                id="usernameText"
-              >
-                Email address
-              </div>
-              <input
-                className="form-control"
-                id="exampleInputEmail1"
-                type="email"
-                name="email"
-                value={userSignin.email}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div className="mb-3">
-            <label
-              className="form-label w-100"
-              htmlFor="exampleInputPassword1"
-            >
-              <div
-                id="usernameText"
-                className="form-text"
-              >
-                Password
-              </div>
-              <input
-                className="form-control"
-                id="exampleInputPassword1"
-                type="password"
-                name="password"
-                value={userSignin.password}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+          <CustomInput
+            title="Username"
+            className="form-control"
+            id="exampleInputEmail1"
+            type="email"
+            name="email"
+            value={userSignin.email}
+            onChange={handleChange}
+            placeholder="Enter your name..."
+          />
+          <CustomInput
+            title="Email"
+            className="form-control"
+            id="exampleInputPassword1"
+            type="password"
+            name="password"
+            value={userSignin.password}
+            onChange={handleChange}
+            placeholder="Enter your password..."
+          />
           <div className={alertClass} role="alert">
             {errorSignin}
           </div>
-          <button
+          <CustomButton
+            id="signUp"
+            title="Submit"
+            color="#fe9e84"
             type="submit"
-            className="btn btn-primary"
-          >
-            Submit
-          </button>
+          />
         </form>
       </Box>
     </Container>

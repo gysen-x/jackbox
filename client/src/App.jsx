@@ -7,8 +7,8 @@ import { ColorModeContext, useMode } from './theme';
 import Homepage from './pages/Homepage';
 import Leftbar from './global/Leftbar';
 import Topbar from './global/Topbar/Topbar';
-import Signin from './pages/AuthPage/Signin';
-import Signup from './pages/AuthPage/Signup';
+import Signin from './pages/Signin/Signin';
+import Signup from './pages/Signup/Signup';
 import { setUser } from './store/actions';
 
 function App() {
