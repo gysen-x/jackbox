@@ -8,7 +8,9 @@ module.exports = {
             rules: 'Добей шутку',
             description: 'Добей шутку, выиграй остальных',
             maxPlayers: 8,
-            img: 'https://stihi.ru/pics/2014/02/28/5146.jpg'
+            img: 'https://stihi.ru/pics/2014/02/28/5146.jpg',
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }], {});
     },
 
