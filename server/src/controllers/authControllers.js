@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 
 const { User } = require('../../db/models');
 
+const { generateAccessToken, decodeToken } = require('./lib/jwt');
+
 exports.signInAndSendStatus = async (req, res) => {
   const { email, password } = req.body;
 
@@ -12,9 +14,10 @@ exports.signInAndSendStatus = async (req, res) => {
       return res.status(401).json({ errMsg: 'Wrong email or password!' });
     }
     if (isSamePassword) {
-      req.session.user = { id: userFromDatabase.id, name: userFromDatabase.name };
-      req.session.save();
-      res.status(200).json(req.session.user);
+      const { id, name } = userFromDatabase;
+      const token = generateAccessToken(id);
+      console.log(id, name, token);
+      res.status(200).json({ token, user: { id, name } });
     } else {
       res.status(401).json({ errMsg: 'Wrong password or email!' });
     }
@@ -26,14 +29,14 @@ exports.signInAndSendStatus = async (req, res) => {
 };
 
 exports.signUpAndSendStatus = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name: uName, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashPassword });
+    const user = await User.create({ name: uName, email, password: hashPassword });
 
-    req.session.user = { id: user.id, name: user.name };
-    req.session.save();
-    res.json(req.session.user);
+    const { id, name } = user;
+    const token = generateAccessToken(id);
+    res.json({ token, user: { id, name } });
   } catch (err) {
     let errMsg = err.message;
     if (err.name === 'SequelizeUniqueConstraintError') errMsg = err.errors[0].message;
@@ -41,18 +44,19 @@ exports.signUpAndSendStatus = async (req, res) => {
   }
 };
 
-exports.signout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) console.log(err);
-    res.clearCookie('cookie');
-    res.sendStatus(200);
-  });
-};
-
-exports.check = (req, res) => {
-  if (req.session.user) {
-    res.json(req.session.user);
-  } else {
+exports.check = async (req, res) => {
+  const oldToken = req.headers.authorization.split(' ')[1];
+  if (!oldToken) {
     res.json({ fail: 'fail' });
+  } else {
+    const decoded = decodeToken(oldToken);
+    const { id: userId } = decoded;
+
+    const token = generateAccessToken(userId);
+
+    const user = await User.findByPk(userId);
+
+    const { id, name } = user;
+    res.json({ token, user: { id, name } });
   }
 };
