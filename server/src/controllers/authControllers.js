@@ -37,7 +37,6 @@ exports.signUpAndSendStatus = async (req, res) => {
 
     const { id, login: name } = user;
     const token = generateAccessToken(id);
-    console.log(id, name, token);
     res.json({ token, user: { id, name } });
   } catch (err) {
     let errMsg = err.message;
@@ -48,10 +47,7 @@ exports.signUpAndSendStatus = async (req, res) => {
 
 exports.check = async (req, res) => {
   try {
-    console.log('req: =>>>>>>>>>>', req.headers);
-
     const oldToken = req.headers.authentication.split(' ')[1];
-    console.log('oldToken: ', oldToken);
 
     const decoded = decodeToken(oldToken);
     const { id: userId } = decoded;
