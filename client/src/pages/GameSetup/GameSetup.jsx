@@ -19,7 +19,7 @@ export default function GameSetup() {
         <input type="text" placeholder="Password" name="password" className="input" />
       </div>
       <div className="input-wrapper">
-        <input type="text" placeholder="Max players" name="members" className="input" />
+        <input type="text" placeholder="Room name" name="roomName" className="input" />
       </div>
       <button className="buttonAction" type="button">
         <span className="button_top button_play">

@@ -9,6 +9,10 @@ import Leftbar from './global/Leftbar';
 import Topbar from './global/Topbar/Topbar';
 import Signin from './pages/Signin/Signin';
 import Signup from './pages/Signup/Signup';
+import SelectGames from './pages/SelectGames/SelectGames';
+import Choose from './pages/Choose/Choose';
+import Rooms from './pages/Rooms/Rooms';
+import GameSetup from './pages/GameSetup/GameSetup';
 import { setUser } from './store/actions';
 
 function App() {
@@ -44,15 +48,22 @@ function App() {
         <Leftbar />
         <main className="main">
           <Routes>
-            <Route index element={<Homepage />} />
             {isAuth ? (
-              <Route path="/profile" element={<p>Profile</p>} />
+              <>
+                <Route path="/profile" element={<p>Profile</p>} />
+                <Route path="/games" element={<SelectGames />} />
+                <Route path="/choose" element={<Choose />} />
+                <Route path="/rooms" element={<Rooms />} />
+                <Route path="/games/:id/options" element={<GameSetup />} />
+              </>
             ) : (
               <>
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
               </>
             )}
+            <Route index element={<Homepage />} />
+            <Route path="*" element={<div>404</div>} />
           </Routes>
         </main>
       </ThemeProvider>

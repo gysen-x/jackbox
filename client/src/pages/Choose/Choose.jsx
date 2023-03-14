@@ -1,16 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Choose.css';
 
 export default function Choose() {
+  const navigate = useNavigate();
+
   return (
     <div className="homepageWrapper">
       <hi className="homepageH1">GAME</hi>
-      <button className="buttonAction" type="button">
+      <button onClick={() => navigate('/rooms')} className="buttonAction" type="button">
         <span className="button_top button_login">
           Enter
         </span>
       </button>
-      <button className="buttonAction" type="button">
+      <button onClick={() => navigate('/games')} className="buttonAction" type="button">
         <span className="button_top button_play">
           Create
         </span>

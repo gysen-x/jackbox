@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/actions';
 
 import './Signin.css';
@@ -9,6 +10,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 
 export default function Signin() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userSignin, setUserSignin] = useState({ email: '', password: '' });
   const [errorSignin, setErrorSignin] = useState('');
@@ -40,6 +42,7 @@ export default function Signin() {
         dispatch(setUser(user));
         setAlertClass('alert alert-success');
         setErrorSignin("Well done! You're logged in!");
+        navigate('/');
       }
       setUserSignin({ username: '', email: '', password: '' });
     } catch (error) {
