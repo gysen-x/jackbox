@@ -6,27 +6,39 @@ module.exports = {
         await queryInterface.bulkInsert('People', [{
             roomId: 1,
             userId: 1,
-            text: "Привет!"
+            text: "Привет!",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }, {
             roomId: 1,
             userId: 2,
-            text: "Hi!"
+            text: "Hi!",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }, {
             roomId: 1,
             userId: 3,
-            text: "Че кого?"
+            text: "Че кого?",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }, {
             roomId: 1,
             userId: 5,
-            text: "Ору"
+            text: "Ору",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }, {
             roomId: 1,
             userId: 6,
-            text: "Чет лол"
+            text: "Чет лол",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }, {
             roomId: 1,
             userId: 2,
-            text: "Обстановка по кайфу"
+            text: "Обстановка по кайфу",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }], {});
     },
 

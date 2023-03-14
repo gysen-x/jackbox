@@ -6,7 +6,9 @@ module.exports = {
         await queryInterface.bulkInsert('People', [{
             gameId: 1,
             password: '1234',
-            members: 9
+            members: 9,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         }], {});
     },
 
