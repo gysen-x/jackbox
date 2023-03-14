@@ -3,6 +3,7 @@ import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Leftbar from './global/Leftbar';
 import Topbar from './global/Topbar/Topbar';
+import GameSetup from './pages/GameSetup/GameSetup';
 import { ColorModeContext, useMode } from './theme';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Topbar />
         <Leftbar />
         <main className="main" />
+        <GameSetup />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
