@@ -2,15 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Setups', {
+        await queryInterface.createTable('Rooms', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
-            },
-            body: {
-                type: Sequelize.STRING
             },
             gameId: {
                 type: Sequelize.INTEGER,
@@ -18,6 +15,13 @@ module.exports = {
                     model: 'AllGames',
                     key: 'id'
                 }
+            },
+            password: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            members: {
+                type: Sequelize.INTEGER
             },
             createdAt: {
                 allowNull: false,
@@ -30,6 +34,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Setups');
+        await queryInterface.dropTable('Rooms');
     }
 };
