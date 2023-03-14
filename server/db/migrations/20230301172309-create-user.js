@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
+      login: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
@@ -21,6 +21,18 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      roomId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      pointsInGame: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
