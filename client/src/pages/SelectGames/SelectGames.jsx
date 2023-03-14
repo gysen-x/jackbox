@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SelectGames.css';
 
 // для карточки id инпута и htmlFor лейбла должны совпадать, но быть уникальными для каждой карточки
 
 export default function SelectGames() {
+  const navigate = useNavigate();
+
   return (
     <div className="selectGamesWrapper">
       <hi className="homepageH1">SELECT GAME</hi>
@@ -27,7 +30,7 @@ export default function SelectGames() {
             </div>
           </label>
 
-          <button className="buttonAction" type="button">
+          <button onClick={() => navigate('/games/1/options')} className="buttonAction" type="button">
             <span className="button_top button_play">
               Play
             </span>
