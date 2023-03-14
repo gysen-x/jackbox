@@ -3,12 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.bulkInsert('People', [{
+        await queryInterface.bulkInsert('Rooms', [{
             gameId: 1,
             password: '1234',
             members: 9,
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }], {});
     },
 

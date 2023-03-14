@@ -14,7 +14,8 @@ module.exports = {
                 references: {
                     model: 'AllGames',
                     key: 'id'
-                }
+                },
+                onDelete: 'cascade',
             },
             password: {
                 type: Sequelize.STRING,

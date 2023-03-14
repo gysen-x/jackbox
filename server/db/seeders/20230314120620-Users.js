@@ -9,72 +9,72 @@ module.exports = {
             email: 'ilignatow@gmail.com',
             status: 'admin',
             pointsInGame: '300',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Ilya',
             password: '1234',
             email: 'ignat-ilya@yandex.ru',
             status: 'player',
             pointsInGame: '400',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Kate',
             password: '1234',
             email: 'kate@gmail.com',
             status: 'player',
             pointsInGame: '500',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Timir',
             password: '1234',
             email: 'timir@gmail.com',
             status: 'player',
             pointsInGame: '600',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Dima',
             password: '1234',
             email: 'dima@gmail.com',
             status: 'player',
             pointsInGame: '700',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Anton',
             password: '1234',
             email: 'anton@gmail.com',
             status: 'player',
             pointsInGame: '800',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Sergey',
             password: '1234',
             email: 'sergey@gmail.com',
             status: 'player',
             pointsInGame: '900',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Roman',
             password: '1234',
             email: 'roman@gmail.com',
             status: 'player',
             pointsInGame: '1000',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             login: 'Artem',
             password: '1234',
             email: 'artem@gmail.com',
             status: 'viewer',
             pointsInGame: '1100',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }], {});
     },
 

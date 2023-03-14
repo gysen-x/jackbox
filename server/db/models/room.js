@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             this.belongsTo(models.AllGames, {foreignKey: 'gameId'})
-            this.hasOne(models.GameSession, {foreignKey: 'roomId'})
-            this.hasMany(models.Message, {foreignKey: 'roomId'})
+            this.hasOne(models.GameSession, {foreignKey: 'roomId'}, {onDelete: 'cascade'}, {hooks: true})
+            this.hasMany(models.Message, {foreignKey: 'roomId'}, {onDelete: 'cascade'}, {hooks: true})
 
         }
     }

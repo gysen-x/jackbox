@@ -14,14 +14,16 @@ module.exports = {
                 references: {
                     model: 'Rooms',
                     key: 'id'
-                }
+                },
+                onDelete: 'cascade',
             },
             userId: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'Users',
                     key: 'id'
-                }
+                },
+                onDelete: 'cascade',
             },
             text: {
                 type: Sequelize.STRING

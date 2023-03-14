@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             this.belongsTo(models.Room, {foreignKey: 'roomId'})
-            this.hasMany(models.User, {foreignKey: 'userId'})
+            this.hasMany(models.User, {foreignKey: 'userId'}, {onDelete: 'cascade'}, {hooks: true})
         }
     }
 

@@ -3,42 +3,42 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.bulkInsert('People', [{
+        await queryInterface.bulkInsert('Messages', [{
             roomId: 1,
             userId: 1,
             text: "Привет!",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             roomId: 1,
             userId: 2,
             text: "Hi!",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             roomId: 1,
             userId: 3,
             text: "Че кого?",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             roomId: 1,
             userId: 5,
             text: "Ору",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             roomId: 1,
             userId: 6,
             text: "Чет лол",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }, {
             roomId: 1,
             userId: 2,
             text: "Обстановка по кайфу",
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }], {});
     },
 
