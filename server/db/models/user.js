@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             this.belongsToMany(models.User, {as: 'user1', through: models.Friendship, foreignKey: 'userId1'})
             this.belongsToMany(models.User, {as: 'user2', through: models.Friendship, foreignKey: 'userId2'})
-            this.hasOne(models.GameSession, {foreignKey: 'userId'})
-            this.hasMany(models.Message, {foreignKey: 'userId'})
+            this.hasOne(models.GameSession, {foreignKey: 'userId'}, {onDelete: 'cascade'}, {hooks: true})
+            this.hasMany(models.Message, {foreignKey: 'userId'}, {onDelete: 'cascade'}, {hooks: true})
         }
     }
 

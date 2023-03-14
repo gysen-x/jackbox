@@ -9,8 +9,8 @@ module.exports = {
             description: 'Добей шутку, выиграй остальных',
             maxPlayers: 8,
             img: 'https://stihi.ru/pics/2014/02/28/5146.jpg',
-            createdAt: Date.now(),
-            updatedAt: Date.now()
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }], {});
     },
 

@@ -17,7 +17,8 @@ module.exports = {
                 references: {
                     model: 'AllGames',
                     key: 'id'
-                }
+                },
+                onDelete: 'cascade',
             },
             createdAt: {
                 allowNull: false,
