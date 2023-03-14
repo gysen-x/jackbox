@@ -5,7 +5,7 @@ export default function Homepage() {
   return (
     <div className="homepageWrapper">
       <hi className="homepageH1">GAME BOX</hi>
-      <button type="button">
+      <button className="buttonAction" type="button">
         <span className="button_top button_login">
           Login
         </span>
