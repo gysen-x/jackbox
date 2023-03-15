@@ -5,7 +5,9 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
-const { User, GameSession, Room } = require('../db/models');
+const {
+  User, GameSession, Room, AllGames,
+} = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
 
@@ -17,19 +19,44 @@ const app = express();
 
 const server = http.createServer(app);
 
-const io = new Server(server);
+const io = new Server(
+  server,
+  {
+    cors: {
+      origin: 'http://localhost:4000',
+      methods: ['GET', 'POST'],
+    },
+  },
+);
 
-// io.on('connection', (socket) => {
-//   socket.on('addRoom', async () => {
-//     const rooms = await Room.findAll();
+io.on('connection', (socket) => {
+  console.log('законектились');
+  socket.on('addRoom', async () => {
+    const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
+    const roomsWithGames = rooms.map((el) => (el.password ? (
+      {
+        id: el.id,
+        name: el.name,
+        isPassword: true,
+        members: el.members,
+        gameName: el.AllGame.name,
+        maxPlayers: el.AllGame.maxPlayers,
+      }) : {
+      id: el.id,
+      name: el.name,
+      isPassword: false,
+      members: el.members,
+      gameName: el.AllGame.name,
+      maxPlayers: el.AllGame.maxPlayers,
+    }));
 
-//     socket.emit('updateRooms', rooms);
-//   });
+    io.emit('updateRooms', roomsWithGames);
+  });
 
-//   io.on('disconnect', () => {
-//     console.log('disconnect');
-//   });
-// });
+  io.on('disconnect', () => {
+    console.log('disconnect');
+  });
+});
 
 const PORT = process.env.PORT ?? 3000;
 

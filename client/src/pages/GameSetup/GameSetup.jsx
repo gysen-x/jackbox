@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import io from 'socket.io-client';
 import './GameSetup.css';
+
+const SERVER_URL = 'http://localhost:3000';
 
 export default function GameSetup() {
   const [switchButton, setSwitchButton] = useState(false);
   const [formData, setFormData] = useState({ name: '', password: '' });
   const { id: gameId } = useParams();
   const navigate = useNavigate();
+  const socketRef = useRef(null);
+
+
+
+
+
 
   const handleSwitch = () => {
     setSwitchButton((prev) => !prev);
     if (switchButton) setFormData({ name: formData.name, password: '' });
   };
-  console.log(formData);
+
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
       const { name, password } = formData;
@@ -27,8 +36,9 @@ export default function GameSetup() {
           if (data.fail) {
             alert('fail');
           } else {
+            socketRef.current = io(SERVER_URL);
+            socketRef.current.emit('addRoom')
             navigate('/rooms');
-            console.log(data.id);
           }
         })
         .catch((error) => console.log(error));
