@@ -125,11 +125,12 @@ export default function Rooms() {
         ))}
       </ol>
       <br />
-      <button onClick={() => navigate('/choose')} className="buttonAction" type="button">
-              <span className="button_top button_play">
-                Back
-              </span>
-            </button>
+      <CustomButton
+       id="checkButton"
+        title="Back"
+        color="#fe9e84"
+        type="submit"
+        handleOnClick={() => navigate('/choose')}/>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
       {switchModal && 
       <CustomModal setSwitchModal={setSwitchModal} children={<form onSubmit={handleCheckPass} className='formCheckPass'>
