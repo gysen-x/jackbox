@@ -48,7 +48,6 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <Topbar/>
-                <Leftbar/>
                 <main className="main">
                     <Routes>
                         {isAuth ? (
