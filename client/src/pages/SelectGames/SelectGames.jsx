@@ -10,7 +10,7 @@ export default function SelectGames() {
   const [allGames, setAllGames] = useState([]);
 
   useEffect(() => {
-    const response = fetch('http://localhost:3000');
+    const response = fetch('http://localhost:3000/games');
     response
       .then((res) => res.json)
       .then((data) => setAllGames(data))
@@ -21,7 +21,37 @@ export default function SelectGames() {
     <div className="selectGamesWrapper">
       <hi className="homepageH1">SELECT GAME</hi>
       <div className="gamesWrapper">
-        <div className="gameWrapper">
+        {allGames.join()
+          ? allGames.map(({
+            name, rules, description, img, maxPlayers, id,
+          }) => (
+            <div key={`div${id}`} className="gameWrapper">
+              <input id="radioCheck" type="checkbox" className="checkCard" />
+              <label htmlFor="radioCheck" className="flipCard">
+                <div className="card">
+                  <img className="img-card" src={img} alt="game card" />
+                  <div className="info-card">
+                    <p>{name}</p>
+                    <p>{description}</p>
+                  </div>
+                </div>
+                <div className="card_back">
+                  <p>Правила игры:</p>
+                  <p>{rules}</p>
+                  <p>Max players</p>
+                  <p>{maxPlayers}</p>
+                </div>
+              </label>
+
+              <button onClick={() => navigate(`/games/${id}/options`)} className="buttonAction" type="button">
+                <span className="button_top button_play">
+                  Play
+                </span>
+              </button>
+            </div>
+          ))
+          : <div>Games not found</div>}
+        {/* <div className="gameWrapper">
           <input id="radioCheck" type="checkbox" className="checkCard" />
           <label htmlFor="radioCheck" className="flipCard">
             <div className="card">
@@ -92,7 +122,7 @@ export default function SelectGames() {
               Play
             </span>
           </button>
-        </div>
+        </div> */}
       </div>
       <p>Tap to card</p>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
