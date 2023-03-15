@@ -11,6 +11,8 @@ const { decodeToken } = require('./controllers/lib/jwt');
 
 const authRoute = require('./routes/authRoute');
 
+const gameRoute = require('./routes/gameRoute');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,5 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
+
+app.use('/game', gameRoute);
 
 server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });
