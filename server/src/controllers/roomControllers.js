@@ -37,3 +37,17 @@ exports.createRoom = async (req, res) => {
     res.json({ fail: 'fail' });
   }
 };
+
+exports.checkPass = async (req, res) => {
+  const { id, password } = req.body;
+  try {
+    const room = Room.findByPk(id);
+    if (room.password === password) {
+      res.status(200);
+    } else {
+      res.status(401);
+    }
+  } catch (error) {
+    res.status(401);
+  }
+};
