@@ -10,14 +10,17 @@ const StartGamePage = () => {
 
     const changeReadyStatus = () => {
         setReady(true)
-        setAllReady([...allReady, ready])
+        setAllReady([...allReady, true])
     }
+
+    console.log(ready, allReady)
 
     return (
         <div className={style.startGamePage}>
             <div className={style.roomName}>Room name:</div>
             <div className={style.startButton}>
-                <CustomButton handleOnClick={changeReadyStatus} type='click' title='Ready'/>
+                {ready ? (<div>I'm Ready</div>) : (
+                    <CustomButton handleOnClick={changeReadyStatus} type='click' title='Ready'/>)}
             </div>
             <Timer/>
         </div>

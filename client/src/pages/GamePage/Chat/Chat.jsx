@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import style from './css/style.module.css'
 import Messages from "./Messages/Messages";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import CustomInput from "../../../components/CustomInput/CustomInput";
 
 const Chat = () => {
-    const [message, setMessage] = useState({})
+    const [message, setMessage] = useState({text: '', time: null})
     const [allMessages, setAllMessages] = useState([])
 
     const currentTime = new Date(Date.now())
     const hours = currentTime.getHours()
     const minutes = currentTime.getMinutes()
     const seconds = currentTime.getSeconds()
+
+    const scroll = useRef(null)
     const handleChange = (event) => {
         setMessage({
             ...message,
@@ -19,6 +21,13 @@ const Chat = () => {
             time: `${hours < 10 ? ("0" + hours) : (hours)}:${minutes < 10 ? ("0" + minutes) : (minutes)}`
         })
     }
+
+    useEffect(() => {
+            if (scroll.current) {
+                scroll.current.scrollTop = scroll.current.scrollHeight
+            }
+        },
+        [allMessages])
 
     console.log(message)
 
@@ -29,7 +38,6 @@ const Chat = () => {
             setMessage({text: ''})
         }
     }
-
     console.log(allMessages)
 
     return (
@@ -37,7 +45,7 @@ const Chat = () => {
             <div className={style.header}>
                 <div className={style.title}>Это - Header</div>
             </div>
-            <div className={style.allMessages}>
+            <div ref={scroll} className={style.allMessages}>
                 {allMessages.map((message) => message.text !== '' ? (
                     <Messages key={message.text} message={message}/>) : (<></>))}
             </div>
