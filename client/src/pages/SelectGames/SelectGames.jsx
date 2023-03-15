@@ -22,6 +22,7 @@ export default function SelectGames() {
   return (
     <div className="selectGamesWrapper">
       <h1 className="homepageH1">SELECT GAME</h1>
+      <p>Tap to card</p>
       <div className="gamesWrapper">
         {allGames.join()
           ? allGames.map(({
@@ -56,8 +57,12 @@ export default function SelectGames() {
             </div>
           ))
           : <div>Games not found</div>}
-      </div>
-      <p>Tap to card</p>
+      </div> 
+      <button onClick={() => navigate('/choose')} className="buttonAction" type="button">
+              <span className="button_top button_play">
+                Back
+              </span>
+            </button>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
     </div>
   );

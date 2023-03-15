@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
+import CustomModal from '../../components/CustomModal/CustomModal';
 import './GameSetup.css';
 
 const SERVER_URL = 'http://localhost:3000';
 
 export default function GameSetup() {
   const [switchButton, setSwitchButton] = useState(false);
+  const [switchModal, setSwitchModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const [formData, setFormData] = useState({ name: '', password: '' });
   const { id: gameId } = useParams();
   const navigate = useNavigate();
@@ -34,7 +37,8 @@ export default function GameSetup() {
         .then((res) => res.json())
         .then((data) => {
           if (data.fail) {
-            alert('fail');
+            setAlertMessage('fail')
+            setSwitchModal(true);
           } else {
             socketRef.current = io(SERVER_URL);
             socketRef.current.emit('addRoom')
@@ -42,7 +46,10 @@ export default function GameSetup() {
           }
         })
         .catch((error) => console.log(error));
-    } else alert('name length min 4 and max 10');
+    } else {
+    setAlertMessage('name length min 4 and max 10');
+    setSwitchModal(true);
+  }
   };
 
   const handleOnChange = (event) => {
@@ -63,20 +70,29 @@ export default function GameSetup() {
           <span className="slider" />
         </label>
       </div>
+      
+      <div className="input-wrapper">
+        <input onChange={handleOnChange} type="text" placeholder="Room name" name="name" className="input" />
+      </div>
       {switchButton && (
       <div className="input-wrapper">
         <input onChange={handleOnChange} type="text" placeholder="Password" name="password" className="input" />
       </div>
       )}
-      <div className="input-wrapper">
-        <input onChange={handleOnChange} type="text" placeholder="Room name" name="name" className="input" />
-      </div>
       <button onClick={handleCreateGame} className="buttonAction" type="button">
         <span className="button_top button_play">
           Create
         </span>
       </button>
+      <button onClick={() => navigate('/games')} className="buttonAction" type="button">
+              <span className="button_top button_play">
+                Back
+              </span>
+            </button>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
+      {switchModal && 
+      <CustomModal setSwitchModal={setSwitchModal} children={<p>{alertMessage}</p>}/>
+     }
     </div>
   );
 }
