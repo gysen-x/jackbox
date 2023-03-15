@@ -12,6 +12,7 @@ const { decodeToken } = require('./controllers/lib/jwt');
 const authRoute = require('./routes/authRoute');
 const gameRoute = require('./routes/gameRoute');
 const roomRoute = require('./routes/roomRoute');
+const userRoute = require('./routes/userRoute');
 
 const app = express();
 
@@ -45,5 +46,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRoute);
 app.use('/games', gameRoute);
 app.use('/rooms', roomRoute);
+app.use('/users', userRoute);
 
 server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });
