@@ -43,14 +43,18 @@ const Chat = () => {
     return (
         <div className={style.chatDiv}>
             <div className={style.header}>
-                <div className={style.title}>Это - Header</div>
+                <div className={style.title}>Online-chat</div>
             </div>
             <div ref={scroll} className={style.allMessages}>
                 {allMessages.map((message) => message.text !== '' ? (
                     <Messages key={message.text} message={message}/>) : (<></>))}
             </div>
             <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
-                <CustomInput value={message.text} name='text' onChange={handleChange}/>
+                <CustomInput
+                className={style.chat__input}
+                 value={message.text}
+                  name='text'
+                   onChange={handleChange}/>
                 <CustomButton type='submit' color='#fe9e84' title="Send"/>
             </form>
         </div>

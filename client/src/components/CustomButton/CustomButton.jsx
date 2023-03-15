@@ -4,10 +4,11 @@ import React from 'react';
 import './CustomButton.css';
 
 export default function CustomButton({
-  id, title, color, type, handleOnClick
+  id, title, color, type, handleOnClick, className
 }) {
+
   return (
-    <>
+<div className={className}>
 {handleOnClick 
 ? <button
 data-id={id}
@@ -33,11 +34,12 @@ type={type}
   className="button_top"
   style={{
     backgroundColor: color,
+    
   }}
 >
   {title}
 </span>
 </button>}
-</>
+</div>
   );
 }

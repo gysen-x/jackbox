@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/actions';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
-import './Signup.css';
+import style from './style.module.css'
 import CustomInput from '../../components/CustomInput/CustomInput';
 
 export default function Signup() {
@@ -61,9 +61,10 @@ export default function Signup() {
         }}
       >
         <form
+        className={style.signup__form}
           onSubmit={formSubmitHandler}
         >
-          <h1> Sign Up</h1>
+          <h1 className={style.signup__title}> Sign Up</h1>
           <CustomInput
             className="input"
             title="Username"
@@ -87,7 +88,7 @@ export default function Signup() {
             id="emailHelp"
             className="form-text"
           >
-            We&apos;ll never share your email with anyone else.
+            We&apos;ll never share email with anyone.
           </div>
           <div className="mb-3">
 
@@ -104,6 +105,7 @@ export default function Signup() {
             {errorSignup}
           </div>
           <CustomButton
+           className={style.form__button}
             id="signUp"
             title="Submit"
             color="#fe9e84"

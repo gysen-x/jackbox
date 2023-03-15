@@ -1,12 +1,16 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useContext } from 'react';
-import { Box, Button } from '@mui/material';
+import {Link} from 'react-router-dom'
+import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { ColorModeContext } from '../../theme';
 import CustomCheckbox from '../../components/CustomCheckbox/CustomCheckbox';
-import logOut from '../../store';
+import CustomButton from '../../components/CustomButton/CustomButton'
+import style from './style.module.css'
+
+import { logOut } from '../../store/actions';
+
 
 import './Topbar.css';
 
@@ -18,24 +22,36 @@ export default function Topbar() {
   return (
     <Box
       display="flex"
-      justifyContent="flex-end"
+      justifyContent="space-between"
       p={2}
     >
-      <Box>
-        <Link to="/"> Homepage</Link>
+      <Box className={style.nav__box}>
+      <CustomButton
+        to="/"
+        title='Homepage'
+        />
         {isAuth ? (
           <>
-            <Link to="/profile"> Profile</Link>
-            <Button
-              onClick={() => dispatch(logOut())}
-            >
-              Signout
-            </Button>
+       <CustomButton
+        as={Link}
+        to="/profile"
+        title='Profile'
+        />
+        <CustomButton
+        onClick={() => dispatch(logOut())}
+        title='Sign out'
+        />
           </>
         ) : (
           <>
-            <Link to="/signin"> Signin</Link>
-            <Link to="/signup"> Signup</Link>
+        <CustomButton
+        to="/signin"
+        title='Sign in'
+        />
+        <CustomButton
+        to="/signup"
+        title='Sign up'
+        />
           </>
         )}
       </Box>

@@ -1,0 +1,13 @@
+.signin__title {
+  font-size: 46px;
+}
+
+.signin__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form__button {
+  align-self: center;
+}
