@@ -7,16 +7,24 @@ import CustomInput from "../../../components/CustomInput/CustomInput";
 const Chat = () => {
     const [message, setMessage] = useState({})
     const [allMessages, setAllMessages] = useState([])
+
+    const currentTime = new Date(Date.now())
     const handleChange = (event) => {
-        setMessage({...message, [event.target.name]: event.target.value})
+        setMessage({
+            ...message,
+            [event.target.name]: event.target.value,
+            time: `${currentTime.getHours()}:${currentTime.getMinutes()}`
+        })
     }
 
     console.log(message)
 
     const onSubmitHandle = (event) => {
         event.preventDefault()
-        setAllMessages([...allMessages, message])
-        setMessage({text: ''})
+        if (message.text !== '') {
+            setAllMessages([...allMessages, message])
+            setMessage({text: ''})
+        }
     }
 
     console.log(allMessages)
@@ -27,7 +35,8 @@ const Chat = () => {
                 <div className={style.title}>Это - Header</div>
             </div>
             <div className={style.allMessages}>
-                {allMessages.map((message) => <Messages message={message.text}/>)}
+                {allMessages.map((message) => message.text !== '' ? (
+                    <Messages key={message.text} message={message}/>) : (<></>))}
             </div>
             <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
                 <CustomInput value={message.text} name='text' onChange={handleChange}/>
