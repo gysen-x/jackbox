@@ -40,7 +40,7 @@ export default function Rooms() {
   }, []);
 
   const handleClick = (event) => {
-    navigate(`/rooms/${event.currentTarget.dataset.buttonid}`);
+    navigate(`/rooms/${event.currentTarget.dataset.id}`);
   };
 
   const handleFindChange = (event) => {
@@ -52,7 +52,7 @@ export default function Rooms() {
   };
 
   const handlePrivate = (event) => {
-    const roomId = event.currentTarget.dataset.buttonid;
+    const roomId = event.currentTarget.dataset.id;
     setSwitchModal(true);
     setRoomId(Number(roomId));
   }
@@ -72,7 +72,7 @@ export default function Rooms() {
   }
 
   return (
-    <div className="roomsWrapper">
+    <div className="contentWrapper">
       <h1 className="homepageH1">SELECT ROOMS</h1>
       <CustomInput
             title="Find game"
@@ -101,11 +101,11 @@ export default function Rooms() {
               <span>{name}</span>
               <span>{gameName}</span>
               <span>{`${members}/${maxPlayers}`}</span>
-              <button onClick={ isPassword ? handlePrivate : handleClick } data-buttonid={id} className="buttonAction" type="button">
-              <span className="button_top button_play">
-              {isPassword ?  'Join🔒' : 'Join' }
-              </span>
-            </button>
+              <CustomButton id={id}
+                title={isPassword ?  'Join🔒' : 'Join' }
+                color="#fe9e84"
+                type="button"
+                handleOnClick={isPassword ? handlePrivate : handleClick}/>
             </li>
           ))
         : allRooms.join() && allRooms.map(({
@@ -116,11 +116,11 @@ export default function Rooms() {
             <span>{name}</span>
             <span>{gameName}</span>
             <span>{`${members}/${maxPlayers}`}</span>
-            <button onClick={ isPassword ? handlePrivate : handleClick } data-buttonid={id} className="buttonAction" type="button">
-              <span className="button_top button_play">
-              {isPassword ?  'Join🔒' : 'Join' }
-              </span>
-            </button>
+            <CustomButton id={id}
+               title={isPassword ?  'Join🔒' : 'Join' }
+               color="#fe9e84"
+               type="button"
+               handleOnClick={isPassword ? handlePrivate : handleClick}/>
           </li>
         ))}
       </ol>

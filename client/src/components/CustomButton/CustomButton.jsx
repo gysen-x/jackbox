@@ -10,7 +10,7 @@ export default function CustomButton({
     <>
 {handleOnClick 
 ? <button
-id={id}
+data-id={id}
 className="buttonAction"
 type={type}
 onClick={handleOnClick}
