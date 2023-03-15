@@ -3,9 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  getGames,
+  getRooms, createRoom,
 } = require('../controllers/gameControllers');
 
-router.get('/', getGames);
+router.get('/', getRooms);
+
+router.post('/', createRoom);
 
 module.exports = router;
