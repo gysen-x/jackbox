@@ -1,9 +1,10 @@
 import React from 'react';
+import style from './css/style.module.css'
 
-const Messages = () => {
+const Messages = ({message}) => {
     return (
-        <div>
-
+        <div className={style.eachMessage}>
+            {message}
         </div>
     );
 };
