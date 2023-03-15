@@ -7,7 +7,7 @@ export default function Choose() {
 
   return (
     <div className="homepageWrapper">
-      <hi className="homepageH1">GAME</hi>
+      <h1 className="homepageH1">GAME</h1>
       <button onClick={() => navigate('/rooms')} className="buttonAction" type="button">
         <span className="button_top button_login">
           Enter

@@ -5,7 +5,7 @@ module.exports = {
       name: 'Для друзей',
       gameId: 1,
       password: '1234',
-      members: 9,
+      members: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
     }], {});

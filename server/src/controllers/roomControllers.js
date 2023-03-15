@@ -1,14 +1,16 @@
 /* eslint-disable consistent-return */
-const { Room } = require('../../db/models');
+const { Room, AllGames } = require('../../db/models');
 
 exports.getRooms = async (req, res) => {
-  const rooms = await Room.findAll({ include: 'AllGames' });
+  const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
+  console.log('rooms', rooms);
   const roomsWithGames = rooms.map((el) => (
     {
       id: el.id,
+      name: el.name,
       members: el.members,
-      gameName: el.AllGames.name,
-      maxPlayers: el.AllGames.maxPlayers,
+      gameName: el.AllGame.name,
+      maxPlayers: el.AllGame.maxPlayers,
     }));
   res.json(roomsWithGames);
 };

@@ -9,7 +9,7 @@ export default function Homepage() {
 
   return (
     <div className="homepageWrapper">
-      <hi className="homepageH1">GAME BOX</hi>
+      <h1 className="homepageH1">GAME BOX</h1>
       {isAuth
         ? (
           <button onClick={() => navigate('/choose')} className="buttonAction" type="button">

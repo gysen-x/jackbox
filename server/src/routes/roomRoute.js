@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   getRooms, createRoom,
-} = require('../controllers/gameControllers');
+} = require('../controllers/roomControllers');
 
 router.get('/', getRooms);
 

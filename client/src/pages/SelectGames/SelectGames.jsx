@@ -10,7 +10,7 @@ export default function SelectGames() {
   const [allGames, setAllGames] = useState([]);
 
   useEffect(() => {
-    const response = fetch('http://localhost:3000/games');
+    const response = fetch('/games');
     response
       .then((res) => res.json())
       .then((data) => {

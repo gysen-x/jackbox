@@ -44,6 +44,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
 app.use('/games', gameRoute);
-app.use('/rooms', gameRoute);
+app.use('/rooms', roomRoute);
 
 server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });

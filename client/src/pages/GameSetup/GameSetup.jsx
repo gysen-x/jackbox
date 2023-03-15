@@ -16,7 +16,7 @@ export default function GameSetup() {
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
       const { name, password } = formData;
-      const response = fetch('http://localhost:3000/games', {
+      const response = fetch('/rooms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, password, gameId }),
