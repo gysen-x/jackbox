@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../components/CustomButton/CustomButton';
 import './Homepage.css';
 
 export default function Homepage() {
@@ -8,21 +9,21 @@ export default function Homepage() {
   const navigate = useNavigate();
 
   return (
-    <div className="homepageWrapper">
+    <div className="contentWrapper">
       <h1 className="homepageH1">GAME BOX</h1>
       {isAuth
         ? (
-          <button onClick={() => navigate('/choose')} className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
+          <CustomButton
+               title='Play'
+               color="#fe9e84"
+               type="button"
+               handleOnClick={() => navigate('/choose')}/>
         ) : (
-          <button onClick={() => navigate('/signin')} className="buttonAction" type="button">
-            <span className="button_top button_login">
-              Login
-            </span>
-          </button>
+          <CustomButton
+          title='Login'
+          color="#fe9e84"
+          type="button"
+          handleOnClick={() => navigate('/signin')}/>
         )}
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
     </div>

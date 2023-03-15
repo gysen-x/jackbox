@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import './GameSetup.css';
 
@@ -14,11 +16,6 @@ export default function GameSetup() {
   const { id: gameId } = useParams();
   const navigate = useNavigate();
   const socketRef = useRef(null);
-
-
-
-
-
 
   const handleSwitch = () => {
     setSwitchButton((prev) => !prev);
@@ -57,7 +54,7 @@ export default function GameSetup() {
   };
 
   return (
-    <div className="homepageWrapper">
+    <div className="contentWrapper">
       <h1 className="homepageH1">OPTIONS</h1>
       <div className="switchWrapper">
         <p>Private</p>
@@ -70,25 +67,34 @@ export default function GameSetup() {
           <span className="slider" />
         </label>
       </div>
-      
-      <div className="input-wrapper">
-        <input onChange={handleOnChange} type="text" placeholder="Room name" name="name" className="input" />
-      </div>
+      <CustomInput
+      title="Room name"
+      className="form-control"
+      type="text"
+      name="name"
+      onChange={handleOnChange}
+      placeholder="Room name"
+    />
       {switchButton && (
-      <div className="input-wrapper">
-        <input onChange={handleOnChange} type="text" placeholder="Password" name="password" className="input" />
-      </div>
+      <CustomInput
+      title="Password"
+      className="form-control"
+      type="text"
+      name="password"
+      onChange={handleOnChange}
+      placeholder="Password"
+    />
       )}
-      <button onClick={handleCreateGame} className="buttonAction" type="button">
-        <span className="button_top button_play">
-          Create
-        </span>
-      </button>
-      <button onClick={() => navigate('/games')} className="buttonAction" type="button">
-              <span className="button_top button_play">
-                Back
-              </span>
-            </button>
+      <CustomButton
+          title='Create'
+          color="#fe9e84"
+          type="button"
+          handleOnClick={handleCreateGame}/>
+      <CustomButton
+          title='Back'
+          color="#fe9e84"
+          type="button"
+          handleOnClick={() => navigate('/games')}/>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
       {switchModal && 
       <CustomModal setSwitchModal={setSwitchModal} children={<p>{alertMessage}</p>}/>

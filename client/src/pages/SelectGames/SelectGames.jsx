@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../../components/CustomButton/CustomButton';
 import './SelectGames.css';
 
 // для карточки id инпута и htmlFor лейбла должны совпадать, но быть уникальными для каждой карточки
@@ -20,7 +21,7 @@ export default function SelectGames() {
   }, []);
 
   return (
-    <div className="selectGamesWrapper">
+    <div className="contentWrapper">
       <h1 className="homepageH1">SELECT GAME</h1>
       <p>Tap to card</p>
       <div className="gamesWrapper">
@@ -48,21 +49,20 @@ export default function SelectGames() {
                   </p>
                 </div>
               </label>
-
-              <button onClick={() => navigate(`/games/${id}/options`)} className="buttonAction" type="button">
-                <span className="button_top button_play">
-                  Play
-                </span>
-              </button>
+              <CustomButton
+                title='Play'
+                color="#fe9e84"
+                type="button"
+                handleOnClick={() => navigate(`/games/${id}/options`)}/>
             </div>
           ))
           : <div>Games not found</div>}
       </div> 
-      <button onClick={() => navigate('/choose')} className="buttonAction" type="button">
-              <span className="button_top button_play">
-                Back
-              </span>
-            </button>
+      <CustomButton
+         title='Back'
+         color="#fe9e84"
+         type="button"
+         handleOnClick={() => navigate('/choose')}/>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
     </div>
   );
