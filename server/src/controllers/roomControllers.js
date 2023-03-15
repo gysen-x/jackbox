@@ -3,7 +3,6 @@ const { Room, AllGames } = require('../../db/models');
 
 exports.getRooms = async (req, res) => {
   const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
-  console.log('rooms', rooms);
   const roomsWithGames = rooms.map((el) => (
     {
       id: el.id,

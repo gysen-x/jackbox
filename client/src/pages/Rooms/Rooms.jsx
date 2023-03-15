@@ -1,21 +1,35 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 import './Rooms.css';
+
+const SERVER_URL = 'http://localhost:3000';
 
 export default function Rooms() {
   const [allRooms, setAllRooms] = useState([]);
   const navigate = useNavigate();
+  const socketRef = useRef(null);
 
   useEffect(() => {
     const response = fetch('/rooms');
     response
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setAllRooms(data);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    socketRef.current = io(SERVER_URL);
+    socketRef.current.emit('connection');
+    console.log('socket useEffect');
+    socketRef.current.on('updateRooms', (rooms) => {
+      console.log('rooms from Rooms: ', rooms);
+
+      setAllRooms(rooms)
+    })
   }, []);
 
   const handleClick = (event) => {
@@ -41,36 +55,6 @@ export default function Rooms() {
             </button>
           </li>
         ))}
-        {/* <li className="liItem">
-          <span>1</span>
-          <span>RIP</span>
-          <span>2/8</span>
-          <button className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </li>
-        <li className="liItem">
-          <span>2</span>
-          <span>DURAK</span>
-          <span>8/8</span>
-          <button className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </li>
-        <li className="liItem">
-          <span>3</span>
-          <span>DRAW IT</span>
-          <span>6/8</span>
-          <button className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </li> */}
       </ol>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
     </div>

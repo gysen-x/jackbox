@@ -5,7 +5,9 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
-const { User, GameSession, Room } = require('../db/models');
+const {
+  User, GameSession, Room, AllGames,
+} = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
 
@@ -17,15 +19,30 @@ const app = express();
 
 const server = http.createServer(app);
 
-const io = new Server(server);
+const io = new Server(
+  server,
+  {
+    cors: {
+      origin: 'http://localhost:4000',
+      methods: ['GET', 'POST'],
+    },
+  },
+);
 
 io.on('connection', (socket) => {
   console.log('законектились');
   socket.on('addRoom', async () => {
-    console.log('производится обновление комнат');
-    const rooms = await Room.findAll();
+    const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
+    const roomsWithGames = rooms.map((el) => (
+      {
+        id: el.id,
+        name: el.name,
+        members: el.members,
+        gameName: el.AllGame.name,
+        maxPlayers: el.AllGame.maxPlayers,
+      }));
 
-    socket.emit('updateRooms', rooms);
+    io.emit('updateRooms', roomsWithGames);
   });
 
   io.on('disconnect', () => {
