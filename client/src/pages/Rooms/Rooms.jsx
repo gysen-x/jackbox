@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import './Rooms.css';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomModal from '../../components/CustomModal/CustomModal'
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -12,6 +13,7 @@ export default function Rooms() {
   const [allRooms, setAllRooms] = useState([]);
   const [filtredRooms, setFiltredRooms] = useState([]);
   const [switchModal, setSwitchModal] = useState(false);
+  const [roomId, setRoomId] = useState('');
   const [formData, setFormData] = useState('');
   const navigate = useNavigate();
   const socketRef = useRef(null);
@@ -38,7 +40,7 @@ export default function Rooms() {
   }, []);
 
   const handleClick = (event) => {
-    navigate(`/rooms/${event.target.dataset.buttonid}`);
+    navigate(`/rooms/${event.currentTarget.dataset.buttonid}`);
   };
 
   const handleFindChange = (event) => {
@@ -50,15 +52,19 @@ export default function Rooms() {
   };
 
   const handlePrivate = (event) => {
-    setSwitchModal((prev) => !prev);
+    const roomId = event.currentTarget.dataset.buttonid;
+    setSwitchModal(true);
+    setRoomId(Number(roomId));
   }
 
-  const handleCheckPass = () => {
-    fetch('/rooms/checkpass', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({id, password: formData}), //id room
-    })
+  const handleCheckPass = (event) => {
+    event.preventDefault();
+    // fetch('/rooms/checkpass', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({id: roomId, password: formData}), //id room
+    // })
+    alert(`id: ${roomId}, password: ${formData}`)
   }
 
   const handleCheckForm = (event) => {
@@ -119,31 +125,33 @@ export default function Rooms() {
         ))}
       </ol>
       <br />
-      <button onClick={() => navigate('/choose')} className="buttonAction" type="button">
-              <span className="button_top button_play">
-                Back
-              </span>
-            </button>
+      <CustomButton
+       id="checkButton"
+        title="Back"
+        color="#fe9e84"
+        type="submit"
+        handleOnClick={() => navigate('/choose')}/>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
       {switchModal && 
-        <div className='modal'>
-        <form onSubmit={handleCheckPass} className='modalWindow'>
-          <CustomInput
-            title="Room password"
-            className="form-control"
-            id="checkPass"
-            type="text"
-            name="password"
-            onChange={handleCheckForm}
-            placeholder="Enter room password..."
-          />
-          <CustomButton 
-            id="checkButton"
-            title="Submit"
-            color="#fe9e84"
-            type="submit"/>
-        </form>
-      </div>}
+      <CustomModal setSwitchModal={setSwitchModal} children={<form onSubmit={handleCheckPass} className='formCheckPass'>
+      <CustomInput
+        title="Room password"
+        className="form-control"
+        id="checkPass"
+        type="text"
+        name="password"
+        onChange={handleCheckForm}
+        placeholder="Enter room password..."
+      />
+      <div style={{height: '20px'}}/>
+      <CustomButton
+        id="checkButton"
+        title="Submit"
+        color="#fe9e84"
+        type="submit"/>
+    </form>}/>
+      
+     }
     </div>
   );
 }
