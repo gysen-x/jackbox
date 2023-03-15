@@ -72,7 +72,9 @@ export default function Profile() {
             alt="Remy Sharp"
             src={avatar}
             sx={{ width: 50, height: 50, marginRight: 1 }}
-          /><p>{login}</p><img onClick={() => {deleteFriends(id)}} className="deleteFriends" src="https://cdn-icons-png.flaticon.com/512/656/656857.png" alt="delete" /></li>
+          /><p>{login}</p>
+          <img onClick={() => {console.log('chat')}} className="chatFriends" src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png" alt="chat" />
+          <img onClick={() => {deleteFriends(id)}} className="deleteFriends" src="https://cdn-icons-png.flaticon.com/512/656/656857.png" alt="delete" /></li>
           ))}
         </ul>
       </div>
