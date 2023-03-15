@@ -11,16 +11,16 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       const tokenJWT = localStorage.getItem('token');
-      const response = await fetch('/user',
+      const response = await fetch('/users',
       {
         headers: {
           Authentication: `Bearer ${tokenJWT}`
         }
       });
       const result = await response.json();
-      setUser({...user, ...result.user})
+      setUser(result)
     })()
-  })
+  }, [])
 
   return (
     <div className="profile">
@@ -31,8 +31,8 @@ export default function Profile() {
           sx={{ width: 100, height: 100, marginLeft: 35 }}
         />
         <div className="profile-bio">
-          <h2>{result.user.login}</h2>
-          <h2>{result.user.email}</h2>
+          <h2>{user.login}</h2>
+          <h2>{user.email}</h2>
           <CustomButton
             id="change"
             title="Change"

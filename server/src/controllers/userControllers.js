@@ -6,9 +6,10 @@ exports.getUser = async (req, res) => {
   const oldToken = req.headers.authentication.split(' ')[1];
   const decoded = decodeToken(oldToken);
   const { id } = decoded;
-
+  
   try {
-    const user = User.findOne({ where: { id }, attributes: ['login', 'email'] });
+    const user = await User.findOne({ where: { id }, attributes: ['login', 'email'] });
+    console.log('1111111', user);
     res.json(user);
   } catch (error) {
     res.json({ fail: 'fail' });
