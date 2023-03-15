@@ -1,0 +1,13 @@
+.signup__title {
+  font-size: 46px;
+}
+
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form__button {
+  align-self: center;
+}

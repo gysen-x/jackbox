@@ -4,9 +4,9 @@ import { Container, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/actions';
 
-import './Signin.css';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import style from './style.module.css'
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -61,10 +61,10 @@ export default function Signin() {
         }}
       >
         <form
+          className={style.signin__form}
           onSubmit={formSubmitHandler}
         >
-
-          <h1> Sign In</h1>
+          <h1 className={style.signin__title}> Sign In</h1>
           <CustomInput
             title="Email"
             className="form-control"
@@ -89,6 +89,7 @@ export default function Signin() {
             {errorSignin}
           </div>
           <CustomButton
+          className={style.form__button}
             id="signUp"
             title="Submit"
             color="#fe9e84"

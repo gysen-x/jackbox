@@ -4,21 +4,20 @@
     height: 100%;
 }
 
-.title {
-}
-
 .header {
     display: flex;
     justify-content: center;
     margin-right: 20px;
+    font-size: 30px;
 }
 
 .allMessages {
     flex-direction: column;
     flex-grow: 2;
     margin-right: 20px;
+    margin-bottom: 20px;
     background: #00777b !important;
-    border-radius: 5px;
+    border-radius: 20px;
     justify-content: flex-end;
     overflow-y: scroll;
     max-height: 78vh;
@@ -27,5 +26,6 @@
 
 .messageInputForm {
     display: flex;
-    margin-top: 10px;
+    justify-content: center;
+    gap: 10px;
 }

@@ -9,6 +9,7 @@ button {
   width: 100px;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
+  cursor: pointer;
 }
 
 .button_top {
