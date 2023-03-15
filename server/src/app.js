@@ -19,17 +19,19 @@ const server = http.createServer(app);
 
 const io = new Server(server);
 
-// io.on('connection', (socket) => {
-//   socket.on('addRoom', async () => {
-//     const rooms = await Room.findAll();
+io.on('connection', (socket) => {
+  console.log('законектились');
+  socket.on('addRoom', async () => {
+    console.log('производится обновление комнат');
+    const rooms = await Room.findAll();
 
-//     socket.emit('updateRooms', rooms);
-//   });
+    socket.emit('updateRooms', rooms);
+  });
 
-//   io.on('disconnect', () => {
-//     console.log('disconnect');
-//   });
-// });
+  io.on('disconnect', () => {
+    console.log('disconnect');
+  });
+});
 
 const PORT = process.env.PORT ?? 3000;
 
