@@ -1,0 +1,7 @@
+.timer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 300px;
+}

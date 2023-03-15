@@ -21,6 +21,9 @@
     background: #00777b !important;
     border-radius: 5px;
     justify-content: flex-end;
+    overflow-y: scroll;
+    max-height: 78vh;
+    border: 10px solid #00777b !important;
 }
 
 .messageInputForm {
