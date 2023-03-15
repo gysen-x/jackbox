@@ -5,7 +5,6 @@ import {ThemeProvider} from '@emotion/react';
 import {CssBaseline} from '@mui/material';
 import {ColorModeContext, useMode} from './theme';
 import Homepage from './pages/Homepage';
-import Leftbar from './global/Leftbar';
 import Topbar from './global/Topbar/Topbar';
 import Signin from './pages/Signin/Signin';
 import Signup from './pages/Signup/Signup';
