@@ -12,14 +12,16 @@ export default function SelectGames() {
   useEffect(() => {
     const response = fetch('http://localhost:3000/games');
     response
-      .then((res) => res.json)
-      .then((data) => setAllGames(data))
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data); setAllGames(data);
+      })
       .catch((error) => console.log(error));
   }, []);
 
   return (
     <div className="selectGamesWrapper">
-      <hi className="homepageH1">SELECT GAME</hi>
+      <h1 className="homepageH1">SELECT GAME</h1>
       <div className="gamesWrapper">
         {allGames.join()
           ? allGames.map(({
@@ -38,8 +40,11 @@ export default function SelectGames() {
                 <div className="card_back">
                   <p>Правила игры:</p>
                   <p>{rules}</p>
-                  <p>Max players</p>
-                  <p>{maxPlayers}</p>
+                  <p>
+                    Max players:
+                    {' '}
+                    {maxPlayers}
+                  </p>
                 </div>
               </label>
 
@@ -51,78 +56,6 @@ export default function SelectGames() {
             </div>
           ))
           : <div>Games not found</div>}
-        {/* <div className="gameWrapper">
-          <input id="radioCheck" type="checkbox" className="checkCard" />
-          <label htmlFor="radioCheck" className="flipCard">
-            <div className="card">
-              <img className="img-card" src="/images/meme.jpg" alt="game card" />
-              <div className="info-card">
-                <p>Рифмы и панчи</p>
-                <p>Ситуация и панчи к ней</p>
-              </div>
-            </div>
-            <div className="card_back">
-              <p>Правила игры:</p>
-              <p>1. Дается ситуация</p>
-              <p>2. Игроки придумывают панчлайн</p>
-              <p>Побеждает самый смешной</p>
-            </div>
-          </label>
-
-          <button onClick={() => navigate('/games/1/options')} className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </div>
-        <div className="gameWrapper">
-          <input id="radioCheck_1" type="checkbox" className="checkCard" />
-          <label htmlFor="radioCheck_1" className="flipCard">
-            <div className="card">
-              <img className="img-card" src="/images/durak.jpg" alt="game card" />
-              <div className="info-card">
-                <p>Дурак</p>
-                <p>Подкидной переводной</p>
-              </div>
-            </div>
-            <div className="card_back">
-              <p>Правила игры:</p>
-              <p>1. Раздается 6 карт</p>
-              <p>2. Проездной работает</p>
-              <p>Избавься от всех карт</p>
-            </div>
-          </label>
-
-          <button className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </div>
-        <div className="gameWrapper">
-          <input id="radioCheck_2" type="checkbox" className="checkCard" />
-          <label htmlFor="radioCheck_2" className="flipCard">
-            <div className="card">
-              <img className="img-card" src="/images/drawit.jpeg" alt="game card" />
-              <div className="info-card">
-                <p>Draw it!</p>
-                <p>Рисуй! Угадывай!</p>
-              </div>
-            </div>
-            <div className="card_back">
-              <p>Правила игры:</p>
-              <p>1. Один рисует</p>
-              <p>2. Остальные угадывают</p>
-              <p>Побеждает, тот кто быстрее угадает</p>
-            </div>
-          </label>
-
-          <button className="buttonAction" type="button">
-            <span className="button_top button_play">
-              Play
-            </span>
-          </button>
-        </div> */}
       </div>
       <p>Tap to card</p>
       <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />

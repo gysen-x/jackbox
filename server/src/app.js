@@ -60,6 +60,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
 
-app.use('/game', gameRoute);
+app.use('/games', gameRoute);
 
 server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });
