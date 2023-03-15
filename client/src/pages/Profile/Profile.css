@@ -1,0 +1,15 @@
+.profile-bio {
+  margin-right: 920px;
+  margin-top: 10px;
+}
+
+.profile-header {
+  display: flex;
+    flex-direction: row;
+    justify-content:space-between
+}
+
+.profile-friens {
+  margin-left: 280px;
+  margin-top: 50px;
+}
