@@ -1,0 +1,18 @@
+.startButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.startGamePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.roomName {
+    margin-top: 30px;
+}

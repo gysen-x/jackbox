@@ -9,11 +9,14 @@ const Chat = () => {
     const [allMessages, setAllMessages] = useState([])
 
     const currentTime = new Date(Date.now())
+    const hours = currentTime.getHours()
+    const minutes = currentTime.getMinutes()
+    const seconds = currentTime.getSeconds()
     const handleChange = (event) => {
         setMessage({
             ...message,
             [event.target.name]: event.target.value,
-            time: `${currentTime.getHours()}:${currentTime.getMinutes()}`
+            time: `${hours < 10 ? ("0" + hours) : (hours)}:${minutes < 10 ? ("0" + minutes) : (minutes)}`
         })
     }
 
@@ -40,7 +43,7 @@ const Chat = () => {
             </div>
             <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
                 <CustomInput value={message.text} name='text' onChange={handleChange}/>
-                <CustomButton type='submit' color='#fe9e84' title="Отправить"/>
+                <CustomButton type='submit' color='#fe9e84' title="Send"/>
             </form>
         </div>
     );
