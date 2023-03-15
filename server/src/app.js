@@ -33,14 +33,22 @@ io.on('connection', (socket) => {
   console.log('законектились');
   socket.on('addRoom', async () => {
     const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
-    const roomsWithGames = rooms.map((el) => (
+    const roomsWithGames = rooms.map((el) => (el.password ? (
       {
         id: el.id,
         name: el.name,
+        isPassword: true,
         members: el.members,
         gameName: el.AllGame.name,
         maxPlayers: el.AllGame.maxPlayers,
-      }));
+      }) : {
+      id: el.id,
+      name: el.name,
+      isPassword: false,
+      members: el.members,
+      gameName: el.AllGame.name,
+      maxPlayers: el.AllGame.maxPlayers,
+    }));
 
     io.emit('updateRooms', roomsWithGames);
   });

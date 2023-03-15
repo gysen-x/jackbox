@@ -3,14 +3,22 @@ const { Room, AllGames } = require('../../db/models');
 
 exports.getRooms = async (req, res) => {
   const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
-  const roomsWithGames = rooms.map((el) => (
+  const roomsWithGames = rooms.map((el) => (el.password ? (
     {
       id: el.id,
       name: el.name,
+      isPassword: true,
       members: el.members,
       gameName: el.AllGame.name,
       maxPlayers: el.AllGame.maxPlayers,
-    }));
+    }) : {
+    id: el.id,
+    name: el.name,
+    isPassword: false,
+    members: el.members,
+    gameName: el.AllGame.name,
+    maxPlayers: el.AllGame.maxPlayers,
+  }));
   res.json(roomsWithGames);
 };
 
