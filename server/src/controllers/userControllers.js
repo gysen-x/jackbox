@@ -31,8 +31,8 @@ exports.deleteFriendhip = async (req, res) => {
 
   try {
     await Friendship.destroy({ where: { userId1, userId2 } });
-    res.status(200);
+    res.sendStatus(200);
   } catch (error) {
-    res.status(401);
+    res.sendStatus(401);
   }
 };

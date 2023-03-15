@@ -1,5 +1,5 @@
 .profile-bio {
-  margin-right: 920px;
+  margin-right: 760px;
   margin-top: 10px;
 }
 
@@ -12,4 +12,34 @@
 .profile-friens {
   margin-left: 280px;
   margin-top: 50px;
+}
+
+#change {
+  margin-top: 15px;
+  width: 120px;
+}
+
+.liFriend {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  width: 25vw;
+  background-color: rgba(240, 248, 255, 0.3);
+  padding: 1vw;
+  border-radius: 8px;
+}
+
+.liFriend:not(:last-child) {
+  margin-bottom: 2vh;
+}
+
+.liFriend:first-child {
+  margin-top: 2vh;
+}
+
+.deleteFriends {
+  width: 1.3vw;
+  margin-left: auto;
+  filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
+
 }
