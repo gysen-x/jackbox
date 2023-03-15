@@ -5,7 +5,7 @@ import './GameSetup.css';
 export default function GameSetup() {
   const [switchButton, setSwitchButton] = useState(false);
   const [formData, setFormData] = useState({ name: '', password: '' });
-  const gameId = useParams();
+  const { id: gameId } = useParams();
   const navigate = useNavigate();
 
   const handleSwitch = () => {
@@ -15,10 +15,11 @@ export default function GameSetup() {
   console.log(formData);
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
+      const { name, password } = formData;
       const response = fetch('http://localhost:3000/games', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, gameId }),
+        body: JSON.stringify({ name, password, gameId }),
       });
       response
         .then((res) => res.json())
