@@ -22,3 +22,17 @@ exports.getUser = async (req, res) => {
     res.json({ fail: 'fail' });
   }
 };
+
+exports.deleteFriendhip = async (req, res) => {
+  const oldToken = req.headers.authentication.split(' ')[1];
+  const decoded = decodeToken(oldToken);
+  const { id: userId1 } = decoded;
+  const { id: userId2 } = req.body;
+
+  try {
+    await Friendship.destroy({ where: { userId1, userId2 } });
+    res.status(200);
+  } catch (error) {
+    res.status(401);
+  }
+};
