@@ -66,17 +66,17 @@ export default function Signin() {
 
           <h1> Sign In</h1>
           <CustomInput
-            title="Username"
+            title="Email"
             className="form-control"
             id="exampleInputEmail1"
             type="email"
             name="email"
             value={userSignin.email}
             onChange={handleChange}
-            placeholder="Enter your name..."
+            placeholder="Enter your email..."
           />
           <CustomInput
-            title="Email"
+            title="Password"
             className="form-control"
             id="exampleInputPassword1"
             type="password"
