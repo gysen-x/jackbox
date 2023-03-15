@@ -32,7 +32,9 @@ exports.signUpAndSendStatus = async (req, res) => {
   const { login, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ login, email, password: hashPassword });
+    const user = await User.create({
+      login, email, password: hashPassword, avatar: 'https://img.freepik.com/fotos-premium/cabeza-hipster-espacio-vacio-ilustracion-render-3d_1172-983.jpg',
+    });
 
     const { id, login: name } = user;
     const token = generateAccessToken(id);

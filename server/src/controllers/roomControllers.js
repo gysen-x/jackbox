@@ -43,11 +43,11 @@ exports.checkPass = async (req, res) => {
   try {
     const room = Room.findByPk(id);
     if (room.password === password) {
-      res.status(200);
+      res.sendStatus(200);
     } else {
-      res.status(401);
+      res.sendStatus(401);
     }
   } catch (error) {
-    res.status(401);
+    res.sendStatus(401);
   }
 };
