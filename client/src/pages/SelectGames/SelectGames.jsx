@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SelectGames.css';
 
@@ -7,6 +7,15 @@ import './SelectGames.css';
 
 export default function SelectGames() {
   const navigate = useNavigate();
+  const [allGames, setAllGames] = useState([]);
+
+  useEffect(() => {
+    const response = fetch('http://localhost:3000');
+    response
+      .then((res) => res.json)
+      .then((data) => setAllGames(data))
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <div className="selectGamesWrapper">
