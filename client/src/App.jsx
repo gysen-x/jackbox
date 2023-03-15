@@ -15,6 +15,7 @@ import Rooms from './pages/Rooms/Rooms';
 import GameSetup from './pages/GameSetup/GameSetup';
 import {setUser} from './store/actions';
 import GamePage from "./pages/GamePage/GamePage";
+import Profile from "./pages/Profile/Profile"
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -47,12 +48,12 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <Topbar/>
-                {/*<Leftbar/>*/}
+                <Leftbar/>
                 <main className="main">
                     <Routes>
                         {isAuth ? (
                             <>
-                                <Route path="/profile" element={<p>Profile</p>}/>
+                                <Route path="/profile" element={<Profile/>}/>
                                 <Route path="/games" element={<SelectGames/>}/>
                                 <Route path="/choose" element={<Choose/>}/>
                                 <Route path="/rooms" element={<Rooms/>}/>
