@@ -65,6 +65,7 @@ function App() {
                             </>
                         )}
                         <Route index element={<Homepage/>}/>
+                        <Route path='gamepage' element={<GamePage/>}/>
                         <Route path="*" element={<div>404</div>}/>
                     </Routes>
                 </main>
