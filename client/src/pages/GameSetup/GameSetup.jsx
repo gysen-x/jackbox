@@ -1,27 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './GameSetup.css';
 
 export default function GameSetup() {
+  const [switchButton, setSwitchButton] = useState(false);
+  const [formData, setFormData] = useState({ name: '', password: '' });
+  const gameId = useParams();
+  const navigate = useNavigate();
+
+  const handleSwitch = () => {
+    setSwitchButton((prev) => !prev);
+    if (switchButton) setFormData({ name: formData.name, password: '' });
+  };
+  console.log(formData);
+  const handleCreateGame = () => {
+    if (formData.name.length > 3 && formData.name.length < 11) {
+      const response = fetch('http://localhost:3000/games', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, gameId }),
+      });
+      response
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.fail) {
+            alert('fail');
+          } else {
+            navigate('/rooms');
+            console.log(data.id);
+          }
+        })
+        .catch((error) => console.log(error));
+    } else alert('name length min 4 and max 10');
+  };
+
+  const handleOnChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
   return (
     <div className="homepageWrapper">
-      <hi className="homepageH1">OPTIONS</hi>
+      <h1 className="homepageH1">OPTIONS</h1>
       <div className="switchWrapper">
         <p>Private</p>
         <label htmlFor="private" className="switch">
           <input
+            onChange={handleSwitch}
             id="private"
             type="checkbox"
           />
           <span className="slider" />
         </label>
       </div>
+      {switchButton && (
       <div className="input-wrapper">
-        <input type="text" placeholder="Password" name="password" className="input" />
+        <input onChange={handleOnChange} type="text" placeholder="Password" name="password" className="input" />
       </div>
+      )}
       <div className="input-wrapper">
-        <input type="text" placeholder="Room name" name="roomName" className="input" />
+        <input onChange={handleOnChange} type="text" placeholder="Room name" name="name" className="input" />
       </div>
-      <button className="buttonAction" type="button">
+      <button onClick={handleCreateGame} className="buttonAction" type="button">
         <span className="button_top button_play">
           Create
         </span>
