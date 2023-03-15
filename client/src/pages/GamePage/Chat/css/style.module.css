@@ -1,13 +1,29 @@
+.chatDiv {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .title {
 }
 
 .header {
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
 }
 
 .allMessages {
-
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    margin-right: 20px;
+    background: #00777b !important;
+    border-radius: 5px;
+    justify-content: flex-end;
 }
 
 .messageInputForm {
     display: flex;
+    margin-top: 10px;
 }

@@ -10,7 +10,7 @@ const GamePage = () => {
                 <Box>xs</Box>
             </Grid>
             <Grid item xs={4}>
-                <Box><Chat/></Box>
+                <Chat/>
             </Grid>
         </Grid>
     );

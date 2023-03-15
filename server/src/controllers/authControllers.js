@@ -17,7 +17,6 @@ exports.signInAndSendStatus = async (req, res) => {
     if (isSamePassword) {
       const { id, login: name } = userFromDatabase;
       const token = generateAccessToken(id);
-      console.log(id, name, token);
       res.status(200).json({ token, user: { id, name } });
     } else {
       res.status(401).json({ errMsg: 'Wrong password or email!' });

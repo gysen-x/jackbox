@@ -1,0 +1,22 @@
+.eachMessage {
+    background-color: #141b2d !important;
+    margin: 7px;
+    padding: 5px;
+    border-radius: 5px;
+    width: 70%;
+}
+
+.time {
+    display: flex;
+    justify-content: center;
+    background-color: #141b2d !important;
+    margin: 7px;
+    padding: 5px;
+    border-radius: 5px;
+    width: 25%;
+}
+
+.newMessage {
+    display: flex;
+    flex-direction: row;
+}
