@@ -35,19 +35,6 @@ export default function Rooms() {
     socketRef.current.on('updateRooms', (rooms) => {
       setAllRooms(rooms);
     });
-    socketRef.current.on('checkEnterToRoom', ({ id }) => {
-      const refreshRooms = allRooms.map((room) => (room.id === id ? ({
-        id: room.id,
-        name: room.name,
-        isPassword: room.isPassword,
-        members: room.members + 1,
-        gameName: room.gameName,
-        maxPlayers: room.maxPlayers,
-      }
-      ) : room));
-      console.log(allRooms);
-      setAllRooms(refreshRooms);
-    });
   }, []);
 
   useEffect(() => {
@@ -57,7 +44,6 @@ export default function Rooms() {
         members: room.members + 1,
       })
         : room));
-      console.log(refreshRooms);
       setAllRooms(refreshRooms);
     });
   }, [allRooms]);
