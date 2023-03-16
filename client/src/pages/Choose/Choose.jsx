@@ -10,16 +10,18 @@ export default function Choose() {
     <div className="contentWrapper">
       <h1 className="homepageH1">GAME</h1>
       <CustomButton
-          title='Enter'
-          color="#fe9e84"
-          type="button"
-          handleOnClick={() => navigate('/rooms')}/>
+        title="Enter"
+        color="#fe9e84"
+        type="button"
+        handleOnClick={() => navigate('/rooms')}
+      />
       <CustomButton
-          title='Create'
-          color="#fe9e84"
-          type="button"
-          handleOnClick={() => navigate('/games')}/>    
-      <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
+        title="Create"
+        color="#fe9e84"
+        type="button"
+        handleOnClick={() => navigate('/games')}
+      />
+      <img className="logoMini" src="/images/Logo.png" alt="logo" />
     </div>
   );
 }

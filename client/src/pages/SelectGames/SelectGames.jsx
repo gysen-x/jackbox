@@ -50,20 +50,22 @@ export default function SelectGames() {
                 </div>
               </label>
               <CustomButton
-                title='Play'
+                title="Play"
                 color="#fe9e84"
                 type="button"
-                handleOnClick={() => navigate(`/games/${id}/options`)}/>
+                handleOnClick={() => navigate(`/games/${id}/options`)}
+              />
             </div>
           ))
           : <div>Games not found</div>}
-      </div> 
+      </div>
       <CustomButton
-         title='Back'
-         color="#fe9e84"
-         type="button"
-         handleOnClick={() => navigate('/choose')}/>
-      <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
+        title="Back"
+        color="#fe9e84"
+        type="button"
+        handleOnClick={() => navigate('/choose')}
+      />
+      <img className="logoMini" src="/images/Logo.png" alt="logo" />
     </div>
   );
 }

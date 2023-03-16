@@ -14,18 +14,20 @@ export default function Homepage() {
       {isAuth
         ? (
           <CustomButton
-               title='Play'
-               color="#fe9e84"
-               type="button"
-               handleOnClick={() => navigate('/choose')}/>
+            title="Play"
+            color="#fe9e84"
+            type="button"
+            handleOnClick={() => navigate('/choose')}
+          />
         ) : (
           <CustomButton
-          title='Login'
-          color="#fe9e84"
-          type="button"
-          handleOnClick={() => navigate('/signin')}/>
+            title="Login"
+            color="#fe9e84"
+            type="button"
+            handleOnClick={() => navigate('/signin')}
+          />
         )}
-      <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
+      <img className="logoMini" src="/images/Logo.png" alt="logo" />
     </div>
   );
 }
