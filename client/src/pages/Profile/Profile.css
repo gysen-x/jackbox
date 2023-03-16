@@ -51,3 +51,16 @@
   margin-left: 1.3vw;
   filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
+
+.edit {
+  margin-top: 20px;
+}
+
+.wrong-pass {
+  margin-bottom: 1vh;
+  color: red;
+}
+
+.succesfully-changed {
+  color: green;
+}
