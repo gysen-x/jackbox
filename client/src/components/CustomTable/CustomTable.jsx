@@ -1,47 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import LockIcon from '@mui/icons-material/Lock';
 import CustomButton from '../CustomButton/CustomButton';
 
-export const mockDataInvoices = [
-  {
-    id: 1,
-    roomName: 'Game1',
-    gameName: 'Рифмы и панчи',
-    members: '0/8',
-    isPassword: true,
-  },
-];
+export default function CustomTable({ roomsArray, handlePrivate, handleClick }) {
+  const [changedRooms, setChangedRooms] = useState([]);
 
-export default function CustomTable() {
-  // const [allRooms, setAllRooms] = useState([]);
-  // const [filtredRooms, setFiltredRooms] = useState([]);
-
-  // useEffect(() => {
-  //   const response = fetch('/rooms');
-  //   response
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setAllRooms(data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  useEffect(() => {
+    setChangedRooms(roomsArray);
+  }, [roomsArray]);
 
   const columns = [
     {
-      field: 'id', headerName: 'ID',
+      field: 'id', headerName: '#',
     }, // column won't grow
     {
-      field: 'roomName', headerName: 'Room Name', flex: 1, cellClassName: 'name-column--cell',
+      field: 'name', headerName: 'Room Name', flex: 1, cellClassName: 'name-column--cell',
     }, // column will grow
     {
       field: 'gameName', headerName: 'Game Name', flex: 1,
     }, // column will grow
     {
-      field: 'members', headerName: 'Members', flex: 1,
-    }, // column will grow
+      field: 'members',
+      headerName: 'Members',
+      flex: 1,
+      renderCell: ({ row: { members, maxPlayers } }) => (
+        `${members}/${maxPlayers}`
+      ),
+    },
     {
       field: 'isPassword',
+      headerName: 'Private',
+      flex: 1,
+      renderCell: (
+        { row: { isPassword } },
+      ) => (
+        isPassword && <LockIcon />
+      ),
+    },
+    {
+      field: 'button',
       headerName: '',
       flex: 1,
       renderCell: (
@@ -50,8 +49,8 @@ export default function CustomTable() {
         <CustomButton
           title="Button"
           fontSize="13px"
-          className={isPassword}
           size={['70px', '10px']}
+          handleOnClick={isPassword ? handlePrivate : handleClick}
         />
       ),
     }, // custom cell
@@ -59,7 +58,6 @@ export default function CustomTable() {
 
   return (
     <Box m="20px">
-      <h1>Table title</h1>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -93,7 +91,7 @@ export default function CustomTable() {
         }}
       >
         <DataGrid
-          rows={mockDataInvoices}
+          rows={changedRooms}
           columns={columns}
         />
       </Box>
