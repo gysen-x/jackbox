@@ -1,5 +1,7 @@
 /* eslint-disable consistent-return */
-const { Room, AllGames, User } = require('../../db/models');
+const {
+  Room, AllGames, User, Message,
+} = require('../../db/models');
 const { decodeToken } = require('./lib/jwt');
 
 exports.getRooms = async (req, res) => {
@@ -56,6 +58,27 @@ exports.checkPass = async (req, res) => {
     } else {
       res.sendStatus(401);
     }
+  } catch (error) {
+    res.sendStatus(401);
+  }
+};
+
+exports.getRoomsMessages = async (req, res) => {
+  console.log('req.params', req.params);
+  const { id } = req.params;
+  console.log('id', id);
+  try {
+    const messagesAndUsers = await Message.findAll({
+      where: { roomId: id },
+      include: { model: User },
+    });
+    const allMessages = messagesAndUsers.map((message) => ({
+      id: message.id,
+      text: message.text,
+      time: message.createdAt,
+      user: message.User.login,
+    }));
+    res.json(allMessages);
   } catch (error) {
     res.sendStatus(401);
   }
