@@ -52,11 +52,15 @@
   filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
 
-#edit {
-  width: 200px;
+.edit {
   margin-top: 20px;
 }
 
-#change {
-  width: 200px;
+.wrong-pass {
+  margin-bottom: 1vh;
+  color: red;
+}
+
+.succesfully-changed {
+  color: green;
 }

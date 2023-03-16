@@ -10,8 +10,14 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
+  const [changedInfo, setChangedInfo] = useState({ login: '', email: '', avatar: '' });
   const [showChange, setShowChange] = useState(false);
+  const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
+  const [falseOldPassword, setFalseOldPassword] = useState(false);
+  const [success, setSuccess] = useState(false);
   // const id = useSelector((state) => state.user.userid);
+
+  console.log(passwords);
 
   useEffect(() => {
     (async () => {
@@ -32,18 +38,6 @@ export default function Profile() {
     })();
   }, []);
 
-  // async function editProfile(id) {
-  //   const tokenJWT = localStorage.getItem('token');
-  //   const response = await fetch('/users', {
-  //     method: 'PUT',
-  //     headers: {
-  //       Authentication: `Bearer ${tokenJWT}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ id }),
-  //   });
-  // }
-
   async function deleteFriends(id) {
     const tokenJWT = localStorage.getItem('token');
     const response = await fetch('/users', {
@@ -62,24 +56,159 @@ export default function Profile() {
     }
   }
 
+  const hadleShowEdit = () => {
+    setShowEdit(true);
+    setChangedInfo({ login: user.login, email: user.email, avatar: user.avatar });
+  };
+
+  const handleCheckForm = (event) => {
+    if (event.target.name === 'Login') {
+      setChangedInfo({ ...changedInfo, login: event.target.value });
+    } else if (event.target.name === 'Email') {
+      setChangedInfo({ ...changedInfo, email: event.target.value });
+    } else {
+      setChangedInfo({ ...changedInfo, avatar: event.target.value });
+    }
+  };
+
+  async function handleEdit(event) {
+    event.preventDefault();
+    const tokenJWT = localStorage.getItem('token');
+    const response = await fetch('/users', {
+      method: 'PUT',
+      headers: {
+        Authentication: `Bearer ${tokenJWT}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(changedInfo),
+    });
+    if (response.status === 200) {
+      setUser({ ...user, ...changedInfo });
+      setChangedInfo({ login: '', email: '', avatar: '' });
+      setShowEdit(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 1000);
+    }
+  }
+
+  const hadleShowChange = () => {
+    setShowChange(true);
+  };
+
+  const handleCheckFormPassword = (event) => {
+    if (event.target.name === 'Old Password') {
+      setPasswords({ ...passwords, oldPass: event.target.value });
+    } else {
+      setPasswords({ ...passwords, newPass: event.target.value });
+    }
+  };
+
+  async function handleChange(event) {
+    event.preventDefault();
+    const tokenJWT = localStorage.getItem('token');
+    const response = await fetch('/users', {
+      method: 'PATCH',
+      headers: {
+        Authentication: `Bearer ${tokenJWT}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(passwords),
+    });
+    if (response.status === 200) {
+      setPasswords({ oldPass: '', newPass: '' });
+      setShowChange(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 1000);
+    } else {
+      setFalseOldPassword(true);
+    }
+  }
+
   return (
     <div className="profile">
+      {success
+      && (
+      <CustomModal
+        setSwitchModal={setSuccess}
+        inner={(
+          <p className="succesfully-changed">Succesfully changed</p>
+)}
+      />
+      )}
       {showEdit
       && (
       <CustomModal
         setSwitchModal={setShowEdit}
         inner={(
-          <form onSubmit={handleCheckPass} className="formCheckPass">
+          <form onSubmit={handleEdit} className="formCheckPass">
             <CustomInput
-              title="Room password"
+              title="Login"
               className="form-control"
-              id="checkPass"
+              id="Login"
               type="text"
-              name="password"
+              name="Login"
               onChange={handleCheckForm}
-              placeholder="Enter room password..."
+              value={changedInfo.login}
+            />
+            <CustomInput
+              title="Email"
+              className="form-control"
+              id="Email"
+              type="text"
+              name="Email"
+              onChange={handleCheckForm}
+              value={changedInfo.email}
+            />
+            <CustomInput
+              title="Avatar"
+              className="form-control"
+              id="Avatar"
+              type="text"
+              name="Avatar"
+              onChange={handleCheckForm}
+              value={changedInfo.avatar}
             />
             <div style={{ height: '20px' }} />
+            <CustomButton
+              id="checkButton"
+              title="Submit"
+              color="#fe9e84"
+              type="submit"
+            />
+          </form>
+)}
+      />
+      )}
+      {showChange
+      && (
+      <CustomModal
+        setSwitchModal={setShowChange}
+        inner={(
+          <form onSubmit={handleChange} className="formCheckPass">
+            <CustomInput
+              title="Old Password"
+              className="form-control"
+              id="Old Password"
+              type="password"
+              name="Old Password"
+              onChange={handleCheckFormPassword}
+              value={passwords.oldPass}
+            />
+            <CustomInput
+              title="New Password"
+              className="form-control"
+              id="New Password"
+              type="password"
+              name="New Password"
+              onChange={handleCheckFormPassword}
+              value={passwords.newPass}
+            />
+            <div style={{ height: '20px' }} />
+            {falseOldPassword && <p className="wrong-pass">Wrong old password</p>}
             <CustomButton
               id="checkButton"
               title="Submit"
@@ -103,15 +232,19 @@ export default function Profile() {
           <h2>{user.email}</h2>
           <CustomButton
             id="edit"
+            className="edit"
             title="Edit profile"
             color="#fe9e84"
-            type="submit"
+            type="button"
+            handleOnClick={hadleShowEdit}
           />
           <CustomButton
             id="change"
+            className="change"
             title="Сhange password"
             color="#fe9e84"
-            type="submit"
+            type="button"
+            handleOnClick={hadleShowChange}
           />
         </div>
       </div>
