@@ -54,13 +54,11 @@ io.on('connection', (socket) => {
     io.emit('updateRooms', roomsWithGames);
   });
 
-  socket.on('enterToRoom', async (id, token) => {
-    console.log(token);
+  socket.on('enterToRoom', async ({ id, token }) => {
     const { id: userId } = decodeToken(token);
-    console.log(userId);
     await Room.increment({ members: 1 }, { where: { id } });
     await User.update({ roomId: id }, { where: { id: userId } });
-    io.emit('checkEnterToRoom', id);
+    io.emit('checkEnterToRoom', { id });
   });
 
   io.on('disconnect', () => {
