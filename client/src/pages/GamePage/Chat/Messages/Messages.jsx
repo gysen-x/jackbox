@@ -2,17 +2,21 @@ import React from 'react';
 import style from './css/style.module.css';
 
 function Messages({ message }) {
-  const currentTime = new Date(Date.now());
+  const currentTime = new Date(message.time);
   console.log(currentTime);
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
   return (
     <div className={style.message}>
-      <p className={style.message__username}>Username</p>
+      <p className={style.message__username}>{message.user}</p>
       <div className={style.newMessage}>
         <div className={style.eachMessage}>
           {message.text}
         </div>
         <div className={style.time}>
-          {message.time}
+          {hours < 10 ? (`0${hours}`) : (hours)}
+          :
+          {minutes < 10 ? (`0${minutes}`) : (minutes)}
         </div>
       </div>
     </div>

@@ -57,8 +57,22 @@ io.on('connection', (socket) => {
   socket.on('enterToRoom', async ({ id, token }) => {
     const { id: userId } = decodeToken(token);
     await Room.increment({ members: 1 }, { where: { id } });
-    await User.update({ roomId: id }, { where: { id: userId } });
+    await User.update({ status: 'player', roomId: id }, { where: { id: userId } });
     io.emit('checkEnterToRoom', { id });
+  });
+
+  socket.on('disconnectRoom', async ({ id, token }) => {
+    const { id: userId } = decodeToken(token);
+    const user = await User.findByPk(userId);
+    if (user.status === 'admin') {
+      await User.update({ status: null, roomId: null }, { where: { roomId: id } });
+      await Room.destroy({ where: { id } });
+      io.emit('destroyRoom', { id });
+    } else if (user.status === 'player') {
+      await User.update({ status: null, roomId: null }, { where: { id: userId } });
+      await Room.increment({ members: -1 }, { where: { id } });
+      io.emit('playerQuitRoom', { id });
+    }
   });
 
   io.on('disconnect', () => {
