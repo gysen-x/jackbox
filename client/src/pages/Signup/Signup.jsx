@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/actions';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
-import style from './style.module.css'
+import style from './style.module.css';
 import CustomInput from '../../components/CustomInput/CustomInput';
 
 export default function Signup() {
@@ -61,7 +61,7 @@ export default function Signup() {
         }}
       >
         <form
-        className={style.signup__form}
+          className={style.signup__form}
           onSubmit={formSubmitHandler}
         >
           <h1 className={style.signup__title}> Sign Up</h1>
@@ -105,7 +105,7 @@ export default function Signup() {
             {errorSignup}
           </div>
           <CustomButton
-           className={style.form__button}
+            className={style.form__button}
             id="signUp"
             title="Submit"
             color="#fe9e84"

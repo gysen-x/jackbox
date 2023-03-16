@@ -1,3 +1,7 @@
+.profile {
+  padding-top: 30px;
+}
+
 .profile-bio {
   margin-right: 760px;
   margin-top: 10px;
@@ -5,8 +9,7 @@
 
 .profile-header {
   display: flex;
-    flex-direction: row;
-    justify-content:space-between
+  flex-direction: row;
 }
 
 .profile-friens {

@@ -6,7 +6,7 @@ import { setUser } from '../../store/actions';
 
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import style from './style.module.css'
+import style from './style.module.css';
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -89,7 +89,7 @@ export default function Signin() {
             {errorSignin}
           </div>
           <CustomButton
-          className={style.form__button}
+            className={style.form__button}
             id="signUp"
             title="Submit"
             color="#fe9e84"

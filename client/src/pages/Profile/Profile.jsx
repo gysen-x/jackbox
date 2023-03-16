@@ -12,22 +12,23 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       const tokenJWT = localStorage.getItem('token');
-      const response = await fetch('/users',
-      {
-        headers: {
-          Authentication: `Bearer ${tokenJWT}`
-        }
-      });
+      const response = await fetch(
+        '/users',
+        {
+          headers: {
+            Authentication: `Bearer ${tokenJWT}`,
+          },
+        },
+      );
       const result = await response.json();
-      const {user: newUser, friends: newFriends} = result;
-      setUser(result)
+      const { user: newUser, friends: newFriends } = result;
+      setUser(result);
       setUser(newUser);
       setFriends(newFriends);
+    })();
+  }, []);
 
-    })()
-  }, [])
-
-  async function deleteFriends (id) {
+  async function deleteFriends(id) {
     const tokenJWT = localStorage.getItem('token');
     const response = await fetch('/users', {
       method: 'DELETE',
@@ -35,15 +36,15 @@ export default function Profile() {
         Authentication: `Bearer ${tokenJWT}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id })
+      body: JSON.stringify({ id }),
     });
     console.log('-----------------------------------', response);
     if (response.status === 200) {
-      const refreshFriends = friends.filter(friend => friend.id!== id);
+      const refreshFriends = friends.filter((friend) => friend.id !== id);
       console.log('1111---------', refreshFriends);
       setFriends(refreshFriends);
     }
-  };
+  }
 
   return (
     <div className="profile">
@@ -51,7 +52,9 @@ export default function Profile() {
         <Avatar
           alt="Remy Sharp"
           src={user.avatar}
-          sx={{ width: 100, height: 100, marginLeft: 35 }}
+          sx={{
+            width: 100, height: 100, marginLeft: 35, marginRight: 3,
+          }}
         />
         <div className="profile-bio">
           <h2>{user.login}</h2>
@@ -67,14 +70,28 @@ export default function Profile() {
       <div className="profile-friens">
         <h1>My friends</h1>
         <ul>
-          {friends.map(({id, login, avatar}) => (
-            <li className='liFriend' key={id}><Avatar
-            alt="Remy Sharp"
-            src={avatar}
-            sx={{ width: 50, height: 50, marginRight: 1 }}
-          /><p>{login}</p>
-          <img onClick={() => {console.log('chat')}} className="chatFriends" src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png" alt="chat" />
-          <img onClick={() => {deleteFriends(id)}} className="deleteFriends" src="https://cdn-icons-png.flaticon.com/512/656/656857.png" alt="delete" /></li>
+          {friends.map(({ id, login, avatar }) => (
+            <li className="liFriend" key={id}>
+              <Avatar
+                alt="Remy Sharp"
+                src={avatar}
+                sx={{ width: 50, height: 50, marginRight: 1 }}
+              />
+              <p>{login}</p>
+              <img
+                onPointerDown={() => { console.log('chat'); }}
+                className="chatFriends"
+                src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
+                alt="chat"
+              />
+              <img
+                onPointerDown={() => { deleteFriends(id); }}
+                className="deleteFriends"
+                src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
+                alt="delete"
+              />
+
+            </li>
           ))}
         </ul>
       </div>
