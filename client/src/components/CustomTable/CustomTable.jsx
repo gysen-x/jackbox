@@ -4,22 +4,28 @@ import { DataGrid } from '@mui/x-data-grid';
 import LockIcon from '@mui/icons-material/Lock';
 import CustomButton from '../CustomButton/CustomButton';
 
-export default function CustomTable({ roomsArray, handlePrivate, handleClick }) {
+export default function CustomTable({
+  allRooms, filtredRooms, handlePrivate, handleClick,
+}) {
   const [changedRooms, setChangedRooms] = useState([]);
 
   useEffect(() => {
-    setChangedRooms(roomsArray);
-  }, [roomsArray]);
+    if (filtredRooms.join()) {
+      setChangedRooms(filtredRooms);
+    } else {
+      setChangedRooms(allRooms);
+    }
+  }, [allRooms, filtredRooms]);
 
   const columns = [
     {
-      field: 'id', headerName: '#',
+      field: 'id', headerName: '#', flex: 1,
     }, // column won't grow
     {
-      field: 'name', headerName: 'Room Name', flex: 1, cellClassName: 'name-column--cell',
+      field: 'name', headerName: 'Room', flex: 1, cellClassName: 'name-column--cell',
     }, // column will grow
     {
-      field: 'gameName', headerName: 'Game Name', flex: 1,
+      field: 'gameName', headerName: 'Game', flex: 1,
     }, // column will grow
     {
       field: 'members',

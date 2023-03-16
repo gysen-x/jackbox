@@ -15,20 +15,12 @@ export default function Test() {
   const [allRooms, setAllRooms] = useState([]);
   const [filtredRooms, setFiltredRooms] = useState([]);
   const [switchModal, setSwitchModal] = useState(false);
-  const [roomsArray, setRoomsArray] = useState([]);
   const [roomId, setRoomId] = useState('');
+  const [findTitle, setFindTitle] = useState('Find game');
   const [formData, setFormData] = useState('');
   const navigate = useNavigate();
   const socketRef = useRef(null);
 
-  //
-  useEffect(() => {
-    if (filtredRooms.join()) {
-      setRoomsArray(filtredRooms);
-    } else {
-      setRoomsArray(allRooms);
-    }
-  }, [filtredRooms]);
   // get array of rooms from database
   useEffect(() => {
     const response = fetch('/rooms');
@@ -75,6 +67,11 @@ export default function Test() {
       .filter((el) => el.name
         .toLowerCase()
         .includes(event.target.value.trim().toLowerCase()));
+
+    if (!finded.join()) {
+      setFindTitle('Room not found');
+    } else { setFindTitle('Find room'); }
+
     setFiltredRooms(finded);
   };
 
@@ -106,7 +103,7 @@ export default function Test() {
       <Box gridColumn="span 6">
         <h1>Table title</h1>
         <CustomInput
-          title="Find game"
+          title={findTitle}
           className="form-control"
           id="findInput"
           type="text"
@@ -116,7 +113,8 @@ export default function Test() {
         />
         <br />
         <CustomTable
-          roomsArray={roomsArray}
+          allRooms={allRooms}
+          filtredRooms={filtredRooms}
           handlePrivate={handlePrivate}
           handleClick={handleClick}
         />
