@@ -32,16 +32,27 @@ export default function Rooms() {
   useEffect(() => {
     socketRef.current = io(SERVER_URL);
     socketRef.current.emit('connection');
-    console.log('socket useEffect');
     socketRef.current.on('updateRooms', (rooms) => {
-      console.log('rooms from Rooms: ', rooms);
-
       setAllRooms(rooms);
     });
   }, []);
 
+  useEffect(() => {
+    socketRef.current.on('checkEnterToRoom', ({ id }) => {
+      const refreshRooms = allRooms.map((room) => (room.id === Number(id) ? ({
+        ...room,
+        members: room.members + 1,
+      })
+        : room));
+      setAllRooms(refreshRooms);
+    });
+  }, [allRooms]);
+
   const handleClick = (event) => {
-    navigate(`/rooms/${event.currentTarget.dataset.id}`);
+    const { id } = event.currentTarget.dataset;
+    const token = localStorage.getItem('token');
+    socketRef.current.emit('enterToRoom', { id, token });
+    navigate(`/rooms/${id}`);
   };
 
   const handleFindChange = (event) => {
@@ -139,31 +150,31 @@ export default function Rooms() {
       />
       <img className="logoMini" src="/images/Logo.png" alt="logo" />
       {switchModal
-      && (
-      <CustomModal
-        setSwitchModal={setSwitchModal}
-        inner={(
-          <form onSubmit={handleCheckPass} className="formCheckPass">
-            <CustomInput
-              title="Room password"
-              className="form-control"
-              id="checkPass"
-              type="text"
-              name="password"
-              onChange={handleCheckForm}
-              placeholder="Enter room password..."
-            />
-            <div style={{ height: '20px' }} />
-            <CustomButton
-              id="checkButton"
-              title="Submit"
-              color="#fe9e84"
-              type="submit"
-            />
-          </form>
-)}
-      />
-      )}
+                && (
+                <CustomModal
+                  setSwitchModal={setSwitchModal}
+                  inner={(
+                    <form onSubmit={handleCheckPass} className="formCheckPass">
+                      <CustomInput
+                        title="Room password"
+                        className="form-control"
+                        id="checkPass"
+                        type="text"
+                        name="password"
+                        onChange={handleCheckForm}
+                        placeholder="Enter room password..."
+                      />
+                      <div style={{ height: '20px' }} />
+                      <CustomButton
+                        id="checkButton"
+                        title="Submit"
+                        color="#fe9e84"
+                        type="submit"
+                      />
+                    </form>
+                        )}
+                />
+                )}
     </div>
   );
 }

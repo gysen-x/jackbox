@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
-const { Room, AllGames } = require('../../db/models');
+const { Room, AllGames, User } = require('../../db/models');
+const { decodeToken } = require('./lib/jwt');
 
 exports.getRooms = async (req, res) => {
   const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
@@ -23,15 +24,21 @@ exports.getRooms = async (req, res) => {
 };
 
 exports.createRoom = async (req, res) => {
-  const { name, gameId, password } = req.body;
+  const {
+    name, gameId, password, token,
+  } = req.body;
+  const userId = decodeToken(token);
   try {
     let newRoom;
     if (!password) {
-      newRoom = await Room.create({ name, gameId });
+      newRoom = await Room.create({ name, gameId, members: 1 });
     } else {
-      newRoom = await Room.create({ name, gameId, password });
+      newRoom = await Room.create({
+        name, gameId, password, members: 1,
+      });
     }
     const { id } = newRoom;
+    await User.update({ status: 'admin', roomId: id }, { where: { id: userId } });
     res.json({ id });
   } catch (error) {
     res.json({ fail: 'fail' });

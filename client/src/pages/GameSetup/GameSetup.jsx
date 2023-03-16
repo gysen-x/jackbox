@@ -25,10 +25,13 @@ export default function GameSetup() {
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
       const { name, password } = formData;
+      const token = localStorage.getItem('token');
       const response = fetch('/rooms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, password, gameId }),
+        body: JSON.stringify({
+          name, password, gameId, token,
+        }),
       });
       response
         .then((res) => res.json())
@@ -39,7 +42,7 @@ export default function GameSetup() {
           } else {
             socketRef.current = io(SERVER_URL);
             socketRef.current.emit('addRoom');
-            navigate('/rooms');
+            navigate(`/rooms/${data.id}`);
           }
         })
         .catch((error) => console.log(error));
@@ -76,14 +79,14 @@ export default function GameSetup() {
         placeholder="Room name"
       />
       {switchButton && (
-      <CustomInput
-        title="Password"
-        className="form-control"
-        type="text"
-        name="password"
-        onChange={handleOnChange}
-        placeholder="Password"
-      />
+        <CustomInput
+          title="Password"
+          className="form-control"
+          type="text"
+          name="password"
+          onChange={handleOnChange}
+          placeholder="Password"
+        />
       )}
       <CustomButton
         title="Create"
@@ -99,7 +102,7 @@ export default function GameSetup() {
       />
       <img className="logoMini" src="/images/Logo.png" alt="logo" />
       {switchModal
-      && <CustomModal setSwitchModal={setSwitchModal} inner={<p>{alertMessage}</p>} />}
+                && <CustomModal setSwitchModal={setSwitchModal} inner={<p>{alertMessage}</p>} />}
     </div>
   );
 }
