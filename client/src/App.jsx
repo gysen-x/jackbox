@@ -15,6 +15,7 @@ import GameSetup from './pages/GameSetup/GameSetup';
 import { setUser } from './store/actions';
 import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
+import Test from './pages/Test/Test';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -66,6 +67,7 @@ function App() {
             )}
             <Route index element={<Homepage />} />
             <Route path="gamepage" element={<GamePage />} />
+            <Route path="test" element={<Test />} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </main>

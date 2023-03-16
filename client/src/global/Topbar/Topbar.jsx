@@ -4,6 +4,8 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { ColorModeContext } from '../../theme';
 import CustomCheckbox from '../../components/CustomCheckbox/CustomCheckbox';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -18,6 +20,11 @@ export default function Topbar() {
   const dispatch = useDispatch();
   const isAuth = useSelector((store) => store.user);
   const colorMode = useContext(ColorModeContext);
+
+  const logOutHandle = () => {
+    dispatch(logOut());
+    navigate('/');
+  };
 
   return (
     <Box
@@ -37,7 +44,7 @@ export default function Topbar() {
               title="Profile"
             />
             <CustomButton
-              handleOnClick={() => dispatch(logOut())}
+              handleOnClick={logOutHandle}
               title="Sign out"
             />
           </>
@@ -54,11 +61,16 @@ export default function Topbar() {
           </>
         )}
       </Box>
-      <Box display="flex">
+      <Box
+        display="flex"
+        gap="3px"
+      >
+        <DarkModeIcon fontSize="small" />
         <CustomCheckbox
           onChange={colorMode.toggleColorMode}
           checked={localStorage.getItem('theme') === 'light'}
         />
+        <WbSunnyIcon fontSize="small" />
       </Box>
     </Box>
   );
