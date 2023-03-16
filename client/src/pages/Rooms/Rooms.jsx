@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import './Rooms.css';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import CustomModal from '../../components/CustomModal/CustomModal'
+import CustomModal from '../../components/CustomModal/CustomModal';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -35,8 +35,8 @@ export default function Rooms() {
     socketRef.current.on('updateRooms', (rooms) => {
       console.log('rooms from Rooms: ', rooms);
 
-      setAllRooms(rooms)
-    })
+      setAllRooms(rooms);
+    });
   }, []);
 
   const handleClick = (event) => {
@@ -45,17 +45,17 @@ export default function Rooms() {
 
   const handleFindChange = (event) => {
     const finded = allRooms
-    .filter((el) => el.name
-    .toLowerCase()
-    .includes(event.target.value.trim().toLowerCase()));
+      .filter((el) => el.name
+        .toLowerCase()
+        .includes(event.target.value.trim().toLowerCase()));
     setFiltredRooms(finded);
   };
 
   const handlePrivate = (event) => {
-    const roomId = event.currentTarget.dataset.id;
+    const currentRoomId = event.currentTarget.dataset.id;
     setSwitchModal(true);
-    setRoomId(Number(roomId));
-  }
+    setRoomId(Number(currentRoomId));
+  };
 
   const handleCheckPass = (event) => {
     event.preventDefault();
@@ -64,94 +64,105 @@ export default function Rooms() {
     //   headers: { 'Content-Type': 'application/json' },
     //   body: JSON.stringify({id: roomId, password: formData}), //id room
     // })
-    alert(`id: ${roomId}, password: ${formData}`)
-  }
+    alert(`id: ${roomId}, password: ${formData}`);
+  };
 
   const handleCheckForm = (event) => {
     setFormData(event.target.value);
-  }
+  };
 
   return (
     <div className="contentWrapper">
       <h1 className="homepageH1">SELECT ROOMS</h1>
       <CustomInput
-            title="Find game"
-            className="form-control"
-            id="findInput"
-            type="text"
-            name="roomName"
-            onChange={handleFindChange}
-            placeholder="Enter room name..."
-          />
-          <br/>
+        title="Find game"
+        className="form-control"
+        id="findInput"
+        type="text"
+        name="roomName"
+        onChange={handleFindChange}
+        placeholder="Enter room name..."
+      />
+      <br />
       <ol className="olList">
         <li className="liItem">
-        <span>#</span>
-            <span>Room name</span>
-            <span>Game name</span>
-            <span>Members</span>
-            <span style={{width: '80px'}} />
+          <span>#</span>
+          <span>Room name</span>
+          <span>Game name</span>
+          <span>Members</span>
+          <span style={{ width: '80px' }} />
         </li>
-        {filtredRooms.join() 
+        {filtredRooms.join()
           ? filtredRooms.map(({
-            id, name, members, gameName, maxPlayers, isPassword
+            id, name, members, gameName, maxPlayers, isPassword,
           }, index) => (
             <li key={id} className="liItem">
               <span>{index + 1}</span>
               <span>{name}</span>
               <span>{gameName}</span>
               <span>{`${members}/${maxPlayers}`}</span>
-              <CustomButton id={id}
-                title={isPassword ?  'Join🔒' : 'Join' }
+              <CustomButton
+                id={id}
+                title={isPassword ? 'Join🔒' : 'Join'}
                 color="#fe9e84"
                 type="button"
-                handleOnClick={isPassword ? handlePrivate : handleClick}/>
+                handleOnClick={isPassword ? handlePrivate : handleClick}
+              />
             </li>
           ))
-        : allRooms.join() && allRooms.map(({
-          id, name, members, gameName, maxPlayers, isPassword
-        }, index) => (
-          <li key={id} className="liItem">
-            <span>{index + 1}</span>
-            <span>{name}</span>
-            <span>{gameName}</span>
-            <span>{`${members}/${maxPlayers}`}</span>
-            <CustomButton id={id}
-               title={isPassword ?  'Join🔒' : 'Join' }
-               color="#fe9e84"
-               type="button"
-               handleOnClick={isPassword ? handlePrivate : handleClick}/>
-          </li>
-        ))}
+          : allRooms.join() && allRooms.map(({
+            id, name, members, gameName, maxPlayers, isPassword,
+          }, index) => (
+            <li key={id} className="liItem">
+              <span>{index + 1}</span>
+              <span>{name}</span>
+              <span>{gameName}</span>
+              <span>{`${members}/${maxPlayers}`}</span>
+              <CustomButton
+                id={id}
+                title={isPassword ? 'Join🔒' : 'Join'}
+                color="#fe9e84"
+                type="button"
+                handleOnClick={isPassword ? handlePrivate : handleClick}
+              />
+            </li>
+          ))}
       </ol>
       <br />
       <CustomButton
-       id="checkButton"
+        id="checkButton"
         title="Back"
         color="#fe9e84"
         type="submit"
-        handleOnClick={() => navigate('/choose')}/>
-      <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
-      {switchModal && 
-      <CustomModal setSwitchModal={setSwitchModal} children={<form onSubmit={handleCheckPass} className='formCheckPass'>
-      <CustomInput
-        title="Room password"
-        className="form-control"
-        id="checkPass"
-        type="text"
-        name="password"
-        onChange={handleCheckForm}
-        placeholder="Enter room password..."
+        handleOnClick={() => navigate('/choose')}
       />
-      <div style={{height: '20px'}}/>
-      <CustomButton
-        id="checkButton"
-        title="Submit"
-        color="#fe9e84"
-        type="submit"/>
-    </form>}/>
-      
-     }
+      <img className="logoMini" src="/images/Logo.png" alt="logo" />
+      {switchModal
+      && (
+      <CustomModal
+        setSwitchModal={setSwitchModal}
+        inner={(
+          <form onSubmit={handleCheckPass} className="formCheckPass">
+            <CustomInput
+              title="Room password"
+              className="form-control"
+              id="checkPass"
+              type="text"
+              name="password"
+              onChange={handleCheckForm}
+              placeholder="Enter room password..."
+            />
+            <div style={{ height: '20px' }} />
+            <CustomButton
+              id="checkButton"
+              title="Submit"
+              color="#fe9e84"
+              type="submit"
+            />
+          </form>
+)}
+      />
+      )}
     </div>
   );
 }

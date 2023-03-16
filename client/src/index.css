@@ -9,16 +9,16 @@
 }
 
 .logoMini {
-  cursor: pointer;
   display: block;
-  width: 50%;
-  height: 50px;
-  max-width: 320px;
+  width: 143px;
+  height: 40px;
+  filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
+  /* max-width: 320px;
   margin: 20px auto;
   color: transparent;
   background-size: contain;
   background-position: top center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .homepageH1 {

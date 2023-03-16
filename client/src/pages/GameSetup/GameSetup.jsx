@@ -34,19 +34,19 @@ export default function GameSetup() {
         .then((res) => res.json())
         .then((data) => {
           if (data.fail) {
-            setAlertMessage('fail')
+            setAlertMessage('fail');
             setSwitchModal(true);
           } else {
             socketRef.current = io(SERVER_URL);
-            socketRef.current.emit('addRoom')
+            socketRef.current.emit('addRoom');
             navigate('/rooms');
           }
         })
         .catch((error) => console.log(error));
     } else {
-    setAlertMessage('name length min 4 and max 10');
-    setSwitchModal(true);
-  }
+      setAlertMessage('name length min 4 and max 10');
+      setSwitchModal(true);
+    }
   };
 
   const handleOnChange = (event) => {
@@ -68,37 +68,38 @@ export default function GameSetup() {
         </label>
       </div>
       <CustomInput
-      title="Room name"
-      className="form-control"
-      type="text"
-      name="name"
-      onChange={handleOnChange}
-      placeholder="Room name"
-    />
+        title="Room name"
+        className="form-control"
+        type="text"
+        name="name"
+        onChange={handleOnChange}
+        placeholder="Room name"
+      />
       {switchButton && (
       <CustomInput
-      title="Password"
-      className="form-control"
-      type="text"
-      name="password"
-      onChange={handleOnChange}
-      placeholder="Password"
-    />
+        title="Password"
+        className="form-control"
+        type="text"
+        name="password"
+        onChange={handleOnChange}
+        placeholder="Password"
+      />
       )}
       <CustomButton
-          title='Create'
-          color="#fe9e84"
-          type="button"
-          handleOnClick={handleCreateGame}/>
+        title="Create"
+        color="#fe9e84"
+        type="button"
+        handleOnClick={handleCreateGame}
+      />
       <CustomButton
-          title='Back'
-          color="#fe9e84"
-          type="button"
-          handleOnClick={() => navigate('/games')}/>
-      <img className="logoMini" src="/images/b536a8d6.svg" alt="logo" />
-      {switchModal && 
-      <CustomModal setSwitchModal={setSwitchModal} children={<p>{alertMessage}</p>}/>
-     }
+        title="Back"
+        color="#fe9e84"
+        type="button"
+        handleOnClick={() => navigate('/games')}
+      />
+      <img className="logoMini" src="/images/Logo.png" alt="logo" />
+      {switchModal
+      && <CustomModal setSwitchModal={setSwitchModal} inner={<p>{alertMessage}</p>} />}
     </div>
   );
 }
