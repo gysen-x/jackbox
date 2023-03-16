@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import style from './css/style.module.css';
 import Chat from './Chat/Chat';
-import StartGamePage from './Gamefield/StartGamePage/StartGamePage';
-import GameFriendsPage from './Gamefield/GameFriendsPage/GameFriendsPage';
+import StartGamePage from './GameField/StartGamePage/StartGamePage';
+import GameFriendsPage from './GameField/GameFriendsPage/GameFriendsPage';
 
 function GamePage() {
   return (
