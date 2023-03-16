@@ -6,27 +6,30 @@ import Chat from './Chat/Chat';
 import StartGamePage from './GameField/StartGamePage/StartGamePage';
 import GameFriendsPage from './GameField/GameFriendsPage/GameFriendsPage';
 import CustomButton from "../../components/CustomButton/CustomButton";
+import {useNavigate, useParams} from "react-router-dom";
 
 const SERVER_URL = 'http://localhost:3000';
 
 function GamePage() {
     const [user, setUser] = useState({})
     const socketRef = useRef(null);
+    const id = useParams()
+    const navigate = useNavigate()
 
-    useEffect(() => {
-        socketRef.current = io(SERVER_URL);
-        socketRef.current.emit('connection');
-        socketRef.current.on('userStatus', (status) => {
-            setUser({...user, status: status});
-        });
-    }, []);
+    // useEffect(() => {
+    //     socketRef.current = io(SERVER_URL);
+    //     socketRef.current.emit('connection');
+    //     socketRef.current.on('userStatus', (status) => {
+    //         setUser({...user, status: status});
+    //     });
+    // }, []);
 
 
     //На выход из комнаты
     const handleClick = (event) => {
-        const {id} = event.currentTarget.dataset;
+        socketRef.current = io(SERVER_URL);
         const token = localStorage.getItem('token');
-        socketRef.current.emit('disconnectRoom', {id, token, user});
+        socketRef.current.emit('disconnectRoom', {id, token});
         navigate(`/rooms`);
     };
 
