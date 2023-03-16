@@ -1,12 +1,23 @@
 .gamefriends__title {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-top: 7px;
   font-size: 30px;
 }
 
 .gamefriends__wrapper {
   display: flex;
-  flex-wrap: wrap;
-  width: 21%;
-  justify-content: space-between;
+  width: 90%;
+  justify-content: space-around;
+  margin-top: 2vh;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .gamefriends__friend {

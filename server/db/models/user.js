@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Friendship, { foreignKey: 'userId1' });
       this.hasMany(models.Friendship, { foreignKey: 'userId2' });
-      this.hasOne(models.GameSession, { foreignKey: 'userId' }, { onDelete: 'cascade' }, { hooks: true });
+      this.belongsTo(models.Room, { foreignKey: 'roomId' });
       this.hasMany(models.Message, { foreignKey: 'userId' }, { onDelete: 'cascade' }, { hooks: true });
     }
   }
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     pointsInGame: DataTypes.INTEGER,
     avatar: DataTypes.TEXT,
+    roomId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'User',

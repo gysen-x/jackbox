@@ -46,6 +46,20 @@ export default function Rooms() {
         : room));
       setAllRooms(refreshRooms);
     });
+
+    socketRef.current.on('destroyRoom', ({ id }) => {
+      const roomsAfterDestroy = allRooms.filter((room) => room.id !== Number(id));
+      setAllRooms(roomsAfterDestroy);
+    });
+
+    socketRef.current.on('playerQuitRoom', ({ id }) => {
+      const roomsAfterPlayerQuit = allRooms.map((room) => (room.id === Number(id) ? ({
+        ...room,
+        members: room.members - 1,
+      })
+        : room));
+      setAllRooms(roomsAfterPlayerQuit);
+    });
   }, [allRooms]);
 
   const handleClick = (event) => {

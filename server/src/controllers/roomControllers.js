@@ -27,7 +27,7 @@ exports.createRoom = async (req, res) => {
   const {
     name, gameId, password, token,
   } = req.body;
-  const userId = decodeToken(token);
+  const { id: userId } = decodeToken(token);
   try {
     let newRoom;
     if (!password) {
@@ -37,10 +37,12 @@ exports.createRoom = async (req, res) => {
         name, gameId, password, members: 1,
       });
     }
+
     const { id } = newRoom;
     await User.update({ status: 'admin', roomId: id }, { where: { id: userId } });
     res.json({ id });
   } catch (error) {
+    console.log(error);
     res.json({ fail: 'fail' });
   }
 };
