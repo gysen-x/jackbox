@@ -57,8 +57,8 @@ exports.check = async (req, res) => {
 
     const user = await User.findByPk(userId);
 
-    const { id, login: name } = user;
-    res.json({ token, user: { id, name } });
+    const { id, login: name, status } = user;
+    res.json({ token, user: { id, name, status } });
   } catch (error) {
     res.json({ fail: 'fail' });
   }

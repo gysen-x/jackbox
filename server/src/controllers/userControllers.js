@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const { User, Friendship } = require('../../db/models');
 
 const { decodeToken } = require('./lib/jwt');
@@ -32,6 +34,42 @@ exports.deleteFriendhip = async (req, res) => {
   try {
     await Friendship.destroy({ where: { userId1, userId2 } });
     res.sendStatus(200);
+  } catch (error) {
+    res.sendStatus(401);
+  }
+};
+
+exports.changeUserInfo = async (req, res) => {
+  const oldToken = req.headers.authentication.split(' ')[1];
+  const decoded = decodeToken(oldToken);
+  const { id } = decoded;
+  const { login, email, avatar } = req.body;
+
+  try {
+    await User.update({ login, email, avatar }, { where: { id } });
+    res.sendStatus(200);
+  } catch (error) {
+    res.sendStatus(401);
+  }
+};
+
+exports.changeUserPassword = async (req, res) => {
+  const oldToken = req.headers.authentication.split(' ')[1];
+  const decoded = decodeToken(oldToken);
+  const { id } = decoded;
+  const { oldPass, newPass } = req.body;
+
+  try {
+    const user = await User.findByPk(id);
+    const isSamePassword = await bcrypt.compare(oldPass, user.password);
+
+    if (isSamePassword) {
+      const password = await bcrypt.hash(newPass, 10);
+      await User.update({ password }, { where: { id } });
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(401);
+    }
   } catch (error) {
     res.sendStatus(401);
   }
