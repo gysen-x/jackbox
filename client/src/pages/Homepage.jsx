@@ -27,7 +27,7 @@ export default function Homepage() {
             handleOnClick={() => navigate('/signin')}
           />
         )}
-      <img className="logoMini" src="/images/Logo.png" alt="logo" />
+      <img className="nyan" src="/images/nyan.gif" alt="logo" />
     </div>
   );
 }

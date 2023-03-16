@@ -21,6 +21,14 @@
   background-repeat: no-repeat; */
 }
 
+.nyan {
+  display: block;
+  position: absolute;
+  width: 50%;
+  bottom: 0;
+  left: 0;
+}
+
 .homepageH1 {
   margin-bottom: 40px;
   font-size: 30px;

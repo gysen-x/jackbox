@@ -15,6 +15,8 @@ import GameSetup from './pages/GameSetup/GameSetup';
 import {setUser} from './store/actions';
 import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
+import Test from './pages/Test/Test';
+import CustomTable from './components/CustomTable/CustomTable';
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -72,6 +74,7 @@ function App() {
             </ThemeProvider>
         </ColorModeContext.Provider>
     );
+
 }
 
 export default App;
