@@ -27,7 +27,7 @@ exports.createRoom = async (req, res) => {
   try {
     let newRoom;
     if (!password) {
-      newRoom = await Room.create({ name, gameId });
+      newRoom = await Room.create({ name, gameId, members: 1 });
     } else {
       newRoom = await Room.create({
         name, gameId, password, members: 1,
