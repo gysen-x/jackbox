@@ -3,10 +3,14 @@ import './Profile.css';
 import { Avatar } from '@mui/material';
 // import { useSelector } from 'react-redux';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import CustomInput from '../../components/CustomInput/CustomInput';
 
 export default function Profile() {
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showChange, setShowChange] = useState(false);
   // const id = useSelector((state) => state.user.userid);
 
   useEffect(() => {
@@ -28,6 +32,18 @@ export default function Profile() {
     })();
   }, []);
 
+  // async function editProfile(id) {
+  //   const tokenJWT = localStorage.getItem('token');
+  //   const response = await fetch('/users', {
+  //     method: 'PUT',
+  //     headers: {
+  //       Authentication: `Bearer ${tokenJWT}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ id }),
+  //   });
+  // }
+
   async function deleteFriends(id) {
     const tokenJWT = localStorage.getItem('token');
     const response = await fetch('/users', {
@@ -48,6 +64,32 @@ export default function Profile() {
 
   return (
     <div className="profile">
+      {showEdit
+      && (
+      <CustomModal
+        setSwitchModal={setShowEdit}
+        inner={(
+          <form onSubmit={handleCheckPass} className="formCheckPass">
+            <CustomInput
+              title="Room password"
+              className="form-control"
+              id="checkPass"
+              type="text"
+              name="password"
+              onChange={handleCheckForm}
+              placeholder="Enter room password..."
+            />
+            <div style={{ height: '20px' }} />
+            <CustomButton
+              id="checkButton"
+              title="Submit"
+              color="#fe9e84"
+              type="submit"
+            />
+          </form>
+)}
+      />
+      )}
       <div className="profile-header">
         <Avatar
           alt="Remy Sharp"
@@ -60,8 +102,14 @@ export default function Profile() {
           <h2>{user.login}</h2>
           <h2>{user.email}</h2>
           <CustomButton
+            id="edit"
+            title="Edit profile"
+            color="#fe9e84"
+            type="submit"
+          />
+          <CustomButton
             id="change"
-            title="Change"
+            title="Сhange password"
             color="#fe9e84"
             type="submit"
           />
