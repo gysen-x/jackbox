@@ -69,31 +69,34 @@ export default function Profile() {
       </div>
       <div className="profile-friens">
         <h1>My friends</h1>
-        <ul>
-          {friends.map(({ id, login, avatar }) => (
-            <li className="liFriend" key={id}>
-              <Avatar
-                alt="Remy Sharp"
-                src={avatar}
-                sx={{ width: 50, height: 50, marginRight: 1 }}
-              />
-              <p>{login}</p>
-              <img
-                onPointerDown={() => { console.log('chat'); }}
-                className="chatFriends"
-                src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
-                alt="chat"
-              />
-              <img
-                onPointerDown={() => { deleteFriends(id); }}
-                className="deleteFriends"
-                src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
-                alt="delete"
-              />
+        {friends.length === 0 ? "You don't have friends"
+          : (
+            <ul>
+              {friends.map(({ id, login, avatar }) => (
+                <li className="liFriend" key={id}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={avatar}
+                    sx={{ width: 50, height: 50, marginRight: 1 }}
+                  />
+                  <p>{login}</p>
+                  <img
+                    onPointerDown={() => { console.log('chat'); }}
+                    className="chatFriends"
+                    src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
+                    alt="chat"
+                  />
+                  <img
+                    onPointerDown={() => { deleteFriends(id); }}
+                    className="deleteFriends"
+                    src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
+                    alt="delete"
+                  />
 
-            </li>
-          ))}
-        </ul>
+                </li>
+              ))}
+            </ul>
+          )}
       </div>
     </div>
   );
