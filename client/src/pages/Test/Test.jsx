@@ -1,17 +1,19 @@
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
-import Rooms from '../Rooms/Rooms';
-import SelectGames from '../SelectGames/SelectGames';
+import Rooms from './Rooms';
+import SelectGames from './SelectGames';
+import GameSetup from './GameSetup';
 
 export default function Test() {
   return (
-    <Grid container spacing={2}>
-      <Grid Box xs={8}>
+    <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
+      <Box gridColumn="span 6">
         <Rooms />
-      </Grid>
-      <Grid Box xs={4}>
+      </Box>
+      <Box gridColumn="span 4">
+        <GameSetup />
         <SelectGames />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }
