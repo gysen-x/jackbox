@@ -13,8 +13,6 @@ import style from './style.module.css';
 
 import { logOut } from '../../store/actions';
 
-import './Topbar.css';
-
 export default function Topbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -16,6 +16,7 @@ import { setUser } from './store/actions';
 import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
 import Test from './pages/Test/Test';
+import CustomTable from './components/CustomTable/CustomTable';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -66,6 +67,7 @@ function App() {
               </>
             )}
             <Route index element={<Homepage />} />
+            <Route path="table" element={<CustomTable />} />
             <Route path="gamepage" element={<GamePage />} />
             <Route path="test" element={<Test />} />
             <Route path="*" element={<div>404</div>} />
