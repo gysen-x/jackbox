@@ -7,7 +7,7 @@ import CustomInput from '../../../components/CustomInput/CustomInput';
 
 function Chat({ socketRef }) {
   console.log('socketRef: ', socketRef.current);
-  // +user
+
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
 
@@ -15,13 +15,10 @@ function Chat({ socketRef }) {
   const { id } = useParams();
   const token = localStorage.getItem('token');
 
-  // const socketRef = useRef(null);
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
-  console.log(message);
 
-  //= ===============================
   useEffect(() => {
     const response = fetch(`/rooms/${id}/messages`);
     response
@@ -29,7 +26,6 @@ function Chat({ socketRef }) {
       .then((data) => setAllMessages(data))
       .catch((error) => console.log(error));
   }, []);
-  //= ===============================
 
   useEffect(() => {
     if (scroll.current) {
@@ -48,6 +44,7 @@ function Chat({ socketRef }) {
     event.preventDefault();
     if (message) {
       socketRef.current.emit('sendMessage', { id, token, message });
+      setMessage('');
     }
   };
   return (
@@ -56,13 +53,14 @@ function Chat({ socketRef }) {
         <div className={style.title}>Online-chat</div>
       </div>
       <div ref={scroll} className={style.allMessages}>
-        {allMessages.map((msg) => (msg.text !== '' ? (
-          <Messages key={msg.id} message={msg} />) : ('')))}
+        {allMessages.join()
+          ? (allMessages.map((msg) => (msg.text !== '' ? (
+            <Messages key={msg.id} message={msg} />) : ('')))) : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
       </div>
       <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
         <CustomInput
           className={style.chat__input}
-          value={message.text}
+          value={message}
           name="text"
           onChange={handleChange}
         />

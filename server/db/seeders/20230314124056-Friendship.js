@@ -6,6 +6,12 @@ module.exports = {
       userId2: 2,
       createdAt: new Date(),
       updatedAt: new Date(),
+    },
+    {
+      userId1: 2,
+      userId2: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     }, {
       userId1: 1,
       userId2: 3,
