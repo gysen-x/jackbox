@@ -6,6 +6,8 @@ import CustomButton from '../CustomButton/CustomButton';
 
 // client/node_modules/@mui/x-data-grid/models/colDef/gridColDef.d.ts  пропсы для columns
 // client/node_modules/@mui/x-data-grid/models/props/DataGridProps.d.ts пропсы для DataGrid
+// import '@mui/x-data-grid/models/props/DataGridProps';
+// import '@mui/x-data-grid/models/colDef/gridColDef';
 
 export default function CustomTable({
   allRooms, filtredRooms, handlePrivate, handleClick,
@@ -22,9 +24,6 @@ export default function CustomTable({
 
   const columns = [
     {
-      field: 'id', headerName: '#', width: 20, sortable: false, disableColumnMenu: true,
-    }, // column won't grow
-    {
       field: 'name', headerName: 'Room', cellClassName: 'name-column--cell',
     }, // column will grow
     {
@@ -32,9 +31,8 @@ export default function CustomTable({
     }, // column will grow
     {
       field: 'members',
-      headerName: 'Members',
-      width: 20,
-      disableColumnMenu: true,
+      headerName: '𓁿',
+      width: 30,
       renderCell: ({ row: { members, maxPlayers } }) => (
         `${members}/${maxPlayers}`
       ),
@@ -44,7 +42,6 @@ export default function CustomTable({
       headerName: '',
       width: 20,
       sortable: false,
-      disableColumnMenu: true,
       renderCell: (
         { row: { isPassword } },
       ) => (
@@ -57,9 +54,10 @@ export default function CustomTable({
       width: 70,
       sortable: false,
       renderCell: (
-        { row: { isPassword } },
+        { row: { isPassword, id } },
       ) => (
         <CustomButton
+          id={id}
           title="Join"
           fontSize="13px"
           width="50px"
@@ -104,11 +102,18 @@ export default function CustomTable({
           '& .MuiCheckbox-root': {
             color: `${'#f7e7be'} !important`,
           },
+          '& .MuiDataGrid-cell': {
+            padding: '0px !important',
+          },
+
         }}
       >
         <DataGrid
           rows={changedRooms}
           columns={columns}
+          disableColumnMenu
+          disableColumnSelector
+          disableRowSelectionOnClick
         />
       </Box>
     </Box>
