@@ -83,6 +83,15 @@ exports.getMessages = async (req, res) => {
   const { id: recipientId } = req.params;
 
   try {
+    const users = await User.findAll({
+      where: {
+        [Op.or]: [
+          { id: senderId },
+          { id: recipientId },
+        ],
+      },
+    });
+
     const messages = await PrivateMessage.findAll({
       where: {
         [Op.or]: [
@@ -90,20 +99,24 @@ exports.getMessages = async (req, res) => {
           { senderId: recipientId, recipientId: senderId },
         ],
       },
-      attributes: ['id', 'text', 'createdAt', 'senderId'],
-      include: { model: User },
     });
 
-    console.log(messages);
+    const allPrivateMessages = [];
 
-    const allPrivateMessages = messages.map((message) => ({
-      id: message.id,
-      text: message.text,
-      time: message.createdAt,
-      user: message.User.login,
-    }));
-
-    console.log(allPrivateMessages);
+    for (let i = 0; i < messages.length; i += 1) {
+      let user;
+      for (let j = 0; j < 2; j += 1) {
+        if (users[j].id === messages[i].senderId) {
+          user = users[j].login;
+        }
+      }
+      allPrivateMessages.push({
+        id: messages[i].id,
+        text: messages[i].text,
+        time: messages[i].createdAt,
+        user,
+      });
+    }
 
     res.json(allPrivateMessages);
   } catch (error) {

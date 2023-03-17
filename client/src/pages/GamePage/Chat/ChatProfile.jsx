@@ -43,7 +43,7 @@ function ChatProfile({ id }) {
       }
       if (socketRef.current) {
         socketRef.current.on('newPrivateMessage', ({ id: ourId, senderId, messageNew }) => {
-          if (user.id === ourId || user.id === senderId) {
+          if (user.userid === ourId || user.userid === senderId) {
             setAllMessages([...allMessages, messageNew]);
           }
         });
@@ -56,10 +56,9 @@ function ChatProfile({ id }) {
     event.preventDefault();
     if (message) {
       socketRef.current.emit('sendPrivateMessage', { id, token, message });
+      setMessage('');
     }
   };
-
-  console.log(allMessages);
 
   return (
     <div className={style.chatDiv}>
@@ -67,13 +66,14 @@ function ChatProfile({ id }) {
         <div className={style.title}>Online-chat</div>
       </div>
       <div ref={scroll} className={style.allMessages}>
-        {allMessages.map((msg) => (msg.text !== '' ? (
-          <Messages key={msg.id} message={msg} />) : ('')))}
+        {allMessages.join()
+          ? (allMessages.map((msg) => (msg.text !== '' ? (
+            <Messages key={msg.id} message={msg} />) : ('')))) : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
       </div>
       <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
         <CustomInput
           className={style.chat__input}
-          value={message.text}
+          value={message}
           name="text"
           onChange={handleChange}
         />

@@ -3,7 +3,6 @@ import style from './css/style.module.css';
 
 function Messages({ message }) {
   const currentTime = new Date(message.time);
-  console.log(currentTime);
   const hours = currentTime.getHours();
   const minutes = currentTime.getMinutes();
   return (
