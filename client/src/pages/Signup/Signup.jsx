@@ -98,7 +98,7 @@ export default function Signup() {
               name="password"
               value={userSignup.password}
               onChange={handleChange}
-              placeholder="Enter your email..."
+              placeholder="Enter your password..."
             />
           </div>
           <div className={alertClass} role="alert">

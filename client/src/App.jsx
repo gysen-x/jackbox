@@ -8,16 +8,17 @@ import Homepage from './pages/Homepage';
 import Topbar from './global/Topbar/Topbar';
 import Signin from './pages/Signin/Signin';
 import Signup from './pages/Signup/Signup';
-import SelectGames from './pages/SelectGames/SelectGames';
-import Choose from './pages/Choose/Choose';
-import Rooms from './pages/Rooms/Rooms';
-import GameSetup from './pages/GameSetup/GameSetup';
+// import SelectGames from './pages/SelectGames/SelectGames';
+// import Choose from './pages/Choose/Choose';
+// import Rooms from './pages/Rooms/Rooms';
+// import Test from './pages/Test/Test';
+// import CustomTable from './components/CustomTable/CustomTable';
+// import GameSetup from './pages/GameSetup/GameSetup';
 import { setUser } from './store/actions';
 import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
-import Test from './pages/Test/Test';
-import CustomTable from './components/CustomTable/CustomTable';
 import VoteGamePage from './pages/GamePage/GameField/VoteGamePage/VoteGamePage';
+import Page404 from './pages/404/Page404';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -55,10 +56,6 @@ function App() {
             {isAuth ? (
               <>
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/games" element={<SelectGames />} />
-                <Route path="/choose" element={<Choose />} />
-                <Route path="/rooms" element={<Rooms />} />
-                <Route path="/games/:id/options" element={<GameSetup />} />
                 <Route path="/rooms/:id" element={<GamePage />} />
               </>
             ) : (
@@ -69,10 +66,8 @@ function App() {
             )}
             <Route index element={<Homepage />} />
             <Route path="gamepage" element={<GamePage />} />
-            <Route path="test" element={<Test />} />
             <Route path="vote" element={<VoteGamePage />} />
-            <Route path="table" element={<CustomTable />} />
-            <Route path="*" element={<div>404</div>} />
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </main>
       </ThemeProvider>

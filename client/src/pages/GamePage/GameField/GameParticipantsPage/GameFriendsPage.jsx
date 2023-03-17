@@ -36,7 +36,7 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
       </div>
       <div className={style.gamefriends__wrapper}>
         {participants.map((participant) => (
-          <div className={style.gamefriends__friend}>
+          <div key={participant.id} className={style.gamefriends__friend}>
             <Avatar alt="Remy Sharp" src={participant.avatar} />
             <h3>{participant.login}</h3>
             <h4>{participant.points}</h4>

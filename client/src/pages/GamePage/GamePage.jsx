@@ -20,7 +20,7 @@ function GamePage() {
     socketRef.current = io(SERVER_URL);
     socketRef.current.emit('connection');
     socketRef.current.on('destroyRoom', ({ id: roomId }) => {
-      if (id === roomId) navigate('/rooms');
+      if (id === roomId) navigate('/');
     });
   }, []);
 
@@ -28,7 +28,7 @@ function GamePage() {
   const handleClick = () => {
     const token = localStorage.getItem('token');
     socketRef.current.emit('disconnectRoom', { id, token });
-    navigate('/rooms');
+    navigate('/');
   };
 
   return (

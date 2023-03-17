@@ -10,7 +10,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 
 const SERVER_URL = 'http://localhost:3000';
 
-export default function Test() {
+export default function MainPage() {
   const [allRooms, setAllRooms] = useState([]);
   const [filtredRooms, setFiltredRooms] = useState([]);
   const [switchModal, setSwitchModal] = useState(false);
