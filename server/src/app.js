@@ -57,8 +57,19 @@ io.on('connection', (socket) => {
   socket.on('enterToRoom', async ({ id, token }) => {
     const { id: userId } = decodeToken(token);
     await Room.increment({ members: 1 }, { where: { id } });
-    await User.update({ status: 'player', roomId: id }, { where: { id: userId } });
-    io.emit('checkEnterToRoom', { id });
+    const userDB = await User.update({ status: 'player', roomId: id }, {
+      where: { id: userId },
+      returning: true,
+      plain: true,
+    });
+    const user = {
+      id: userDB[1].id,
+      login: userDB[1].login,
+      points: userDB[1].points,
+      avatar: userDB[1].avatar,
+    };
+    console.log(user);
+    io.emit('checkEnterToRoom', { id, user });
   });
 
   socket.on('disconnectRoom', async ({ id, token }) => {
@@ -111,4 +122,6 @@ app.use('/games', gameRoute);
 app.use('/rooms', roomRoute);
 app.use('/users', userRoute);
 
-server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });
+server.listen(PORT, () => {
+  console.log(`server started on http://localhost:${PORT}`);
+});

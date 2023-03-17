@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import style from './css/style.module.css';
 import Chat from './Chat/Chat';
 import StartGamePage from './GameField/StartGamePage/StartGamePage';
-import GameFriendsPage from './GameField/GameFriendsPage/GameFriendsPage';
+import GameParticipantsPage from './GameField/GameParticipantsPage/GameFriendsPage';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -33,7 +33,7 @@ function GamePage() {
     <Grid className={style.gamePage} container spacing={2}>
       <Grid item xs>
         <StartGamePage />
-        <GameFriendsPage handleClick={handleClick} />
+        <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
       <Grid item xs={4}>
         <Chat socketRef={socketRef} />
