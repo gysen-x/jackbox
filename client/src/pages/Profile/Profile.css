@@ -1,20 +1,27 @@
 .profile {
   padding-top: 30px;
+  display: flex;
+  height: 80vh;
+}
+
+.bio {
+  display: flex;
+  margin-bottom: 3vh;
 }
 
 .profile-bio {
-  margin-right: 760px;
   margin-top: 10px;
 }
 
 .profile-header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-left: 7vw;
 }
 
 .profile-friens {
-  margin-left: 280px;
-  margin-top: 50px;
+  overflow-y: scroll;
+  /* height: 80vh; */
 }
 
 #change {
@@ -63,4 +70,11 @@
 
 .succesfully-changed {
   color: green;
+}
+
+.chatProfile, .dino {
+  width: 45vw;
+  /* height: ; */
+  margin-left: auto;
+  margin-right: 7vw;
 }

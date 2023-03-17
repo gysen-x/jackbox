@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.css';
 import { Avatar } from '@mui/material';
+import ChromeDinoGame from 'react-chrome-dino';
 // import { useSelector } from 'react-redux';
+import Chat from '../GamePage/Chat/Chat';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -15,6 +17,7 @@ export default function Profile() {
   const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
   const [falseOldPassword, setFalseOldPassword] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   // const id = useSelector((state) => state.user.userid);
 
   console.log(passwords);
@@ -34,7 +37,8 @@ export default function Profile() {
       const { user: newUser, friends: newFriends } = result;
       setUser(result);
       setUser(newUser);
-      setFriends(newFriends);
+      setFriends([...newFriends, ...newFriends, ...newFriends, ...newFriends, ...newFriends,
+        ...newFriends, ...newFriends, ...newFriends]);
     })();
   }, []);
 
@@ -128,6 +132,10 @@ export default function Profile() {
     }
   }
 
+  const hadleShowChat = () => {
+    setShowChat(true);
+  };
+
   return (
     <div className="profile">
       {success
@@ -220,65 +228,77 @@ export default function Profile() {
       />
       )}
       <div className="profile-header">
-        <Avatar
-          alt="Remy Sharp"
-          src={user.avatar}
-          sx={{
-            width: 100, height: 100, marginLeft: 35, marginRight: 3,
-          }}
-        />
-        <div className="profile-bio">
-          <h2>{user.login}</h2>
-          <h2>{user.email}</h2>
-          <CustomButton
-            id="edit"
-            className="edit"
-            title="Edit profile"
-            color="#fe9e84"
-            type="button"
-            handleOnClick={hadleShowEdit}
+        <div className="bio">
+          <Avatar
+            alt="Remy Sharp"
+            src={user.avatar}
+            sx={{
+              width: 100, height: 100, marginRight: 3,
+            }}
           />
-          <CustomButton
-            id="change"
-            className="change"
-            title="Сhange password"
-            color="#fe9e84"
-            type="button"
-            handleOnClick={hadleShowChange}
-          />
+          <div className="profile-bio">
+            <h2>{user.login}</h2>
+            <h2>{user.email}</h2>
+            <CustomButton
+              id="edit"
+              className="edit"
+              title="Edit profile"
+              color="#fe9e84"
+              width={200}
+              type="button"
+              handleOnClick={hadleShowEdit}
+            />
+            <CustomButton
+              id="change"
+              className="change"
+              title="Сhange password"
+              color="#fe9e84"
+              width={200}
+              type="button"
+              handleOnClick={hadleShowChange}
+            />
+          </div>
+        </div>
+        <div className="profile-friens">
+          <h1>My friends</h1>
+          {friends.length === 0 ? "You don't have friends"
+            : (
+              <ul>
+                {friends.map(({ id, login, avatar }) => (
+                  <li className="liFriend" key={id}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={avatar}
+                      sx={{ width: 50, height: 50, marginRight: 1 }}
+                    />
+                    <p>{login}</p>
+                    <img
+                      onPointerDown={() => { hadleShowChat(id); }}
+                      className="chatFriends"
+                      src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
+                      alt="chat"
+                    />
+                    <img
+                      onPointerDown={() => { deleteFriends(id); }}
+                      className="deleteFriends"
+                      src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
+                      alt="delete"
+                    />
+
+                  </li>
+                ))}
+              </ul>
+            )}
         </div>
       </div>
-      <div className="profile-friens">
-        <h1>My friends</h1>
-        {friends.length === 0 ? "You don't have friends"
-          : (
-            <ul>
-              {friends.map(({ id, login, avatar }) => (
-                <li className="liFriend" key={id}>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src={avatar}
-                    sx={{ width: 50, height: 50, marginRight: 1 }}
-                  />
-                  <p>{login}</p>
-                  <img
-                    onPointerDown={() => { console.log('chat'); }}
-                    className="chatFriends"
-                    src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
-                    alt="chat"
-                  />
-                  <img
-                    onPointerDown={() => { deleteFriends(id); }}
-                    className="deleteFriends"
-                    src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
-                    alt="delete"
-                  />
-
-                </li>
-              ))}
-            </ul>
-          )}
-      </div>
+      {showChat
+        && (
+          <div className="chatProfile">
+            <Chat />
+          </div>
+        ) }
+      {!showChat
+        && (<div className="dino"><ChromeDinoGame /></div>)}
     </div>
   );
 }
