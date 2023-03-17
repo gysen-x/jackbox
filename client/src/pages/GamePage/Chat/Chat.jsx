@@ -5,14 +5,15 @@ import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
 
-function Chat() {
+function Chat({ socketRef }) {
+  console.log('socketRef: ', socketRef.current);
   // +user
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
 
   const scroll = useRef(null);
   const { id } = useParams();
-  console.log(id);
+  const token = localStorage.getItem('token');
 
   // const socketRef = useRef(null);
   const handleChange = (event) => {
@@ -30,27 +31,25 @@ function Chat() {
   }, []);
   //= ===============================
 
-  useEffect(
-    () => {
-      if (scroll.current) {
-        scroll.current.scrollTop = scroll.current.scrollHeight;
-      }
-    },
-    [allMessages],
-  );
+  useEffect(() => {
+    if (scroll.current) {
+      scroll.current.scrollTop = scroll.current.scrollHeight;
+    }
+    if (socketRef.current) {
+      socketRef.current.on('newMessage', ({ id: roomId, messageNew }) => {
+        if (id === roomId) {
+          setAllMessages([...allMessages, messageNew]);
+        }
+      });
+    }
+  }, [allMessages]);
 
   const onSubmitHandle = (event) => {
     event.preventDefault();
-    if (message.text !== '') {
-      setAllMessages([...allMessages, {
-        id: 1, text: message, user: 'admin', time: new Date(),
-      }]);
-      setMessage({ text: '' });
+    if (message) {
+      socketRef.current.emit('sendMessage', { id, token, message });
     }
   };
-
-  console.log(allMessages);
-
   return (
     <div className={style.chatDiv}>
       <div className={style.header}>
