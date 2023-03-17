@@ -10,15 +10,11 @@ function Chat() {
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
 
-  const currentTime = new Date(Date.now());
-  const hours = currentTime.getHours();
-  const minutes = currentTime.getMinutes();
-
   const scroll = useRef(null);
   const { id } = useParams();
   console.log(id);
 
-  const socketRef = useRef(null);
+  // const socketRef = useRef(null);
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
