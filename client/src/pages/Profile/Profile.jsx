@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ChromeDinoGame from 'react-chrome-dino';
 import './Profile.css';
 import { Avatar } from '@mui/material';
+import ChromeDinoGame from 'react-chrome-dino';
 // import { useSelector } from 'react-redux';
 import Chat from '../GamePage/Chat/Chat';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -138,7 +138,6 @@ export default function Profile() {
 
   return (
     <div className="profile">
-      <ChromeDinoGame />
       {success
       && (
       <CustomModal
@@ -294,10 +293,12 @@ export default function Profile() {
       </div>
       {showChat
         && (
-        <div className="chatProfile">
-          <Chat />
-        </div>
-        )}
+          <div className="chatProfile">
+            <Chat />
+          </div>
+        ) }
+      {!showChat
+        && (<div className="dino"><ChromeDinoGame /></div>)}
     </div>
   );
 }

@@ -72,7 +72,7 @@
   color: green;
 }
 
-.chatProfile {
+.chatProfile, .dino {
   width: 45vw;
   /* height: ; */
   margin-left: auto;
