@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-import SelectGames from './SelectGames';
 import GameSetup from './GameSetup';
 import CustomTable from '../../components/CustomTable/CustomTable';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -99,9 +98,9 @@ export default function Test() {
   };
 
   return (
-    <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
-      <Box gridColumn="span 6">
-        <h1>Table title</h1>
+    <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(500px, auto))" justifyContent="center">
+      <Box className="contentWrapper">
+        <h1 className="homepageH1">ROOMS</h1>
         <CustomInput
           title={findTitle}
           className="form-control"
@@ -111,7 +110,6 @@ export default function Test() {
           onChange={handleFindChange}
           placeholder="Enter room name..."
         />
-        <br />
         <CustomTable
           allRooms={allRooms}
           filtredRooms={filtredRooms}
@@ -119,9 +117,8 @@ export default function Test() {
           handleClick={handleClick}
         />
       </Box>
-      <Box gridColumn="span 4">
+      <Box>
         <GameSetup />
-        <SelectGames />
       </Box>
       {switchModal
                 && (

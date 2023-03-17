@@ -4,6 +4,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import LockIcon from '@mui/icons-material/Lock';
 import CustomButton from '../CustomButton/CustomButton';
 
+// client/node_modules/@mui/x-data-grid/models/colDef/gridColDef.d.ts  пропсы для columns
+// client/node_modules/@mui/x-data-grid/models/props/DataGridProps.d.ts пропсы для DataGrid
+
 export default function CustomTable({
   allRooms, filtredRooms, handlePrivate, handleClick,
 }) {
@@ -19,26 +22,29 @@ export default function CustomTable({
 
   const columns = [
     {
-      field: 'id', headerName: '#', flex: 1,
+      field: 'id', headerName: '#', width: 20, sortable: false, disableColumnMenu: true,
     }, // column won't grow
     {
-      field: 'name', headerName: 'Room', flex: 1, cellClassName: 'name-column--cell',
+      field: 'name', headerName: 'Room', cellClassName: 'name-column--cell',
     }, // column will grow
     {
-      field: 'gameName', headerName: 'Game', flex: 1,
+      field: 'gameName', headerName: 'Game', width: 120,
     }, // column will grow
     {
       field: 'members',
       headerName: 'Members',
-      flex: 1,
+      width: 20,
+      disableColumnMenu: true,
       renderCell: ({ row: { members, maxPlayers } }) => (
         `${members}/${maxPlayers}`
       ),
     },
     {
       field: 'isPassword',
-      headerName: 'Private',
-      flex: 1,
+      headerName: '',
+      width: 20,
+      sortable: false,
+      disableColumnMenu: true,
       renderCell: (
         { row: { isPassword } },
       ) => (
@@ -48,14 +54,16 @@ export default function CustomTable({
     {
       field: 'button',
       headerName: '',
-      flex: 1,
+      width: 70,
+      sortable: false,
       renderCell: (
         { row: { isPassword } },
       ) => (
         <CustomButton
-          title="Button"
+          title="Join"
           fontSize="13px"
-          size={['70px', '10px']}
+          width="50px"
+          height="30px"
           handleOnClick={isPassword ? handlePrivate : handleClick}
         />
       ),
@@ -63,10 +71,10 @@ export default function CustomTable({
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <Box
-        m="40px 0 0 0"
-        height="75vh"
+        height="500px"
+        width="auto"
         sx={{
           '& .MuiDataGrid-root': {
             borderRadius: '20px',
@@ -83,9 +91,11 @@ export default function CustomTable({
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: '#f7e7be',
             borderBottom: 'none',
+            width: 'auto',
           },
           '& .MuiDataGrid-virtualScroller': {
             backgroundColor: '#009f92',
+            width: 'auto',
           },
           '& .MuiDataGrid-footerContainer': {
             borderTop: 'none',
