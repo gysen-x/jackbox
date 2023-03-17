@@ -75,7 +75,9 @@ export default function MainPage() {
 
     if (!finded.join()) {
       setFindTitle('Room not found');
-    } else { setFindTitle('Find room'); }
+    } else {
+      setFindTitle('Find room');
+    }
 
     setFiltredRooms(finded);
   };

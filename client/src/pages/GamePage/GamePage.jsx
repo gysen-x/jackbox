@@ -22,6 +22,10 @@ function GamePage() {
     socketRef.current.on('destroyRoom', ({ id: roomId }) => {
       if (id === roomId) navigate('/');
     });
+    return function disconnect() {
+      const token = localStorage.getItem('token');
+      socketRef.current.emit('disconnectRoom', { id, token });
+    };
   }, []);
 
   // На выход из комнаты
