@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
     } else if (user.status === 'player') {
       await User.update({ status: null, roomId: null }, { where: { id: userId } });
       await Room.increment({ members: -1 }, { where: { id } });
-      io.emit('playerQuitRoom', { id });
+      io.emit('playerQuitRoom', { id, userId });
     }
   });
 
