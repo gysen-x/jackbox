@@ -3,8 +3,9 @@
   border: 2px solid #000;
   padding: 1rem;
   font-size: 1rem;
-  width: 20em;
-  border-radius: 1rem;
+  width: 290px;
+  height: 50px;
+  border-radius: 0.75em;
   color: lightcoral;
   box-shadow: 0 0.4rem #000;
   cursor: pointer;
