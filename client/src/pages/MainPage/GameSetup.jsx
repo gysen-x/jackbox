@@ -33,33 +33,6 @@ export default function GameSetup() {
       .catch((error) => console.log(error));
   }, []);
 
-  // const handleCreateGame = () => {
-  //   if (formData.name.length > 3 && formData.name.length < 11) {
-  //     const { name, password } = formData;
-  //     const response = fetch('/rooms', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ name, password, gameId: 1 }),
-  //     });
-  //     response
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         if (data.fail) {
-  //           setAlertMessage('fail');
-  //           setSwitchModal(true);
-  //         } else {
-  //           // socketRef.current = io(SERVER_URL);
-  //           socketRef.current.emit('addRoom');
-  //           // navigate('/rooms');
-  //         }
-  //       })
-  //       .catch((error) => console.log(error));
-  //   } else {
-  //     setAlertMessage('name length min 4 and max 10');
-  //     setSwitchModal(true);
-  //   }
-  // };
-
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
       const { name, password } = formData;
