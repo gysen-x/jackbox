@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
+import { useSelector } from 'react-redux';
 import style from './css/style.module.css';
 import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
@@ -8,6 +9,8 @@ import CustomInput from '../../../components/CustomInput/CustomInput';
 const SERVER_URL = 'http://localhost:3000';
 
 function ChatProfile({ id }) {
+  const user = useSelector((store) => store.user);
+  const token = localStorage.getItem('token');
   const socketRef = useRef(null);
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
@@ -19,7 +22,8 @@ function ChatProfile({ id }) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    socketRef.current = io(SERVER_URL);
+    socketRef.current.emit('connection');
     fetch(
       `/users/${id}/messages`,
       {
@@ -30,12 +34,19 @@ function ChatProfile({ id }) {
     ).then((res) => res.json())
       .then((data) => setAllMessages(data))
       .catch((error) => console.log(error));
-  }, []);
+  }, [id]);
 
   useEffect(
     () => {
       if (scroll.current) {
         scroll.current.scrollTop = scroll.current.scrollHeight;
+      }
+      if (socketRef.current) {
+        socketRef.current.on('newPrivateMessage', ({ id: ourId, senderId, messageNew }) => {
+          if (user.id === ourId || user.id === senderId) {
+            setAllMessages([...allMessages, messageNew]);
+          }
+        });
       }
     },
     [allMessages],
@@ -43,11 +54,8 @@ function ChatProfile({ id }) {
 
   const onSubmitHandle = (event) => {
     event.preventDefault();
-    if (message.text !== '') {
-      setAllMessages([...allMessages, {
-        id: 1, text: message, user: 'admin', time: new Date(),
-      }]);
-      setMessage({ text: '' });
+    if (message) {
+      socketRef.current.emit('sendPrivateMessage', { id, token, message });
     }
   };
 

@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const {
-  User, GameSession, Room, AllGames, Message,
+  User, PrivateMessage, Room, AllGames, Message,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -99,6 +99,21 @@ io.on('connection', (socket) => {
     };
 
     io.emit('newMessage', { id, messageNew });
+  });
+
+  socket.on('sendPrivateMessage', async ({ id, token, message }) => {
+    const { id: senderId } = decodeToken(token);
+    const messageDB = await PrivateMessage.create({ senderId, recipientId: id, text: message });
+    const user = await User.findByPk(senderId);
+
+    const messageNew = {
+      id: messageDB.id,
+      text: messageDB.text,
+      time: messageDB.createdAt,
+      user: user.login,
+    };
+
+    io.emit('newPrivateMessage', { id, senderId, messageNew });
   });
 
   io.on('disconnect', () => {

@@ -3,7 +3,7 @@ import './Profile.css';
 import { Avatar } from '@mui/material';
 import ChromeDinoGame from 'react-chrome-dino';
 // import { useSelector } from 'react-redux';
-import Chat from '../GamePage/Chat/Chat';
+import ChatProfile from '../GamePage/Chat/ChatProfile';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -17,10 +17,9 @@ export default function Profile() {
   const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
   const [falseOldPassword, setFalseOldPassword] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [friendId, setFriendId] = useState(null);
   const [showChat, setShowChat] = useState(false);
   // const id = useSelector((state) => state.user.userid);
-
-  console.log(passwords);
 
   useEffect(() => {
     (async () => {
@@ -37,8 +36,7 @@ export default function Profile() {
       const { user: newUser, friends: newFriends } = result;
       setUser(result);
       setUser(newUser);
-      setFriends([...newFriends, ...newFriends, ...newFriends, ...newFriends, ...newFriends,
-        ...newFriends, ...newFriends, ...newFriends]);
+      setFriends(newFriends);
     })();
   }, []);
 
@@ -52,10 +50,8 @@ export default function Profile() {
       },
       body: JSON.stringify({ id }),
     });
-    console.log('-----------------------------------', response);
     if (response.status === 200) {
       const refreshFriends = friends.filter((friend) => friend.id !== id);
-      console.log('1111---------', refreshFriends);
       setFriends(refreshFriends);
     }
   }
@@ -132,7 +128,8 @@ export default function Profile() {
     }
   }
 
-  const hadleShowChat = () => {
+  const hadleShowChat = (id) => {
+    setFriendId(id);
     setShowChat(true);
   };
 
@@ -294,7 +291,7 @@ export default function Profile() {
       {showChat
         && (
           <div className="chatProfile">
-            <Chat />
+            <ChatProfile id={friendId} />
           </div>
         ) }
       {!showChat

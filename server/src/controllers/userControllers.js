@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 
-const { User, Friendship } = require('../../db/models');
+const { User, Friendship, PrivateMessage } = require('../../db/models');
 
 const { decodeToken } = require('./lib/jwt');
 
@@ -72,5 +73,41 @@ exports.changeUserPassword = async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(401);
+  }
+};
+
+exports.getMessages = async (req, res) => {
+  const oldToken = req.headers.authentication.split(' ')[1];
+  const decoded = decodeToken(oldToken);
+  const { id: senderId } = decoded;
+  const { id: recipientId } = req.params;
+
+  try {
+    const messages = await PrivateMessage.findAll({
+      where: {
+        [Op.or]: [
+          { senderId, recipientId },
+          { senderId: recipientId, recipientId: senderId },
+        ],
+      },
+      attributes: ['id', 'text', 'createdAt', 'senderId'],
+      include: { model: User },
+    });
+
+    console.log(messages);
+
+    const allPrivateMessages = messages.map((message) => ({
+      id: message.id,
+      text: message.text,
+      time: message.createdAt,
+      user: message.User.login,
+    }));
+
+    console.log(allPrivateMessages);
+
+    res.json(allPrivateMessages);
+  } catch (error) {
+    console.log(error);
+    res.json({ fail: 'fail' });
   }
 };
