@@ -17,6 +17,7 @@ import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
 import Test from './pages/Test/Test';
 import CustomTable from './components/CustomTable/CustomTable';
+import VoteGamePage from './pages/GamePage/GameField/VoteGamePage/VoteGamePage';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -69,6 +70,7 @@ function App() {
             <Route index element={<Homepage />} />
             <Route path="gamepage" element={<GamePage />} />
             <Route path="test" element={<Test />} />
+            <Route path="vote" element={<VoteGamePage />} />
             <Route path="table" element={<CustomTable />} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
