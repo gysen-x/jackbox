@@ -1,0 +1,21 @@
+.voteGamePage__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.voteGamePage__wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.voteGamePage__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  background-color: #f7e7be;
+  border-radius: 0.75em;
+  border: 2px solid #000;
+}
