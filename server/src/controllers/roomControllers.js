@@ -52,7 +52,7 @@ exports.createRoom = async (req, res) => {
 exports.checkPass = async (req, res) => {
   const { id, password } = req.body;
   try {
-    const room = Room.findByPk(id);
+    const room = await Room.findByPk(id);
     if (room.password === password) {
       res.sendStatus(200);
     } else {

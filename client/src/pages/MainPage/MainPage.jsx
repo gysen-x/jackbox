@@ -66,14 +66,6 @@ export default function MainPage() {
     });
   }, [allRooms]);
 
-  // redirect user to actual room
-  const handleClick = (event) => {
-    const { id } = event.currentTarget.dataset;
-    const token = localStorage.getItem('token');
-    socketRef.current.emit('enterToRoom', { id, token });
-    navigate(`/rooms/${id}`);
-  };
-
   // search room by name
   const handleFindChange = (event) => {
     const finded = allRooms
@@ -95,15 +87,32 @@ export default function MainPage() {
     setRoomId(Number(currentRoomId));
   };
 
+  // redirect user to actual room
+  const handleClick = (event) => {
+    const { id } = event.currentTarget.dataset;
+    const token = localStorage.getItem('token');
+    socketRef.current.emit('enterToRoom', { id, token });
+    navigate(`/rooms/${id}`);
+  };
+
   // checking password to enter the room
   const handleCheckPass = (event) => {
     event.preventDefault();
-    // fetch('/rooms/checkpass', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({id: roomId, password: formData}), //id room
-    // })
-    alert(`id: ${roomId}, password: ${formData}`);
+    const response = fetch('/rooms/checkpass', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: roomId, password: formData }), // id room
+    });
+    response.then((res) => {
+      if (res.status === 200) {
+        const token = localStorage.getItem('token');
+        socketRef.current.emit('enterToRoom', { id: roomId, token });
+        navigate(`/rooms/${roomId}`);
+      }
+      if (res.status === 401) {
+        alert('wrong password');
+      }
+    });
   };
 
   // getting password from modal window

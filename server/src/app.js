@@ -68,7 +68,6 @@ io.on('connection', (socket) => {
       points: userDB[1].points,
       avatar: userDB[1].avatar,
     };
-    console.log(user);
     io.emit('checkEnterToRoom', { id, user });
   });
 
