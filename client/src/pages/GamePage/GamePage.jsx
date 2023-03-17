@@ -4,7 +4,9 @@ import { Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import style from './css/style.module.css';
 import Chat from './Chat/Chat';
-import StartGamePage from './GameField/StartGamePage/StartGamePage';
+// import StartGamePage from './GameField/StartGamePage/StartGamePage';
+// import VoteGamePage from './GameField/VoteGamePage/VoteGamePage';
+import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import GameParticipantsPage from './GameField/GameParticipantsPage/GameFriendsPage';
 
 const SERVER_URL = 'http://localhost:3000';
@@ -32,7 +34,7 @@ function GamePage() {
   return (
     <Grid className={style.gamePage} container spacing={2}>
       <Grid item xs>
-        <StartGamePage />
+        <ResultsGamePage />
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
       <Grid item xs={4}>
