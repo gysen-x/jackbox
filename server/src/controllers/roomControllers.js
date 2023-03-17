@@ -64,9 +64,7 @@ exports.checkPass = async (req, res) => {
 };
 
 exports.getRoomsMessages = async (req, res) => {
-  console.log('req.params', req.params);
   const { id } = req.params;
-  console.log('id', id);
   try {
     const messagesAndUsers = await Message.findAll({
       where: { roomId: id },
@@ -79,6 +77,16 @@ exports.getRoomsMessages = async (req, res) => {
       user: message.User.login,
     }));
     res.json(allMessages);
+  } catch (error) {
+    res.sendStatus(401);
+  }
+};
+
+exports.getParticipants = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const participants = await User.findAll({ where: { roomId: id }, attributes: ['id', 'login', 'avatar'] });
+    res.json(participants);
   } catch (error) {
     res.sendStatus(401);
   }
