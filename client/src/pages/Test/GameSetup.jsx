@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import './GameSetup.css';
 import './SelectGames.css';
 
+const SERVER_URL = 'http://localhost:3000';
+
 export default function GameSetup() {
   // const [switchButton, setSwitchButton] = useState(false);
   const [switchModal, setSwitchModal] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [allGames, setAllGames] = useState([]);
-  const [formData, setFormData] = useState({ name: '', password: '' });
-  // const { id: gameId } = useParams();
-  // const navigate = useNavigate();
+  const [formData, setFormData] = useState({ name: '', password: '', gameId: 1 });
+  const navigate = useNavigate();
   const socketRef = useRef(null);
 
   // const handleSwitch = () => {
@@ -77,9 +78,9 @@ export default function GameSetup() {
             setAlertMessage('fail');
             setSwitchModal(true);
           } else {
-            // socketRef.current = io(SERVER_URL);
+            socketRef.current = io(SERVER_URL);
             socketRef.current.emit('addRoom');
-            // navigate(`/rooms/${data.id}`);
+            navigate(`/rooms/${data.id}`);
           }
         })
         .catch((error) => console.log(error));
