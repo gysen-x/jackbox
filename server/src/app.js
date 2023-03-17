@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const {
-  User, GameSession, Room, AllGames,
+  User, GameSession, Room, AllGames, Message,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -73,6 +73,21 @@ io.on('connection', (socket) => {
       await Room.increment({ members: -1 }, { where: { id } });
       io.emit('playerQuitRoom', { id });
     }
+  });
+
+  socket.on('sendMessage', async ({ id, token, message }) => {
+    const { id: userId } = decodeToken(token);
+    const messageDB = await Message.create({ roomId: id, userId, text: message });
+    const user = await User.findByPk(userId);
+
+    const messageNew = {
+      id: messageDB.id,
+      text: messageDB.text,
+      time: messageDB.createdAt,
+      user: user.login,
+    };
+
+    io.emit('newMessage', { id, messageNew });
   });
 
   io.on('disconnect', () => {

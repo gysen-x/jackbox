@@ -36,7 +36,7 @@ function GamePage() {
         <GameFriendsPage handleClick={handleClick} />
       </Grid>
       <Grid item xs={4}>
-        <Chat />
+        <Chat socketRef={socketRef} />
       </Grid>
     </Grid>
   );
