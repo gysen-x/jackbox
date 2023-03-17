@@ -33,6 +33,14 @@ module.exports = {
       avatar: {
         type: Sequelize.TEXT,
       },
+      roomId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rooms',
+          key: 'id',
+        },
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

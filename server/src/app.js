@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const {
-  User, GameSession, Room, AllGames,
+  User, GameSession, Room, AllGames, Message,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -57,8 +57,48 @@ io.on('connection', (socket) => {
   socket.on('enterToRoom', async ({ id, token }) => {
     const { id: userId } = decodeToken(token);
     await Room.increment({ members: 1 }, { where: { id } });
-    await User.update({ roomId: id }, { where: { id: userId } });
-    io.emit('checkEnterToRoom', { id });
+    const userDB = await User.update({ status: 'player', roomId: id }, {
+      where: { id: userId },
+      returning: true,
+      plain: true,
+    });
+    const user = {
+      id: userDB[1].id,
+      login: userDB[1].login,
+      points: userDB[1].points,
+      avatar: userDB[1].avatar,
+    };
+    console.log(user);
+    io.emit('checkEnterToRoom', { id, user });
+  });
+
+  socket.on('disconnectRoom', async ({ id, token }) => {
+    const { id: userId } = decodeToken(token);
+    const user = await User.findByPk(userId);
+    if (user.status === 'admin') {
+      await User.update({ status: null, roomId: null }, { where: { roomId: id } });
+      await Room.destroy({ where: { id } });
+      io.emit('destroyRoom', { id });
+    } else if (user.status === 'player') {
+      await User.update({ status: null, roomId: null }, { where: { id: userId } });
+      await Room.increment({ members: -1 }, { where: { id } });
+      io.emit('playerQuitRoom', { id });
+    }
+  });
+
+  socket.on('sendMessage', async ({ id, token, message }) => {
+    const { id: userId } = decodeToken(token);
+    const messageDB = await Message.create({ roomId: id, userId, text: message });
+    const user = await User.findByPk(userId);
+
+    const messageNew = {
+      id: messageDB.id,
+      text: messageDB.text,
+      time: messageDB.createdAt,
+      user: user.login,
+    };
+
+    io.emit('newMessage', { id, messageNew });
   });
 
   io.on('disconnect', () => {
@@ -82,4 +122,6 @@ app.use('/games', gameRoute);
 app.use('/rooms', roomRoute);
 app.use('/users', userRoute);
 
-server.listen(PORT, () => { console.log(`server started on http://localhost:${PORT}`); });
+server.listen(PORT, () => {
+  console.log(`server started on http://localhost:${PORT}`);
+});
