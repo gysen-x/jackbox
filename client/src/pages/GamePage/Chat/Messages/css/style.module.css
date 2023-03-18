@@ -7,7 +7,7 @@
 }
 
 .eachMessage {
-    background-color: #141b2d !important;
+    background-color: #f0f8ff4d !important;
     margin: 7px;
     padding: 5px;
     border-radius: 5px;
@@ -20,7 +20,7 @@
 .time {
     display: flex;
     justify-content: center;
-    background-color: #141b2d !important;
+    background-color: #f0f8ff4d !important;
     margin: 7px;
     padding: 5px;
     border-radius: 5px;

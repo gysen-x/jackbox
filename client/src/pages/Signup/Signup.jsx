@@ -7,6 +7,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 
 import style from './style.module.css';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 export default function Signup() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function Signup() {
 
   const [userSignup, setUserSignup] = useState({ login: '', email: '', password: '' });
   const [errorSignup, setErrorSignup] = useState('');
-  const [alertClass, setAlertClass] = useState('d-none');
+  const [openTooltipSignup, setTooltipSignup] = useState(false);
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -24,29 +25,34 @@ export default function Signup() {
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/auth/signup ', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userSignup),
-      });
-      console.log('response: ', response);
-      if (response.status !== 200) {
-        const data = await response.json();
-        setErrorSignup(capitalize(data.errMsg));
-        setAlertClass('alert alert-danger');
-      } else {
-        const result = await response.json();
-        const { user, token } = result;
-        localStorage.setItem('token', token);
-        dispatch(setUser(user));
-        setAlertClass('alert alert-success');
-        setErrorSignup("Well done! You're logged in!");
-        navigate('/');
+    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (userSignup.email.match(emailValidation)) {
+      try {
+        const response = await fetch('http://localhost:3000/auth/signup ', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userSignup),
+        });
+        if (response.status !== 200) {
+          const data = await response.json();
+          setErrorSignup(capitalize(data.errMsg));
+          setTooltipSignup(true);
+        } else {
+          const result = await response.json();
+          const { user, token } = result;
+          localStorage.setItem('token', token);
+          dispatch(setUser(user));
+          navigate('/');
+        }
+        setUserSignup({ login: '', email: '', password: '' });
+      } catch (error) {
+        console.log('error: ', error);
+        setErrorSignup('Fail. Try later.');
+        setTooltipSignup(true);
       }
-      setUserSignup({ login: '', email: '', password: '' });
-    } catch (error) {
-      console.log('error: ', error);
+    } else {
+      setErrorSignup('Incorrect email');
+      setTooltipSignup(true);
     }
   };
 
@@ -74,35 +80,37 @@ export default function Signup() {
             onChange={handleChange}
             placeholder="Enter your name..."
           />
-          <CustomInput
-            className="input"
-            title="Email"
-            type="email"
-            name="email"
-            value={userSignup.email}
-            onChange={handleChange}
-            placeholder="Enter your email..."
+          <CustomTooltip
+            message={errorSignup}
+            openTooltip={openTooltipSignup}
+            setOpenTooltip={setTooltipSignup}
+            inner={(
+              <CustomInput
+                className="input"
+                title="Email"
+                type="text"
+                name="email"
+                value={userSignup.email}
+                onChange={handleChange}
+                placeholder="Enter your email..."
+              />
+        )}
           />
 
+          <CustomInput
+            title="Password"
+            className="input"
+            type="password"
+            name="password"
+            value={userSignup.password}
+            onChange={handleChange}
+            placeholder="Enter your password..."
+          />
           <div
             id="emailHelp"
             className="form-text"
           >
             We&apos;ll never share email with anyone.
-          </div>
-          <div className="mb-3">
-
-            <CustomInput
-              className="input"
-              type="password"
-              name="password"
-              value={userSignup.password}
-              onChange={handleChange}
-              placeholder="Enter your password..."
-            />
-          </div>
-          <div className={alertClass} role="alert">
-            {errorSignup}
           </div>
           <CustomButton
             className={style.form__button}
