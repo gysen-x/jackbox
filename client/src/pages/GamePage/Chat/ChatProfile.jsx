@@ -8,7 +8,7 @@ import CustomInput from '../../../components/CustomInput/CustomInput';
 
 const SERVER_URL = 'http://localhost:3000';
 
-function ChatProfile({ id }) {
+function ChatProfile({ id, name, hadleCloseChat }) {
   const user = useSelector((store) => store.user);
   const token = localStorage.getItem('token');
   const socketRef = useRef(null);
@@ -63,7 +63,17 @@ function ChatProfile({ id }) {
   return (
     <div className={style.chatDiv}>
       <div className={style.header}>
-        <div className={style.title}>Online-chat</div>
+        <div className={style.title}>
+          Chat with:
+          {' '}
+          {name}
+          <img
+            onPointerDown={() => { hadleCloseChat(); }}
+            className={style.closeChat}
+            src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
+            alt="delete"
+          />
+        </div>
       </div>
       <div ref={scroll} className={style.allMessages}>
         {allMessages.join()
