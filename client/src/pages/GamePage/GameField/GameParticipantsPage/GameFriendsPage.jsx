@@ -20,9 +20,14 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.on('checkEnterToRoom', ({ id: roomId, user }) => {
-        console.log('user', user);
         if (id === roomId) {
           setParticipants([...participants, user]);
+        }
+      });
+      socketRef.current.on('playerQuitRoom', ({ id: roomId, userId }) => {
+        if (id === roomId) {
+          const filtredParticipants = participants.filter((participant) => participant.id !== userId);
+          setParticipants(filtredParticipants);
         }
       });
     }
