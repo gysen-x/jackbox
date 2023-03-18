@@ -8,6 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      roomId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rooms',
+          key: 'id',
+        },
+      },
       playerId1: {
         type: Sequelize.INTEGER,
         references: {

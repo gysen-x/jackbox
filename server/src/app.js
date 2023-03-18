@@ -5,10 +5,11 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
+const { Op } = require('sequelize');
 const { makePairsWithPunches } = require('./lib/functions');
 
 const {
-  User, PrivateMessage, Room, AllGames, Message, Setup,
+  User, PrivateMessage, Room, AllGames, Message, Setup, AnswersAndPairs,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -130,6 +131,13 @@ io.on('connection', (socket) => {
         const allPunchesDB = await Setup.findAll();
         const textPunches = allPunchesDB.map((el) => el.body);
         const data = makePairsWithPunches(usersIds, textPunches);
+        const dataForDB = data.map((el) => ({
+          roomId,
+          playerId1: el.pairs[0],
+          playerId2: el.pairs[1],
+          setup: el.punch,
+        }));
+        await AnswersAndPairs.bulkCreate(dataForDB);
         io.emit('everybodyReady', { roomId, data });
       }, 1500);
     } else {
@@ -137,23 +145,43 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('pushAnswer', async ({ punchInput, token, roomId }) => {
+  socket.on('pushAnswer', async ({ punch, token, roomId }) => {
     const { id: userId } = decodeToken(token);
-    await User.update({ ready: true }, { where: { id: userId } });
-    const usersInThisRoom = await User.findAll({ where: { roomId } });
-    const everybodyReady = usersInThisRoom.every((el) => el.ready === true);
-    if (usersInThisRoom.length === 2 && everybodyReady) {
-      io.emit('playerReady', { roomId, userId });
-      setTimeout(async () => {
-        User.update({ ready: false }, { where: { roomId } });
-        const usersIds = usersInThisRoom.map((el) => el.id);
-        const allPunchesDB = await Setup.findAll();
-        const textPunches = allPunchesDB.map((el) => el.body);
-        const data = makePairsWithPunches(usersIds, textPunches);
-        io.emit('everybodyReady', { roomId, data });
-      }, 1500);
+    const ourPair = await AnswersAndPairs.findOne({
+      where: {
+        [Op.or]: [
+          { playerId1: userId },
+          { playerId2: userId },
+        ],
+      },
+    });
+    if (userId === ourPair.playerId1) {
+      await AnswersAndPairs.update(
+        { punchPlayer1: punch },
+        { where: { roomId, playerId1: userId } },
+      );
     } else {
-      io.emit('playerReady', { roomId, userId });
+      await AnswersAndPairs.update(
+        { punchPlayer2: punch },
+        { where: { roomId, playerId2: userId } },
+      );
+    }
+    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    const isEverybodyAnswers = allPairs.every((el) => el.punchPlayer1 && el.punchPlayer2);
+    if (isEverybodyAnswers) {
+      const fisrtVote = allPairs[0];
+      const firstVoteData = {
+        setup: fisrtVote.setup,
+        first: {
+          id: fisrtVote.playerId1,
+          punch: fisrtVote.punchPlayer1,
+        },
+        second: {
+          id: fisrtVote.playerId2,
+          punch: fisrtVote.punchPlayer2,
+        },
+      };
+      io.emit('everybodyAnswers', { roomId, firstVoteData });
     }
   });
 

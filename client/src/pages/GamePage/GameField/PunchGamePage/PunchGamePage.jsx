@@ -18,7 +18,7 @@ export default function PunchGamePage({
     const token = localStorage.getItem('token');
     const timer = setTimeout(() => {
       console.log('timer is working: ', token);
-      socketRef.current.emit('pushAnswer', ({ punchInput, token, roomId }));
+      socketRef.current.emit('pushAnswer', ({ punch: punchInput || 'no answer', token, roomId }));
     }, 30000);
     setTimeoutId(timer);
   }, []);
@@ -33,7 +33,7 @@ export default function PunchGamePage({
     setTimeoutId(null);
     const token = localStorage.getItem('token');
     setWaiting(true);
-    socketRef.current.emit('pushAnswer', ({ punchInput, token, roomId }));
+    socketRef.current.emit('pushAnswer', ({ punch: punchInput, token, roomId }));
   };
 
   return (

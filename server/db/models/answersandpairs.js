@@ -12,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: 'playerId1' });
       this.belongsTo(models.User, { foreignKey: 'playerId2' });
+      this.belongsTo(models.Room, { foreignKey: 'roomId' });
     }
   }
 
   AnswersAndPairs.init({
+    roomId: DataTypes.INTEGER,
     playerId1: DataTypes.INTEGER,
     playerId2: DataTypes.INTEGER,
     setup: DataTypes.STRING,

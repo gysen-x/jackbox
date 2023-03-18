@@ -43,6 +43,14 @@ function GamePage() {
       }
     });
 
+    socketRef.current.on('everybodyAnswers', ({ roomId, firstVoteData }) => {
+      if (id === roomId) {
+        console.log(firstVoteData);
+        setStatus('everybodyAnswers');
+        setTimeout(() => setStatus('voting'), 1500);
+      }
+    });
+
     return function disconnect() {
       const token = localStorage.getItem('token');
       socketRef.current.emit('disconnectRoom', { id, token });
@@ -70,6 +78,7 @@ function GamePage() {
         />
         )}
         {status === 'waiting' && <WaitingGamepage />}
+        {status === 'everybodyAnswers' && <p>Все ответили</p>}
         {status === 'voting' && <VoteGamePage />}
         {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
