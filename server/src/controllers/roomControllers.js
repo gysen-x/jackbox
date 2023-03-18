@@ -85,7 +85,7 @@ exports.getRoomsMessages = async (req, res) => {
 exports.getParticipants = async (req, res) => {
   const { id } = req.params;
   try {
-    const participants = await User.findAll({ where: { roomId: id }, attributes: ['id', 'login', 'avatar'] });
+    const participants = await User.findAll({ where: { roomId: id }, attributes: ['id', 'login', 'avatar', 'ready'] });
     res.json(participants);
   } catch (error) {
     res.sendStatus(401);

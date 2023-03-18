@@ -20,17 +20,21 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.on('checkEnterToRoom', ({ id: roomId, user }) => {
-        if (id === roomId) {
+        if (Number(id) === Number(roomId)) {
           setParticipants([...participants, user]);
         }
       });
+
       socketRef.current.on('playerQuitRoom', ({ id: roomId, userId }) => {
         if (id === roomId) {
-          const filtredParticipants = participants.filter((participant) => participant.id !== userId);
+          const filtredParticipants = participants.filter(
+            (participant) => participant.id !== userId,
+          );
           setParticipants(filtredParticipants);
         }
       });
-      socketRef.current.on('playerReady', ({ id: roomId, userId }) => {
+
+      socketRef.current.on('playerReady', ({ roomId, userId }) => {
         if (id === roomId) {
           const readyParticipants = participants.map((participant) => {
             if (participant.id === userId) {
@@ -42,6 +46,13 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
             return participant;
           });
           setParticipants(readyParticipants);
+        }
+      });
+
+      socketRef.current.on('everybodyReady', ({ roomId }) => {
+        if (id === roomId) {
+          const participantsWOReadyCheck = participants.map((el) => ({ ...el, ready: false }));
+          setParticipants(participantsWOReadyCheck);
         }
       });
     }
