@@ -115,6 +115,12 @@ io.on('connection', (socket) => {
     io.emit('newPrivateMessage', { id, senderId, messageNew });
   });
 
+  socket.on('readyParticipants', async ({ token, roomId }) => {
+    const { id: userId } = decodeToken(token);
+    await User.update({ ready: true }, { where: { id: userId } });
+    io.emit('playerReady', { roomId, userId });
+  });
+
   io.on('disconnect', () => {
     console.log('disconnect');
   });

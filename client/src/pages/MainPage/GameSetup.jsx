@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import SwipeableViews from 'react-swipeable-views';
+// import SwipeableViews from 'react-swipeable-views';
 import { Button, MobileStepper } from '@mui/material';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -52,9 +52,9 @@ export default function GameSetup() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
+  // const handleStepChange = (step) => {
+  //   setActiveStep(step);
+  // };
 
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
@@ -112,39 +112,39 @@ export default function GameSetup() {
             <ArrowBackIosRoundedIcon fontSize="large" />
           )}
         </Button>
-        <SwipeableViews
+        {/* <SwipeableViews
           index={activeStep}
           onChangeIndex={handleStepChange}
           width="fit-content"
-        >
-          {allGames.join()
-            ? allGames.map(({
-              name, rules, description, img, maxPlayers, id,
-            }) => (
-              <div key={`div${id}`} className="gameWrapper">
-                <input id={`radioCheck${id}`} type="checkbox" className="checkCard" />
-                <label htmlFor={`radioCheck${id}`} className="flipCard">
-                  <div className="card">
-                    <img className="img-card" src={img} alt="game card" />
-                    <div className="info-card">
-                      <p>{name}</p>
-                      <p>{description}</p>
-                    </div>
+        > */}
+        {allGames.join()
+          ? allGames.map(({
+            name, rules, description, img, maxPlayers, id,
+          }) => (
+            <div key={`div${id}`} className="gameWrapper">
+              <input id={`radioCheck${id}`} type="checkbox" className="checkCard" />
+              <label htmlFor={`radioCheck${id}`} className="flipCard">
+                <div className="card">
+                  <img className="img-card" src={img} alt="game card" />
+                  <div className="info-card">
+                    <p>{name}</p>
+                    <p>{description}</p>
                   </div>
-                  <div className="card_back">
-                    <p>Rules:</p>
-                    <p>{rules}</p>
-                    <p>
-                      Max players:
-                      {' '}
-                      {maxPlayers}
-                    </p>
-                  </div>
-                </label>
-              </div>
-            ))
-            : <div>Games not found</div>}
-        </SwipeableViews>
+                </div>
+                <div className="card_back">
+                  <p>Rules:</p>
+                  <p>{rules}</p>
+                  <p>
+                    Max players:
+                    {' '}
+                    {maxPlayers}
+                  </p>
+                </div>
+              </label>
+            </div>
+          ))
+          : <div>Games not found</div>}
+        {/* </SwipeableViews> */}
         <Button
           className="buttonColor"
           onClick={handleNext}
