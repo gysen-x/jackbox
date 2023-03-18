@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       this.hasMany(models.User, { foreignKey: 'roomId' });
+      this.hasMany(models.AnswersAndPairs, { foreignKey: 'roomId' });
       this.belongsTo(models.AllGames, { foreignKey: 'gameId' });
       this.hasMany(models.Message, { foreignKey: 'roomId' }, { onDelete: 'cascade' }, { hooks: true });
     }
@@ -21,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     gameId: DataTypes.INTEGER,
     password: DataTypes.STRING,
     members: DataTypes.INTEGER,
+    votes: DataTypes.INTEGER,
+    round: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Room',

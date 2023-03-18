@@ -10,6 +10,8 @@ import StartGamePage from './GameField/StartGamePage/StartGamePage';
 // import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import GameParticipantsPage from './GameField/GameParticipantsPage/GameParticipantsPage';
 import PunchGamePage from './GameField/PunchGamePage/PunchGamePage';
+import WaitingGamepage from './GameField/WaitingGamepage/WaitingGamepage';
+import VoteGamePage from './GameField/VoteGamePage/VoteGamePage';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -41,6 +43,14 @@ function GamePage() {
       }
     });
 
+    socketRef.current.on('everybodyAnswers', ({ roomId, firstVoteData }) => {
+      if (id === roomId) {
+        console.log(firstVoteData);
+        setStatus('everybodyAnswers');
+        setTimeout(() => setStatus('voting'), 1500);
+      }
+    });
+
     return function disconnect() {
       const token = localStorage.getItem('token');
       socketRef.current.emit('disconnectRoom', { id, token });
@@ -58,8 +68,18 @@ function GamePage() {
     <Grid className={style.gamePage} container spacing={2}>
       <Grid item xs>
         {status === 'start' && <StartGamePage socketRef={socketRef} />}
-        {status === 'everybodyReady' && <p>Все готовы, поехали</p> }
-        {status === 'game' && <PunchGamePage punchData={punchData} /> }
+        {status === 'everybodyReady' && <p>Все готовы, поехали</p>}
+        {status === 'game' && (
+        <PunchGamePage
+          status={status}
+          setStatus={setStatus}
+          punchData={punchData}
+          socketRef={socketRef}
+        />
+        )}
+        {status === 'waiting' && <WaitingGamepage />}
+        {status === 'everybodyAnswers' && <p>Все ответили</p>}
+        {status === 'voting' && <VoteGamePage />}
         {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
