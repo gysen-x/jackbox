@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     gameId: DataTypes.INTEGER,
     password: DataTypes.STRING,
     members: DataTypes.INTEGER,
+    votes: DataTypes.INTEGER,
+    round: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Room',

@@ -6,7 +6,9 @@ import { Timer } from '../StartGamePage/Timer/Timer';
 
 import style from './style.module.css';
 
-export default function PunchGamePage({ socketRef, punchData }) {
+export default function PunchGamePage({
+  status, setStatus, socketRef, punchData,
+}) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [punchInput, setPunchInput] = useState('');
   const [waiting, setWaiting] = useState(false);
@@ -16,7 +18,7 @@ export default function PunchGamePage({ socketRef, punchData }) {
     const token = localStorage.getItem('token');
     const timer = setTimeout(() => {
       console.log('timer is working: ', token);
-      // socketRef.current.emit('pushAnswer', ({ punchInput, token, roomId }));
+      socketRef.current.emit('pushAnswer', ({ punchInput, token, roomId }));
     }, 30000);
     setTimeoutId(timer);
   }, []);

@@ -11,6 +11,7 @@ import StartGamePage from './GameField/StartGamePage/StartGamePage';
 import GameParticipantsPage from './GameField/GameParticipantsPage/GameParticipantsPage';
 import PunchGamePage from './GameField/PunchGamePage/PunchGamePage';
 import WaitingGamepage from './GameField/WaitingGamepage/WaitingGamepage';
+import VoteGamePage from './GameField/VoteGamePage/VoteGamePage';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -59,14 +60,17 @@ function GamePage() {
     <Grid className={style.gamePage} container spacing={2}>
       <Grid item xs>
         {status === 'start' && <StartGamePage socketRef={socketRef} />}
-        {status === 'everybodyReady' && <p>Все готовы, поехали</p> }
+        {status === 'everybodyReady' && <p>Все готовы, поехали</p>}
         {status === 'game' && (
         <PunchGamePage
+          status={status}
+          setStatus={setStatus}
           punchData={punchData}
           socketRef={socketRef}
         />
-        ) }
-        {status === 'waiting' && <WaitingGamepage /> }
+        )}
+        {status === 'waiting' && <WaitingGamepage />}
+        {status === 'voting' && <VoteGamePage />}
         {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
