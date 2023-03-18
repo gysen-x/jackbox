@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     pointsInGame: DataTypes.INTEGER,
     avatar: DataTypes.TEXT,
+    ready: DataTypes.BOOLEAN,
     roomId: DataTypes.INTEGER,
   }, {
     sequelize,
