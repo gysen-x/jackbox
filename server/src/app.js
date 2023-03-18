@@ -5,10 +5,10 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
-const { makePairs } = require('./lib/functions');
+const { makePairsWithPunches } = require('./lib/functions');
 
 const {
-  User, PrivateMessage, Room, AllGames, Message,
+  User, PrivateMessage, Room, AllGames, Message, Setup,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -124,9 +124,13 @@ io.on('connection', (socket) => {
     const everybodyReady = usersInThisRoom.every((el) => el.ready === true);
     if (usersInThisRoom.length === 2 && everybodyReady) {
       io.emit('playerReady', { roomId, userId });
-      setTimeout(() => {
+      setTimeout(async () => {
         User.update({ ready: false }, { where: { roomId } });
-        io.emit('everybodyReady', { roomId });
+        const usersIds = usersInThisRoom.map((el) => el.id);
+        const allPunchesDB = await Setup.findAll();
+        const textPunches = allPunchesDB.map((el) => el.body);
+        const data = makePairsWithPunches(usersIds, textPunches);
+        io.emit('everybodyReady', { roomId, data });
       }, 1500);
     } else {
       io.emit('playerReady', { roomId, userId });
