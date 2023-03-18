@@ -11,9 +11,6 @@ exports.signInAndSendStatus = async (req, res) => {
   try {
     const userFromDatabase = await User.findOne({ where: { email }, raw: true });
     const isSamePassword = await bcrypt.compare(password, userFromDatabase.password);
-    if (!userFromDatabase) {
-      return res.status(401).json({ errMsg: 'Wrong email or password!' });
-    }
     if (isSamePassword) {
       const { id, login: name } = userFromDatabase;
       const token = generateAccessToken(id);
@@ -22,8 +19,7 @@ exports.signInAndSendStatus = async (req, res) => {
       res.status(401).json({ errMsg: 'Wrong password or email!' });
     }
   } catch (err) {
-    let errMsg = err.message;
-    if (err.name === 'SequelizeUniqueConstraintError') errMsg = err.errors[0].message;
+    const errMsg = 'Wrong email or password!';
     res.status(401).json({ errMsg });
   }
 };

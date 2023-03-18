@@ -14,12 +14,19 @@ export default function Homepage() {
       ? <MainPage />
       : (
         <div className="contentWrapper">
-          <img style={{ width: 357.5, height: 100 }} className="logoMini" src="/images/Logo.png" alt="logo" />
+          <img style={{ width: 357.5, height: 100, marginBottom: 60 }} className="logoMini" src="/images/Logo.png" alt="logo" />
           <CustomButton
-            title="Login"
+            title="Log in"
             color="#fe9e84"
             type="button"
             handleOnClick={() => navigate('/signin')}
+          />
+          <p>or</p>
+          <CustomButton
+            title="Sign up"
+            color="#fe9e84"
+            type="button"
+            handleOnClick={() => navigate('/signup')}
           />
           <img className="nyan" src="/images/nyan.gif" alt="logo" />
         </div>

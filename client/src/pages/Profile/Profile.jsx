@@ -7,6 +7,7 @@ import ChatProfile from '../GamePage/Chat/ChatProfile';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 export default function Profile() {
   const [user, setUser] = useState({});
@@ -15,10 +16,12 @@ export default function Profile() {
   const [changedInfo, setChangedInfo] = useState({ login: '', email: '', avatar: '' });
   const [showChange, setShowChange] = useState(false);
   const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
-  const [falseOldPassword, setFalseOldPassword] = useState(false);
   const [success, setSuccess] = useState(false);
   const [friendId, setFriendId] = useState(null);
   const [showChat, setShowChat] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const [openTooltipEdit, setTooltipEdit] = useState(false);
+  const [openTooltipCheckPassword, setTooltipCheckPassword] = useState(false);
   // const id = useSelector((state) => state.user.userid);
 
   useEffect(() => {
@@ -74,22 +77,37 @@ export default function Profile() {
   async function handleEdit(event) {
     event.preventDefault();
     const tokenJWT = localStorage.getItem('token');
-    const response = await fetch('/users', {
-      method: 'PUT',
-      headers: {
-        Authentication: `Bearer ${tokenJWT}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(changedInfo),
-    });
-    if (response.status === 200) {
-      setUser({ ...user, ...changedInfo });
-      setChangedInfo({ login: '', email: '', avatar: '' });
-      setShowEdit(false);
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-      }, 1000);
+    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (changedInfo.email.match(emailValidation)) {
+      try {
+        const response = await fetch('/users', {
+          method: 'PUT',
+          headers: {
+            Authentication: `Bearer ${tokenJWT}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(changedInfo),
+        });
+        if (response.status === 200) {
+          setUser({ ...user, ...changedInfo });
+          setChangedInfo({ login: '', email: '', avatar: '' });
+          setShowEdit(false);
+          setSuccess(true);
+          setTimeout(() => {
+            setSuccess(false);
+          }, 1000);
+        } else {
+          setErrorText('Fail');
+          setTooltipEdit(true);
+        }
+      } catch (error) {
+        console.log('error: ', error);
+        setErrorText('Fail. Try later.');
+        setTooltipEdit(true);
+      }
+    } else {
+      setErrorText('Incorrect email');
+      setTooltipEdit(true);
     }
   }
 
@@ -124,7 +142,7 @@ export default function Profile() {
         setSuccess(false);
       }, 1000);
     } else {
-      setFalseOldPassword(true);
+      setTooltipCheckPassword(true);
     }
   }
 
@@ -149,7 +167,7 @@ export default function Profile() {
       <CustomModal
         setSwitchModal={setShowEdit}
         inner={(
-          <form onSubmit={handleEdit} className="formCheckPass">
+          <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass">
             <CustomInput
               title="Login"
               className="form-control"
@@ -177,12 +195,18 @@ export default function Profile() {
               onChange={handleCheckForm}
               value={changedInfo.avatar}
             />
-            <div style={{ height: '20px' }} />
-            <CustomButton
-              id="checkButton"
-              title="Submit"
-              color="#fe9e84"
-              type="submit"
+            <CustomTooltip
+              message={errorText}
+              openTooltip={openTooltipEdit}
+              setOpenTooltip={setTooltipEdit}
+              inner={(
+                <CustomButton
+                  id="checkButton"
+                  title="Submit"
+                  color="#fe9e84"
+                  type="submit"
+                />
+            )}
             />
           </form>
 )}
@@ -193,7 +217,7 @@ export default function Profile() {
       <CustomModal
         setSwitchModal={setShowChange}
         inner={(
-          <form onSubmit={handleChange} className="formCheckPass">
+          <form style={{ gap: 20 }} onSubmit={handleChange} className="formCheckPass">
             <CustomInput
               title="Old Password"
               className="form-control"
@@ -212,13 +236,18 @@ export default function Profile() {
               onChange={handleCheckFormPassword}
               value={passwords.newPass}
             />
-            <div style={{ height: '20px' }} />
-            {falseOldPassword && <p className="wrong-pass">Wrong old password</p>}
-            <CustomButton
-              id="checkButton"
-              title="Submit"
-              color="#fe9e84"
-              type="submit"
+            <CustomTooltip
+              message="Wrong old password"
+              openTooltip={openTooltipCheckPassword}
+              setOpenTooltip={setTooltipCheckPassword}
+              inner={(
+                <CustomButton
+                  id="checkButton"
+                  title="Submit"
+                  color="#fe9e84"
+                  type="submit"
+                />
+            )}
             />
           </form>
 )}
@@ -289,13 +318,16 @@ export default function Profile() {
         </div>
       </div>
       {showChat
-        && (
+        ? (
           <div className="chatProfile">
             <ChatProfile id={friendId} />
           </div>
-        ) }
-      {!showChat
-        && (<div className="dino"><ChromeDinoGame /></div>)}
+        )
+        : (
+          <div className="dino">
+            <ChromeDinoGame />
+          </div>
+        )}
     </div>
   );
 }

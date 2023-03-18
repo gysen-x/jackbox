@@ -17,7 +17,6 @@ const redusers = (state = initialState, action) => {
       };
 
     case ATYPES.SIGN_OUT_USER:
-      console.log(1);
       localStorage.removeItem('token');
       return { ...state, user: null };
 

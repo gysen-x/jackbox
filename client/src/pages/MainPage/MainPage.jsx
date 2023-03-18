@@ -7,6 +7,7 @@ import CustomTable from '../../components/CustomTable/CustomTable';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -14,8 +15,9 @@ export default function MainPage() {
   const [allRooms, setAllRooms] = useState([]);
   const [filtredRooms, setFiltredRooms] = useState([]);
   const [switchModal, setSwitchModal] = useState(false);
+  const [openTooltip, setOpenTooltip] = useState(false);
+  const [openTooltipFind, setTooltipFind] = useState(false);
   const [roomId, setRoomId] = useState('');
-  const [findTitle, setFindTitle] = useState('Find game');
   const [formData, setFormData] = useState('');
   const navigate = useNavigate();
   const socketRef = useRef(null);
@@ -74,8 +76,8 @@ export default function MainPage() {
         .includes(event.target.value.trim().toLowerCase()));
 
     if (!finded.join()) {
-      setFindTitle('Room not found');
-    } else { setFindTitle('Find room'); }
+      setTooltipFind(true);
+    } else { setTooltipFind(false); }
 
     setFiltredRooms(finded);
   };
@@ -110,7 +112,7 @@ export default function MainPage() {
         navigate(`/rooms/${roomId}`);
       }
       if (res.status === 401) {
-        alert('wrong password');
+        setOpenTooltip(true);
       }
     });
   };
@@ -124,14 +126,20 @@ export default function MainPage() {
     <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(500px, auto))" justifyContent="center">
       <Box className="contentWrapper">
         <h1 className="homepageH1">ROOMS</h1>
-        <CustomInput
-          title={findTitle}
-          className="form-control"
-          id="findInput"
-          type="text"
-          name="roomName"
-          onChange={handleFindChange}
-          placeholder="Enter room name..."
+        <CustomTooltip
+          message="Room not found"
+          openTooltip={openTooltipFind}
+          setOpenTooltip={setTooltipFind}
+          inner={(
+            <CustomInput
+              className="form-control"
+              id="findInput"
+              type="text"
+              name="roomName"
+              onChange={handleFindChange}
+              placeholder="Find room..."
+            />
+        )}
         />
         <CustomTable
           allRooms={allRooms}
@@ -159,11 +167,18 @@ export default function MainPage() {
                         placeholder="Enter room password..."
                       />
                       <div style={{ height: '20px' }} />
-                      <CustomButton
-                        id="checkButton"
-                        title="Submit"
-                        color="#fe9e84"
-                        type="submit"
+                      <CustomTooltip
+                        message="Wrong password"
+                        openTooltip={openTooltip}
+                        setOpenTooltip={setOpenTooltip}
+                        inner={(
+                          <CustomButton
+                            id="checkButton"
+                            title="Submit"
+                            color="#fe9e84"
+                            type="submit"
+                          />
+)}
                       />
                     </form>
                         )}

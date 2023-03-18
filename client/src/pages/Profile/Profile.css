@@ -2,25 +2,37 @@
   padding-top: 30px;
   display: flex;
   height: 80vh;
+  max-width: 1200px;
+  width: 100%;
+  flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
 }
 
 .bio {
   display: flex;
-  margin-bottom: 3vh;
+  margin-bottom: 20px;
 }
 
 .profile-bio {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .profile-header {
   display: flex;
   flex-direction: column;
-  margin-left: 7vw;
+  width: 50%;
+  min-width: 300px;
+  align-items: center;
+  padding: 10px;
 }
 
 .profile-friens {
   overflow-y: scroll;
+  width: 90%;
   /* height: 80vh; */
 }
 
@@ -33,28 +45,28 @@
   list-style-type: none;
   display: flex;
   align-items: center;
-  width: 25vw;
+  width: 100%;
   background-color: rgba(240, 248, 255, 0.3);
-  padding: 1vw;
+  padding: 5px 10px;
   border-radius: 8px;
 }
 
 .liFriend:not(:last-child) {
-  margin-bottom: 2vh;
+  margin-bottom: 10px;
 }
 
 .liFriend:first-child {
-  margin-top: 2vh;
+  margin-top: 20px;
 }
 
 .chatFriends {
-  width: 1.7vw;
+  width: 25px;
   margin-left: auto;
   filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
 
 .deleteFriends {
-  width: 1.3vw;
+  width: 15px;
   margin-left: 1.3vw;
   filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
@@ -63,18 +75,14 @@
   margin-top: 20px;
 }
 
-.wrong-pass {
-  margin-bottom: 1vh;
-  color: red;
-}
-
 .succesfully-changed {
+  font-size: 17px;
+  font-weight: 900;
   color: green;
 }
 
-.chatProfile, .dino {
-  width: 45vw;
-  /* height: ; */
-  margin-left: auto;
-  margin-right: 7vw;
+.dino {
+  min-width: 300px;
+  width: 50%;
+  padding: 10px;
 }

@@ -7,6 +7,7 @@ import { setUser } from '../../store/actions';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import style from './style.module.css';
+import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -14,39 +15,45 @@ export default function Signin() {
 
   const [userSignin, setUserSignin] = useState({ email: '', password: '' });
   const [errorSignin, setErrorSignin] = useState('');
-  const [alertClass, setAlertClass] = useState('d-none');
+  const [openTooltipSignin, setTooltipSignin] = useState(false);
+  const [openTooltipUser, setTooltipUser] = useState(false);
 
   const handleChange = (event) => {
     setUserSignin({ ...userSignin, [event.target.name]: event.target.value });
-    console.log('user: ', userSignin);
   };
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/auth/signin ', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userSignin),
-      });
-      if (response.status !== 200) {
-        const data = await response.json();
-        setErrorSignin(capitalize(data.errMsg));
-        setAlertClass('alert alert-danger');
-      } else {
-        const result = await response.json();
-        const { user, token } = result;
-        localStorage.setItem('token', token);
-        dispatch(setUser(user));
-        setAlertClass('alert alert-success');
-        setErrorSignin("Well done! You're logged in!");
-        navigate('/');
+    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (userSignin.email.match(emailValidation)) {
+      try {
+        const response = await fetch('http://localhost:3000/auth/signin ', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userSignin),
+        });
+        if (response.status !== 200) {
+          const data = await response.json();
+          setErrorSignin(capitalize(data.errMsg));
+          setTooltipUser(true);
+        } else {
+          const result = await response.json();
+          const { user, token } = result;
+          localStorage.setItem('token', token);
+          dispatch(setUser(user));
+          navigate('/');
+        }
+        setUserSignin({ username: '', email: '', password: '' });
+      } catch (error) {
+        console.log('error: ', error);
+        setErrorSignin('Fail. Try later.');
+        setTooltipUser(true);
       }
-      setUserSignin({ username: '', email: '', password: '' });
-    } catch (error) {
-      console.log('error: ', error);
+    } else {
+      setErrorSignin('Incorrect email');
+      setTooltipSignin(true);
     }
   };
 
@@ -65,15 +72,22 @@ export default function Signin() {
           onSubmit={formSubmitHandler}
         >
           <h1 className={style.signin__title}> Sign In</h1>
-          <CustomInput
-            title="Email"
-            className="form-control"
-            id="exampleInputEmail1"
-            type="email"
-            name="email"
-            value={userSignin.email}
-            onChange={handleChange}
-            placeholder="Enter your email..."
+          <CustomTooltip
+            message={errorSignin}
+            openTooltip={openTooltipSignin}
+            setOpenTooltip={setTooltipSignin}
+            inner={(
+              <CustomInput
+                title="Email"
+                className="form-control"
+                id="exampleInputEmail1"
+                type="text"
+                name="email"
+                value={userSignin.email}
+                onChange={handleChange}
+                placeholder="Enter your email..."
+              />
+          )}
           />
           <CustomInput
             title="Password"
@@ -85,15 +99,19 @@ export default function Signin() {
             onChange={handleChange}
             placeholder="Enter your password..."
           />
-          <div className={alertClass} role="alert">
-            {errorSignin}
-          </div>
-          <CustomButton
-            className={style.form__button}
-            id="signUp"
-            title="Submit"
-            color="#fe9e84"
-            type="submit"
+          <CustomTooltip
+            message={errorSignin}
+            openTooltip={openTooltipUser}
+            setOpenTooltip={setTooltipUser}
+            inner={(
+              <CustomButton
+                className={style.form__button}
+                id="signUp"
+                title="Submit"
+                color="#fe9e84"
+                type="submit"
+              />
+          )}
           />
         </form>
       </Box>
