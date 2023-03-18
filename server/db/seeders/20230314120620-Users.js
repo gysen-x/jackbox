@@ -6,8 +6,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'ilignatow@gmail.com',
       status: 'admin',
-      pointsInGame: '300',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -15,8 +15,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'ignat-ilya@yandex.ru',
       status: 'player',
-      pointsInGame: '400',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -24,8 +24,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'kate@gmail.com',
       status: 'player',
-      pointsInGame: '500',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -33,8 +33,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'timir@gmail.com',
       status: 'player',
-      pointsInGame: '600',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -42,8 +42,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'dima@gmail.com',
       status: 'player',
-      pointsInGame: '700',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -51,8 +51,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'anton@gmail.com',
       status: 'player',
-      pointsInGame: '800',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -60,8 +60,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'sergey@gmail.com',
       status: 'player',
-      pointsInGame: '900',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -69,8 +69,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'roman@gmail.com',
       status: 'player',
-      pointsInGame: '1000',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -78,8 +78,8 @@ module.exports = {
       password: '$2b$10$8Lkg6hKjHl8P4ba68Tgnwu3jcHAB8BMle8yF3tZPr3M6GusER/0Pi',
       email: 'artem@gmail.com',
       status: 'viewer',
-      pointsInGame: '1100',
       avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     }], {});

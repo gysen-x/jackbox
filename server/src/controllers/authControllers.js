@@ -29,7 +29,7 @@ exports.signUpAndSendStatus = async (req, res) => {
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      login, email, password: hashPassword, avatar: 'https://img.freepik.com/fotos-premium/cabeza-hipster-espacio-vacio-ilustracion-render-3d_1172-983.jpg',
+      login, email, password: hashPassword, avatar: 'https://img.freepik.com/fotos-premium/cabeza-hipster-espacio-vacio-ilustracion-render-3d_1172-983.jpg', ready: false,
     });
 
     const { id, login: name } = user;
