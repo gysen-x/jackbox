@@ -5,7 +5,7 @@ import { Timer } from '../StartGamePage/Timer/Timer';
 
 import style from './style.module.css';
 
-export default function PunchGamePage() {
+export default function PunchGamePage({ punchData }) {
   const [setup, setSetup] = useState('');
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function PunchGamePage() {
   return (
     <div className={style.PunchGamePage}>
       <div className={style.PunchGamePage__container}>
-        <h1 className={style.PunchGamePage__title}>Punch</h1>
+        <h1 className={style.PunchGamePage__title}>{punchData}</h1>
         <p className={style.PunchGamePage__setup}>{setup}</p>
         <form className={style.PunchGamePage__form}>
           <CustomInput

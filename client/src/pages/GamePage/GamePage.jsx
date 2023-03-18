@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import { Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,14 +9,17 @@ import StartGamePage from './GameField/StartGamePage/StartGamePage';
 // import VoteGamePage from './GameField/VoteGamePage/VoteGamePage';
 // import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import GameParticipantsPage from './GameField/GameParticipantsPage/GameParticipantsPage';
+import PunchGamePage from './GameField/PunchGamePage/PunchGamePage';
 
 const SERVER_URL = 'http://localhost:3000';
 
 function GamePage() {
+  const user = useSelector((store) => store.user);
   const socketRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState('start');
+  const [punchData, setPunchData] = useState('');
 
   useEffect(() => {
     socketRef.current = io(SERVER_URL);
@@ -25,8 +29,13 @@ function GamePage() {
       if (id === roomId) navigate('/');
     });
 
-    socketRef.current.on('everybodyReady', ({ roomId }) => {
+    socketRef.current.on('everybodyReady', ({ roomId, data }) => {
       if (id === roomId) {
+        data.forEach((elem) => {
+          if (elem.pairs.includes(user.userid)) {
+            setPunchData(elem.punch);
+          }
+        });
         setStatus('everybodyReady');
         setTimeout(() => setStatus('game'), 1500);
       }
@@ -50,7 +59,7 @@ function GamePage() {
       <Grid item xs>
         {status === 'start' && <StartGamePage socketRef={socketRef} />}
         {status === 'everybodyReady' && <p>Все готовы, поехали</p> }
-        {status === 'game' && <p>Игра</p> }
+        {status === 'game' && <PunchGamePage punchData={punchData} /> }
         {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
