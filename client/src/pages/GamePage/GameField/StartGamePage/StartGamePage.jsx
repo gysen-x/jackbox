@@ -5,17 +5,13 @@ import CustomButton from '../../../../components/CustomButton/CustomButton';
 
 function StartGamePage({ socketRef }) {
   const [ready, setReady] = useState(false);
-  const [allReady, setAllReady] = useState([]);
+  const { id: roomId } = useParams();
 
   const changeReadyStatus = () => {
     setReady(true);
-    setAllReady([...allReady, true]);
     const token = localStorage.getItem('token');
-    const { id: roomId } = useParams();
     socketRef.current.emit('readyParticipants', { token, roomId });
   };
-
-  console.log(ready, allReady);
 
   return (
     <div className={style.startGamePage}>

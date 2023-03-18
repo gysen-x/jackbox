@@ -6,8 +6,6 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
 
 function Chat({ socketRef }) {
-  console.log('socketRef: ', socketRef.current);
-
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
 

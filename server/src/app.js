@@ -5,6 +5,8 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
+const { makePairs } = require('./lib/functions');
+
 const {
   User, PrivateMessage, Room, AllGames, Message,
 } = require('../db/models');
@@ -75,11 +77,11 @@ io.on('connection', (socket) => {
     const { id: userId } = decodeToken(token);
     const user = await User.findByPk(userId);
     if (user.status === 'admin') {
-      await User.update({ status: null, roomId: null }, { where: { roomId: id } });
+      await User.update({ status: null, roomId: null, ready: false }, { where: { roomId: id } });
       await Room.destroy({ where: { id } });
       io.emit('destroyRoom', { id });
     } else if (user.status === 'player') {
-      await User.update({ status: null, roomId: null }, { where: { id: userId } });
+      await User.update({ status: null, roomId: null, ready: false }, { where: { id: userId } });
       await Room.increment({ members: -1 }, { where: { id } });
       io.emit('playerQuitRoom', { id, userId });
     }
@@ -118,7 +120,17 @@ io.on('connection', (socket) => {
   socket.on('readyParticipants', async ({ token, roomId }) => {
     const { id: userId } = decodeToken(token);
     await User.update({ ready: true }, { where: { id: userId } });
-    io.emit('playerReady', { roomId, userId });
+    const usersInThisRoom = await User.findAll({ where: { roomId } });
+    const everybodyReady = usersInThisRoom.every((el) => el.ready === true);
+    if (usersInThisRoom.length === 2 && everybodyReady) {
+      io.emit('playerReady', { roomId, userId });
+      setTimeout(() => {
+        User.update({ ready: false }, { where: { roomId } });
+        io.emit('everybodyReady', { roomId });
+      }, 1500);
+    } else {
+      io.emit('playerReady', { roomId, userId });
+    }
   });
 
   io.on('disconnect', () => {
