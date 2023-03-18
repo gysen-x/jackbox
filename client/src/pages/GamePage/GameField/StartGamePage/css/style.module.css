@@ -2,16 +2,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
 }
 
 .startGamePage {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    height: 60vh;
+    background-color: cornflowerblue;
 }
 
 .roomName {
     margin-top: 30px;
+}
+
+.nyan {
+    width: 30%;
+}
+
+.readyTitle {
+    display: flex;
+    flex-direction: column;
 }

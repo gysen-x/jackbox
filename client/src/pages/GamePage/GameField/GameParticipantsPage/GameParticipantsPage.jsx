@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Avatar } from '@mui/material';
+import { Avatar, Badge } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import style from './style.module.css';
@@ -30,6 +30,20 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
           setParticipants(filtredParticipants);
         }
       });
+      socketRef.current.on('playerReady', ({ id: roomId, userId }) => {
+        if (id === roomId) {
+          const readyParticipants = participants.map((participant) => {
+            if (participant.id === userId) {
+              return {
+                ...participant,
+                ready: true,
+              };
+            }
+            return participant;
+          });
+          setParticipants(readyParticipants);
+        }
+      });
     }
   }, [participants]);
 
@@ -42,7 +56,13 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
       <div className={style.gamefriends__wrapper}>
         {participants.map((participant) => (
           <div key={participant.id} className={style.gamefriends__friend}>
-            <Avatar alt="Remy Sharp" src={participant.avatar} />
+            {participant.ready ? (
+              <Badge badgeContent="✓" color="primary">
+                <Avatar alt="Remy Sharp" src={participant.avatar} />
+              </Badge>
+            ) : (
+              <Avatar alt="Remy Sharp" src={participant.avatar} />
+            )}
             <h3>{participant.login}</h3>
             <h4>{participant.points}</h4>
           </div>
