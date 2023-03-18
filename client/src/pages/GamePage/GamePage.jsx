@@ -10,6 +10,7 @@ import StartGamePage from './GameField/StartGamePage/StartGamePage';
 // import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import GameParticipantsPage from './GameField/GameParticipantsPage/GameParticipantsPage';
 import PunchGamePage from './GameField/PunchGamePage/PunchGamePage';
+import WaitingGamepage from './GameField/WaitingGamepage/WaitingGamepage';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -59,7 +60,13 @@ function GamePage() {
       <Grid item xs>
         {status === 'start' && <StartGamePage socketRef={socketRef} />}
         {status === 'everybodyReady' && <p>Все готовы, поехали</p> }
-        {status === 'game' && <PunchGamePage punchData={punchData} /> }
+        {status === 'game' && (
+        <PunchGamePage
+          punchData={punchData}
+          socketRef={socketRef}
+        />
+        ) }
+        {status === 'waiting' && <WaitingGamepage /> }
         {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
