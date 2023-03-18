@@ -30,3 +30,17 @@
     justify-content: center;
     gap: 10px;
 }
+
+.closeChat {
+    width: 15px;
+    /* height: 15px; */
+    margin-left: 1.3vw;
+    filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
+  }
+
+  .title {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 3vw;
+  }

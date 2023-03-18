@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './Profile.css';
 import { Avatar } from '@mui/material';
 import ChromeDinoGame from 'react-chrome-dino';
@@ -18,6 +18,7 @@ export default function Profile() {
   const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
   const [success, setSuccess] = useState(false);
   const [friendId, setFriendId] = useState(null);
+  const [friendName, setFriendName] = useState('');
   const [showChat, setShowChat] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [openTooltipEdit, setTooltipEdit] = useState(false);
@@ -146,113 +147,118 @@ export default function Profile() {
     }
   }
 
-  const hadleShowChat = (id) => {
+  const hadleShowChat = (id, name) => {
     setFriendId(id);
+    setFriendName(name);
     setShowChat(true);
   };
+
+  const hadleCloseChat = useCallback(() => {
+    setShowChat(false);
+  }, []);
 
   return (
     <div className="profile">
       {success
-      && (
-      <CustomModal
-        setSwitchModal={setSuccess}
-        inner={(
-          <p className="succesfully-changed">Succesfully changed</p>
-)}
-      />
-      )}
+        && (
+          <CustomModal
+            setSwitchModal={setSuccess}
+            inner={(
+              <p className="succesfully-changed">Succesfully changed</p>
+            )}
+          />
+        )}
       {showEdit
-      && (
-      <CustomModal
-        setSwitchModal={setShowEdit}
-        inner={(
-          <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass">
-            <CustomInput
-              title="Login"
-              className="form-control"
-              id="Login"
-              type="text"
-              name="Login"
-              onChange={handleCheckForm}
-              value={changedInfo.login}
-            />
-            <CustomInput
-              title="Email"
-              className="form-control"
-              id="Email"
-              type="text"
-              name="Email"
-              onChange={handleCheckForm}
-              value={changedInfo.email}
-            />
-            <CustomInput
-              title="Avatar"
-              className="form-control"
-              id="Avatar"
-              type="text"
-              name="Avatar"
-              onChange={handleCheckForm}
-              value={changedInfo.avatar}
-            />
-            <CustomTooltip
-              message={errorText}
-              openTooltip={openTooltipEdit}
-              setOpenTooltip={setTooltipEdit}
-              inner={(
-                <CustomButton
-                  id="checkButton"
-                  title="Submit"
-                  color="#fe9e84"
-                  type="submit"
+        && (
+          <CustomModal
+            setSwitchModal={setShowEdit}
+            inner={(
+              <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass">
+                <CustomInput
+                  title="Login"
+                  className="form-control"
+                  id="Login"
+                  type="text"
+                  name="Login"
+                  onChange={handleCheckForm}
+                  value={changedInfo.login}
                 />
+                <CustomInput
+                  title="Email"
+                  className="form-control"
+                  id="Email"
+                  type="text"
+                  name="Email"
+                  onChange={handleCheckForm}
+                  value={changedInfo.email}
+                />
+                <CustomInput
+                  title="Avatar"
+                  className="form-control"
+                  id="Avatar"
+                  type="text"
+                  name="Avatar"
+                  onChange={handleCheckForm}
+                  value={changedInfo.avatar}
+                />
+                <CustomTooltip
+                  message={errorText}
+                  openTooltip={openTooltipEdit}
+                  setOpenTooltip={setTooltipEdit}
+                  inner={(
+                    <CustomButton
+                      id="checkButton"
+                      title="Submit"
+                      color="#fe9e84"
+                      type="submit"
+                    />
+                  )}
+                />
+              </form>
             )}
-            />
-          </form>
-)}
-      />
-      )}
+          />
+        )}
       {showChange
-      && (
-      <CustomModal
-        setSwitchModal={setShowChange}
-        inner={(
-          <form style={{ gap: 20 }} onSubmit={handleChange} className="formCheckPass">
-            <CustomInput
-              title="Old Password"
-              className="form-control"
-              id="Old Password"
-              type="password"
-              name="Old Password"
-              onChange={handleCheckFormPassword}
-              value={passwords.oldPass}
-            />
-            <CustomInput
-              title="New Password"
-              className="form-control"
-              id="New Password"
-              type="password"
-              name="New Password"
-              onChange={handleCheckFormPassword}
-              value={passwords.newPass}
-            />
-            <CustomTooltip
-              message="Wrong old password"
-              openTooltip={openTooltipCheckPassword}
-              setOpenTooltip={setTooltipCheckPassword}
-              inner={(
-                <CustomButton
-                  id="checkButton"
-                  title="Submit"
-                  color="#fe9e84"
-                  type="submit"
+        && (
+          <CustomModal
+            setSwitchModal={setShowChange}
+            inner={(
+              <form style={{ gap: 20 }} onSubmit={handleChange} className="formCheckPass">
+                <CustomInput
+                  title="Old Password"
+                  className="form-control"
+                  id="Old Password"
+                  type="password"
+                  name="Old Password"
+                  onChange={handleCheckFormPassword}
+                  value={passwords.oldPass}
                 />
+                <CustomInput
+                  title="New Password"
+                  className="form-control"
+                  id="New Password"
+                  type="password"
+                  name="New Password"
+                  onChange={handleCheckFormPassword}
+                  value={passwords.newPass}
+                />
+                <CustomTooltip
+                  message="Wrong old password"
+                  openTooltip={openTooltipCheckPassword}
+                  setOpenTooltip={setTooltipCheckPassword}
+                  inner={(
+                    <CustomButton
+                      id="checkButton"
+                      title="Submit"
+                      color="#fe9e84"
+                      type="submit"
+                    />
+                  )}
+                />
+              </form>
             )}
-            />
-          </form>
-)}
-      />
-      )}
+          />
+        )}
       <div className="profile-header">
         <div className="bio">
           <Avatar
@@ -299,7 +305,7 @@ export default function Profile() {
                     />
                     <p>{login}</p>
                     <img
-                      onPointerDown={() => { hadleShowChat(id); }}
+                      onPointerDown={() => { hadleShowChat(id, login); }}
                       className="chatFriends"
                       src="https://cdn-icons-png.flaticon.com/512/9883/9883272.png"
                       alt="chat"
@@ -320,7 +326,7 @@ export default function Profile() {
       {showChat
         ? (
           <div className="chatProfile">
-            <ChatProfile id={friendId} />
+            <ChatProfile id={friendId} name={friendName} hadleCloseChat={hadleCloseChat} />
           </div>
         )
         : (
