@@ -43,7 +43,6 @@ function GamePage() {
             setPunchData(elem.punch);
           }
         });
-        console.log('broke everybody ready');
         setStatus('showround');
         setTimeout(() => setStatus('game'), 1500);
       }
@@ -58,10 +57,7 @@ function GamePage() {
     });
 
     socketRef.current.on('nextVote', ({ roomId, nextVote, userId }) => {
-      console.log('входные данные =>>>>>>>>>>. roomId, nextVote, userId: ', roomId, nextVote, userId);
-      console.log('nashi данные =>>>>>>>>>>. id, user.userId: ', id, user.userid);
       if (id === roomId && userId === user.userid) {
-        console.log('поменялись пропсы');
         setVoteData(nextVote);
       }
     });
@@ -76,7 +72,6 @@ function GamePage() {
             setPunchData(elem.punch);
           }
         });
-        console.log('broke everybodyVote');
         setStatus('showround');
         setTimeout(() => setStatus('game'), 1500);
       }
@@ -88,10 +83,10 @@ function GamePage() {
       }
     });
 
-    // return function disconnect() {
-    //   const token = localStorage.getItem('token');
-    //   socketRef.current.emit('disconnectRoom', { id, token });
-    // };
+    return function disconnect() {
+      const token = localStorage.getItem('token');
+      socketRef.current.emit('disconnectRoom', { id, token });
+    };
   }, []);
 
   // На выход из комнаты
@@ -105,7 +100,6 @@ function GamePage() {
     <Grid className={style.gamePage} container spacing={2}>
       <Grid item xs>
         {status === 'start' && <StartGamePage socketRef={socketRef} />}
-        {/* {status === 'everybodyReady' && <p>Все готовы, поехали</p>} */}
         {status === 'game' && (
         <PunchGamePage
           status={status}
@@ -114,12 +108,10 @@ function GamePage() {
           socketRef={socketRef}
         />
         )}
-        {status === 'showround' && <ShowRoundPage />}
+        {status === 'showround' && <ShowRoundPage round={currentRound} />}
         {status === 'everybodyAnswers'
          && (
-         <ShowRoundPage
-           round={currentRound}
-         />
+         <p>все ответили</p>
          )}
         {status === 'voting'
         && (
@@ -132,7 +124,6 @@ function GamePage() {
         && (
         <ResultsGamePage />
         )}
-        {/* <ResultsGamePage /> */}
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
       <Grid item xs={4}>

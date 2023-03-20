@@ -15,8 +15,6 @@ export default function VoteGamePage({ voteData, socketRef }) {
     if (socketRef.current) {
       socketRef.current.on('waitingOtherVotes', ({ id, userId }) => {
         if (id === roomId && user.userid === userId) {
-          console.log('поменялся статус');
-
           setWaitingStatus(true);
         }
       });
@@ -28,7 +26,7 @@ export default function VoteGamePage({ voteData, socketRef }) {
     socketRef.current.emit('currentParticipantVote', { token, roomId, id });
     // setNextVote(true);
     // setTimeout(() => {
-    //   setNextVote(false);
+    setNextVote(false);
     // }, 500);
   };
 
