@@ -12,36 +12,67 @@
     padding-right: 5px;
 }
 
-.eachMessage {
-    background-color: #f0f8ff4d !important;
-    margin: 7px;
+.eachMessage, .rightLight {
+    background-color: #141b2d !important;
+    margin-left: 7px;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 12px 12px 12px 2px;
     width: 50%;
     display: flex;
     justify-content: space-between;
     overflow-wrap: anywhere;
 }
 
+.rightLight {
+    background-color: #009f92 !important;
+}
+
 .time {
     display: flex;
     justify-content: center;
-    background-color: #f0f8ff4d !important;
-    margin: 7px;
+    padding-bottom: 3px;
+    margin-left: 7px;
+    border-radius: 0px 0px 5px 5px;
+    width: 8%;
+    align-self: start;
+    font-size: 10px;
+}
+
+.eachSenderMessage, .leftLight {
+    background-color: #141b2d !important;
+    margin-left: 7px;
     padding: 5px;
-    border-radius: 5px;
-    width: 15%;
-    align-self: end;
+    border-radius: 12px 12px 2px 12px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    overflow-wrap: anywhere;
+}
+
+.leftLight {
+    background-color: #009f92 !important;
+}
+
+.senderTime {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3px;
+    margin-left: 7px;
+    border-radius: 0px 0px 5px 5px;
+    width: 8%;
+    align-items: end;
+    font-size: 10px;
 }
 
 .ourNewMessage {
     display: flex;
     justify-content: start;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .senderNewMessage {
     display: flex;
     justify-content: end;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: end;
 }

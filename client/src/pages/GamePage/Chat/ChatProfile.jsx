@@ -15,6 +15,12 @@ function ChatProfile({ id, name, hadleCloseChat }) {
   const socketRef = useRef(null);
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
+  const theme = localStorage.getItem('theme');
+  const [styles, setStyles] = useState(theme);
+
+  useEffect(() => {
+    setStyles(theme);
+  }, [theme]);
 
   const scroll = useRef(null);
 
@@ -77,7 +83,7 @@ function ChatProfile({ id, name, hadleCloseChat }) {
           />
         </div>
       </div>
-      <div ref={scroll} className={style.allMessages}>
+      <div ref={scroll} className={styles === 'light' ? (style.allLightMessages) : (style.allMessages)}>
         {allMessages.join()
           ? (allMessages.map((msg) => (msg.text !== '' ? (
             <Messages id={id} key={msg.id} message={msg} />) : (''))))

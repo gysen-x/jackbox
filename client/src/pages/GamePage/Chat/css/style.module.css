@@ -12,7 +12,7 @@
     font-size: 30px;
 }
 
-.allMessages {
+.allMessages, .allLightMessages {
     flex-direction: column;
     flex-grow: 2;
     margin-right: 20px;
@@ -22,7 +22,12 @@
     justify-content: flex-end;
     overflow-y: scroll;
     max-height: 72vh;
-    border: 10px solid #00777b !important;
+    padding: 10px !important;
+}
+
+.allLightMessages {
+    background: rgba(240, 248, 255, 0.3) !important;
+    padding: 10px !important;
 }
 
 .messageInputForm {

@@ -62,7 +62,6 @@
 .chatFriends {
     width: 25px;
     margin-left: auto;
-    filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
 
 .chatFriends:hover {
@@ -72,7 +71,6 @@
 .deleteFriends {
     width: 15px;
     margin-left: 1.3vw;
-    filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
 }
 
 .deleteFriends:hover {
