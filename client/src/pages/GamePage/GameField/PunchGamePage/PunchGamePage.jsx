@@ -6,9 +6,7 @@ import { Timer } from '../StartGamePage/Timer/Timer';
 
 import style from './style.module.css';
 
-export default function PunchGamePage({
-  status, setStatus, socketRef, punchData,
-}) {
+export default function PunchGamePage({ socketRef, punchData }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [punchInput, setPunchInput] = useState('');
   const [waiting, setWaiting] = useState(false);

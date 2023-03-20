@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     status: DataTypes.STRING,
     pointsInGame: DataTypes.INTEGER,
+    votes: DataTypes.INTEGER,
     avatar: DataTypes.TEXT,
     ready: DataTypes.BOOLEAN,
     roomId: DataTypes.INTEGER,

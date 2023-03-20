@@ -55,6 +55,12 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
           setParticipants(participantsWOReadyCheck);
         }
       });
+
+      socketRef.current.on('everybodyVote', ({ roomId, refreshParticipants }) => {
+        if (id === roomId) {
+          setParticipants(refreshParticipants);
+        }
+      });
     }
   }, [participants]);
 
@@ -75,7 +81,7 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
               <Avatar alt="Remy Sharp" src={participant.avatar} />
             )}
             <h3>{participant.login}</h3>
-            <h4>{participant.points}</h4>
+            <h4>{participant.pointsInGame}</h4>
           </div>
         ))}
       </div>
