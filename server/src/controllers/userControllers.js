@@ -12,7 +12,11 @@ exports.getUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ where: { id }, attributes: ['login', 'email', 'avatar'] });
-    const friendsAll = await Friendship.findAll({ where: { userId1: id }, attributes: ['userId2'], include: { model: User } });
+    const friendsAll = await Friendship.findAll({
+      where: { userId1: id },
+      attributes: ['userId2'],
+      include: { model: User },
+    });
     const friends = friendsAll.map((el) => (
       {
         id: el.User.id,
@@ -104,10 +108,11 @@ exports.getMessages = async (req, res) => {
     const allPrivateMessages = [];
 
     for (let i = 0; i < messages.length; i += 1) {
-      let user;
+      const user = {};
       for (let j = 0; j < 2; j += 1) {
         if (users[j].id === messages[i].senderId) {
-          user = users[j].login;
+          user.login = users[j].login;
+          user.id = users[j].id;
         }
       }
       allPrivateMessages.push({

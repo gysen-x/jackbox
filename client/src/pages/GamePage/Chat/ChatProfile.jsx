@@ -80,7 +80,7 @@ function ChatProfile({ id, name, hadleCloseChat }) {
       <div ref={scroll} className={style.allMessages}>
         {allMessages.join()
           ? (allMessages.map((msg) => (msg.text !== '' ? (
-            <Messages key={msg.id} message={msg} />) : (''))))
+            <Messages id={id} key={msg.id} message={msg} />) : (''))))
           : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
       </div>
       <form onSubmit={onSubmitHandle} className={style.messageInputForm}>

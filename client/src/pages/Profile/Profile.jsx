@@ -3,7 +3,7 @@ import './Profile.css';
 import { Avatar } from '@mui/material';
 import ChromeDinoGame from 'react-chrome-dino';
 import EmailIcon from '@mui/icons-material/Email';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 // import { useSelector } from 'react-redux';
 import ChatProfile from '../GamePage/Chat/ChatProfile';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -312,14 +312,13 @@ export default function Profile() {
                           }}
                         className="chatFriends"
                       />
-                    <RemoveCircleIcon
+                    <ClearRoundedIcon
                         onPointerDown={() => {
                             deleteFriends(id);
                           }}
                         className="deleteFriends"
-                        alt="delete"
+                        fontSize="medium"
                       />
-
                   </li>
                 ))}
               </ul>
