@@ -32,15 +32,17 @@
 }
 
 .closeChat {
-    width: 15px;
-    /* height: 15px; */
-    margin-left: 1.3vw;
-    filter: drop-shadow(0.5px 0.5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
-  }
+    margin-left: 10px;
+    font-size: large;
+}
 
-  .title {
+.closeChat:hover {
+    cursor: pointer;
+}
+
+.title {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     font-size: 3vw;
-  }
+}

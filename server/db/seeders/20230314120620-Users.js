@@ -82,6 +82,24 @@ module.exports = {
       ready: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+    }, {
+      login: 'Liquid16',
+      password: '$2b$10$NVxJurkqLbidoUm/LU0nwel2veeK77Pn4qvce.HkbhnDbVQwXZuYu',
+      email: 'ignat-ilya@yandex.rus',
+      status: 'viewer',
+      avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }, {
+      login: 'Liquid17',
+      password: '$2b$10$BeiCgZuj2Bj4mY/xqPDaKOrn.Ct/fRlbyHxem/UEUJbAcUsPsLIcu',
+      email: 'ignat-ilya@yandex.russia',
+      status: 'viewer',
+      avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Steve_Buscemi_%281996%29.jpg/220px-Steve_Buscemi_%281996%29.jpg',
+      ready: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     }], {});
   },
 
