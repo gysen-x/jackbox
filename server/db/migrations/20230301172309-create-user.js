@@ -28,7 +28,11 @@ module.exports = {
       },
       pointsInGame: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        defaultValue: 0,
+      },
+      votes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       avatar: {
         type: Sequelize.TEXT,

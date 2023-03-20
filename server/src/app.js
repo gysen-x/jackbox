@@ -97,7 +97,10 @@ io.on('connection', (socket) => {
       id: messageDB.id,
       text: messageDB.text,
       time: messageDB.createdAt,
-      user: user.login,
+      user: {
+        login: user.login,
+        id: user.id,
+      },
     };
 
     io.emit('newMessage', { id, messageNew });
@@ -112,7 +115,10 @@ io.on('connection', (socket) => {
       id: messageDB.id,
       text: messageDB.text,
       time: messageDB.createdAt,
-      user: user.login,
+      user: {
+        login: user.login,
+        id: user.id,
+      },
     };
 
     io.emit('newPrivateMessage', { id, senderId, messageNew });
@@ -131,6 +137,7 @@ io.on('connection', (socket) => {
         const allPunchesDB = await Setup.findAll();
         const textPunches = allPunchesDB.map((el) => el.body);
         const data = makePairsWithPunches(usersIds, textPunches);
+        const { round } = await Room.findOne({ where: { id: roomId } });
         const dataForDB = data.map((el) => ({
           roomId,
           playerId1: el.pairs[0],
@@ -138,7 +145,7 @@ io.on('connection', (socket) => {
           setup: el.punch,
         }));
         await AnswersAndPairs.bulkCreate(dataForDB);
-        io.emit('everybodyReady', { roomId, data });
+        io.emit('everybodyReady', { roomId, data, round });
       }, 1500);
     } else {
       io.emit('playerReady', { roomId, userId });
@@ -149,6 +156,7 @@ io.on('connection', (socket) => {
     const { id: userId } = decodeToken(token);
     const ourPair = await AnswersAndPairs.findOne({
       where: {
+        roomId,
         [Op.or]: [
           { playerId1: userId },
           { playerId2: userId },
@@ -166,7 +174,72 @@ io.on('connection', (socket) => {
         { where: { roomId, playerId2: userId } },
       );
     }
+
     const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    const isEverybodyAnswers = allPairs.every((el) => el.punchPlayer1 && el.punchPlayer2);
+    if (isEverybodyAnswers) {
+      const fisrtVote = allPairs[0];
+      const firstVoteData = {
+        setup: fisrtVote.setup,
+        first: {
+          id: fisrtVote.playerId1,
+          punch: fisrtVote.punchPlayer1,
+        },
+        second: {
+          id: fisrtVote.playerId2,
+          punch: fisrtVote.punchPlayer2,
+        },
+      };
+      io.emit('everybodyAnswers', { roomId, firstVoteData });
+    }
+  });
+
+  socket.on('currentParticipantVote', async ({ token, roomId, id }) => {
+    const { id: userId } = decodeToken(token);
+    await User.increment({ pointsInGame: 100 }, { where: { id } });
+    const votedUser = await User.increment({ votes: 1 }, { where: { id: userId } });
+    const votedRoom = await Room.increment({ votes: 1 }, { where: { id: roomId } });
+    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    if (votedUser[0][0][0].votes < allPairs.length) {
+      const nextVote = allPairs[votedUser[0][0][0].votes];
+      io.emit('nextVote', { roomId, nextVote, userId });
+      console.log('nextVote');
+    } else if (votedRoom[0][0][0].members === votedRoom[0][0].votes) {
+      if (votedRoom[0][0][0].round < 3) {
+        console.log('everybodyVote');
+        await AnswersAndPairs.destroy({ where: { roomId } });
+        const refreshParticipants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
+        const room = await Room.increment({ round: 1 }, { where: { id: roomId } });
+        await Room.update({ votes: 0 }, { where: { id: roomId } });
+        const { round } = room[0][0][0];
+
+        const usersIds = refreshParticipants.map((el) => el.id);
+        const allPunchesDB = await Setup.findAll();
+        const textPunches = allPunchesDB.map((el) => el.body);
+        const data = makePairsWithPunches(usersIds, textPunches);
+        const dataForDB = data.map((el) => ({
+          roomId,
+          playerId1: el.pairs[0],
+          playerId2: el.pairs[1],
+          setup: el.punch,
+        }));
+        await AnswersAndPairs.bulkCreate(dataForDB);
+
+        io.emit('everybodyVote', {
+          roomId, refreshParticipants, round, data,
+        });
+      } else {
+        console.log('gameFinished');
+        await AnswersAndPairs.destroy({ where: { roomId } });
+        await Room.update({ round: 1, votes: 0 }, { where: { id: roomId } });
+        const participants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
+        io.emit('gameFinished', { roomId, participants });
+      }
+    } else {
+      console.log('waitingOtherVotes');
+      io.emit('waitingOtherVotes', { id: roomId, userId });
+    }
+
     const isEverybodyAnswers = allPairs.every((el) => el.punchPlayer1 && el.punchPlayer2);
     if (isEverybodyAnswers) {
       const fisrtVote = allPairs[0];

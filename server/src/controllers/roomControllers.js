@@ -74,7 +74,10 @@ exports.getRoomsMessages = async (req, res) => {
       id: message.id,
       text: message.text,
       time: message.createdAt,
-      user: message.User.login,
+      user: {
+        login: message.User.login,
+        id: message.User.id,
+      },
     }));
     res.json(allMessages);
   } catch (error) {
