@@ -14,15 +14,17 @@ function Messages({ message }) {
     setStyles(theme);
   }, [theme]);
 
+  console.log(message);
+
   return (
     user.userid === message.user.id ? (
       <div className={style.message}>
-        <p className={style.message__ourUsername}>{message.user.login}</p>
-        <div className={style.ourNewMessage}>
-          <div className={styles === 'light' ? (style.rightLight) : (style.eachMessage)}>
+        <p className={style.message__senderUsername}>{message.user.login}</p>
+        <div className={style.senderNewMessage}>
+          <div className={styles === 'light' ? (style.leftLight) : (style.eachSenderMessage)}>
             {message.text}
           </div>
-          <div className={style.time}>
+          <div className={style.senderTime}>
             {hours < 10 ? (`0${hours}`) : (hours)}
             :
             {minutes < 10 ? (`0${minutes}`) : (minutes)}
@@ -31,12 +33,12 @@ function Messages({ message }) {
       </div>
     ) : (
       <div className={style.message}>
-        <p className={style.message__senderUsername}>{message.user.login}</p>
-        <div className={style.senderNewMessage}>
-          <div className={styles === 'light' ? (style.leftLight) : (style.eachSenderMessage)}>
+        <p className={style.message__ourUsername}>{message.user.login}</p>
+        <div className={style.ourNewMessage}>
+          <div className={styles === 'light' ? (style.rightLight) : (style.eachMessage)}>
             {message.text}
           </div>
-          <div className={style.senderTime}>
+          <div className={style.time}>
             {hours < 10 ? (`0${hours}`) : (hours)}
             :
             {minutes < 10 ? (`0${minutes}`) : (minutes)}

@@ -74,13 +74,13 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
         {participants.map((participant) => (
           <div key={participant.id} className={style.gamefriends__friend}>
             {participant.ready ? (
-              <Badge badgeContent="✓" color="primary">
+              <Badge className={style.badgeStatus} badgeContent="✓" color="success">
                 <Avatar alt="Remy Sharp" src={participant.avatar} />
               </Badge>
             ) : (
               <Avatar alt="Remy Sharp" src={participant.avatar} />
             )}
-            <h3>{participant.login}</h3>
+            <h3 className={style.participantlogin}>{participant.login}</h3>
             <h4>{participant.pointsInGame}</h4>
           </div>
         ))}
