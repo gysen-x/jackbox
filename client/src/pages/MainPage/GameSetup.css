@@ -5,6 +5,29 @@
     width: 100px;
 }
 
+.newGame {
+	background-color: #009f92;
+	position: relative;
+	width: 80vw !important;
+	min-width: 300px;
+	max-width: 600px;
+}
+.badgeGame {
+	position: absolute;
+    font-size: 14px;
+    padding: 10px 9px;
+    text-align: center;
+    top: -11px;
+    right: 61px;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+    transform: rotate(15deg);
+    border-radius: 50%;
+    text-shadow: 1px 1px 0px #333;
+    background-color: #ff9800d9;
+}
+
 /* */
 .gamesSlider {
 	position: relative;
