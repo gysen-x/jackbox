@@ -3,6 +3,7 @@
     width: 338px;
     gap: 10px;
     display: flex;
+    background-color: transparent;
 }
 
 .gameWrapper {
@@ -11,6 +12,7 @@
     align-items: center;
     width: fit-content;
     height: 290px;
+    background-color: transparent;
 }
 .gamesWrapper > .buttonColor {
   color: azure;

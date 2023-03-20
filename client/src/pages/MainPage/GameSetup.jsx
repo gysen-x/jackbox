@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import SwipeableViews from 'react-swipeable-views';
 import { Button, MobileStepper } from '@mui/material';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -24,6 +23,7 @@ export default function GameSetup() {
   const [formData, setFormData] = useState({ name: '', password: '', gameId: 1 });
   const [activeStep, setActiveStep] = useState(0);
   const [maxSteps, setMaxSteps] = useState(0);
+  const inputSlider = useRef();
   const navigate = useNavigate();
   const socketRef = useRef(null);
   const theme = useTheme();
@@ -46,15 +46,13 @@ export default function GameSetup() {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    inputSlider.current.children[activeStep + 1].children[0].checked = true;
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    inputSlider.current.children[activeStep - 1].children[0].checked = true;
   };
-
-  // const handleStepChange = (step) => {
-  //   setActiveStep(step);
-  // };
 
   const handleCreateGame = () => {
     if (formData.name.length > 3 && formData.name.length < 11) {
@@ -112,39 +110,40 @@ export default function GameSetup() {
             <ArrowBackIosRoundedIcon fontSize="large" />
           )}
         </Button>
-        {/* <SwipeableViews
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          width="fit-content"
-        > */}
-        {allGames.join()
-          ? allGames.map(({
-            name, rules, description, img, maxPlayers, id,
-          }) => (
-            <div key={`div${id}`} className="gameWrapper">
-              <input id={`radioCheck${id}`} type="checkbox" className="checkCard" />
-              <label htmlFor={`radioCheck${id}`} className="flipCard">
-                <div className="card">
-                  <img className="img-card" src={img} alt="game card" />
-                  <div className="info-card">
-                    <p>{name}</p>
-                    <p>{description}</p>
-                  </div>
+        <div className="gamesSlider" ref={inputSlider}>
+          {allGames.join()
+            ? allGames.map(({
+              name, rules, description, img, maxPlayers, id,
+            }, index) => (
+              <div key={`div${id}`}>
+                {index === 0
+                  ? <input className="inputSlider" defaultChecked="checked" type="radio" name="input-slider" />
+                  : <input className="inputSlider" type="radio" name="input-slider" />}
+                <div className="gameWrapper">
+                  <input id={`radioCheck${id}`} type="checkbox" className="checkCard" />
+                  <label htmlFor={`radioCheck${id}`} className="flipCard">
+                    <div className="card">
+                      <img className="img-card" src={img} alt="game card" />
+                      <div className="info-card">
+                        <p>{name}</p>
+                        <p>{description}</p>
+                      </div>
+                    </div>
+                    <div className="card_back">
+                      <p>Rules:</p>
+                      <p>{rules}</p>
+                      <p>
+                        Max players:
+                        {' '}
+                        {maxPlayers}
+                      </p>
+                    </div>
+                  </label>
                 </div>
-                <div className="card_back">
-                  <p>Rules:</p>
-                  <p>{rules}</p>
-                  <p>
-                    Max players:
-                    {' '}
-                    {maxPlayers}
-                  </p>
-                </div>
-              </label>
-            </div>
-          ))
-          : <div>Games not found</div>}
-        {/* </SwipeableViews> */}
+              </div>
+            ))
+            : <div>Games not found</div>}
+        </div>
         <Button
           className="buttonColor"
           onClick={handleNext}

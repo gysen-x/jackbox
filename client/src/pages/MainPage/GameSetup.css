@@ -4,3 +4,95 @@
     align-items: center;
     width: 100px;
 }
+
+/* */
+.gamesSlider {
+	position: relative;
+	width: 500px;
+	height: 300px;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding: 1rem;
+}
+
+.inputSlider {
+  display: none;
+}
+
+.inputSlider + * {
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	transform: translateX(100%);
+	transition: transform ease-in-out 400ms;
+	border-radius: 5px;
+	overflow: hidden;
+	background: #ddd;
+}
+
+.inputSlider:checked + * {
+	transform: translateX(0);
+	z-index: 1;
+}
+
+/* 
+	just to be safe we hide every element that comes after
+	each slide and that's not an .inputSlider of type radio
+*/
+.inputSlider + * + *:not(.inputSlider[type=radio]) {
+	display: none;
+}
+
+/* ARROWS */
+
+.inputSlider:before {
+	display: none !important;
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 1rem;
+	width: 2rem;
+	height: 2rem;
+	background: orange;
+	border-radius: 50%;
+}
+
+.inputSlider:after {
+	display: none !important;
+	content: '';
+	position: absolute;
+	top: calc(50% + 1rem);
+	left: 2rem;
+	width: .5rem;
+	height: .5rem;
+	border-bottom: 1px solid #262626;
+	border-left: 1px solid #262626;
+	transform: translate(-25%, -50%) rotate(45deg);
+}
+
+.inputSlider:checked:before, .inputSlider:checked:after {
+	display: none;
+}
+
+.inputSlider:checked + * + .inputSlider:before {
+	left: calc(100% - 3rem);
+}
+
+.inputSlider:checked + * + .inputSlider:after {
+	left: calc(100% - 2rem);
+	transform: translate(-75%, -50%) rotate(-135deg);
+}
+
+.inputSlider:checked + * + .inputSlider + * ~ .inputSlider:before,
+.inputSlider:checked + * + .inputSlider + * ~ .inputSlider:after {
+	display: none;
+}
+
+.inputSlider:last-of-type:before {
+	background: green;
+}
