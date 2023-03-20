@@ -14,9 +14,9 @@ export default function VoteGamePage({ voteData, socketRef }) {
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.on('waitingOtherVotes', ({ id, userId }) => {
-        console.log('input =>>>>>>>>>>>>>>>>>>>>>>>>>', id, userId);
-        console.log('our data =>>>>>>>>>>>>>>>>>>>>>>>>>', roomId, user.userid);
         if (id === roomId && user.userid === userId) {
+          console.log('поменялся статус');
+
           setWaitingStatus(true);
         }
       });
@@ -26,10 +26,10 @@ export default function VoteGamePage({ voteData, socketRef }) {
   const handleVoteClick = (id) => {
     const token = localStorage.getItem('token');
     socketRef.current.emit('currentParticipantVote', { token, roomId, id });
-    setNextVote(true);
-    setTimeout(() => {
-      setNextVote(false);
-    }, 500);
+    // setNextVote(true);
+    // setTimeout(() => {
+    //   setNextVote(false);
+    // }, 500);
   };
 
   return (
