@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import style from './css/style.module.css';
 import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
@@ -14,6 +15,12 @@ function ChatProfile({ id, name, hadleCloseChat }) {
   const socketRef = useRef(null);
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
+  const theme = localStorage.getItem('theme');
+  const [styles, setStyles] = useState(theme);
+
+  useEffect(() => {
+    setStyles(theme);
+  }, [theme]);
 
   const scroll = useRef(null);
 
@@ -67,18 +74,20 @@ function ChatProfile({ id, name, hadleCloseChat }) {
           Chat with:
           {' '}
           {name}
-          <img
-            onPointerDown={() => { hadleCloseChat(); }}
+          <ClearRoundedIcon
+            onPointerDown={() => {
+              hadleCloseChat();
+            }}
+            fontSize="large"
             className={style.closeChat}
-            src="https://cdn-icons-png.flaticon.com/512/656/656857.png"
-            alt="delete"
           />
         </div>
       </div>
-      <div ref={scroll} className={style.allMessages}>
+      <div ref={scroll} className={styles === 'light' ? (style.allLightMessages) : (style.allMessages)}>
         {allMessages.join()
           ? (allMessages.map((msg) => (msg.text !== '' ? (
-            <Messages key={msg.id} message={msg} />) : ('')))) : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
+            <Messages id={id} key={msg.id} message={msg} />) : (''))))
+          : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
       </div>
       <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
         <CustomInput

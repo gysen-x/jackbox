@@ -2,33 +2,77 @@
     margin-bottom: 10px;
 }
 
-.message__username {
+.message__ourUsername {
+    text-align: left;
     padding-left: 5px;
 }
 
-.eachMessage {
-    background-color: #f0f8ff4d !important;
-    margin: 7px;
+.message__senderUsername {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.eachMessage, .rightLight {
+    background-color: #141b2d !important;
+    margin-left: 7px;
     padding: 5px;
-    border-radius: 5px;
-    width: 70%;
+    border-radius: 12px 12px 12px 2px;
+    width: 50%;
     display: flex;
     justify-content: space-between;
     overflow-wrap: anywhere;
 }
 
+.rightLight {
+    background-color: #009f92 !important;
+}
+
 .time {
     display: flex;
     justify-content: center;
-    background-color: #f0f8ff4d !important;
-    margin: 7px;
-    padding: 5px;
-    border-radius: 5px;
-    width: 25%;
-    align-self: end;
+    padding-bottom: 3px;
+    margin-left: 7px;
+    border-radius: 0px 0px 5px 5px;
+    width: 8%;
+    align-self: start;
+    font-size: 10px;
 }
 
-.newMessage {
+.eachSenderMessage, .leftLight {
+    background-color: #141b2d !important;
+    margin-left: 7px;
+    padding: 5px;
+    border-radius: 12px 12px 2px 12px;
+    width: 50%;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    overflow-wrap: anywhere;
+}
+
+.leftLight {
+    background-color: #009f92 !important;
+}
+
+.senderTime {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3px;
+    margin-left: 7px;
+    border-radius: 0px 0px 5px 5px;
+    width: 8%;
+    align-items: end;
+    font-size: 10px;
+}
+
+.ourNewMessage {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.senderNewMessage {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    align-items: end;
 }
