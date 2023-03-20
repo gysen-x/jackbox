@@ -14,6 +14,7 @@ module.exports = {
           model: 'Rooms',
           key: 'id',
         },
+        onDelete: 'cascade',
       },
       playerId1: {
         type: Sequelize.INTEGER,

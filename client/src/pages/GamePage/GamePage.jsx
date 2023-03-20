@@ -43,6 +43,7 @@ function GamePage() {
             setPunchData(elem.punch);
           }
         });
+        console.log('broke everybody ready');
         setStatus('showround');
         setTimeout(() => setStatus('game'), 1500);
       }
@@ -60,6 +61,7 @@ function GamePage() {
       console.log('входные данные =>>>>>>>>>>. roomId, nextVote, userId: ', roomId, nextVote, userId);
       console.log('nashi данные =>>>>>>>>>>. id, user.userId: ', id, user.userid);
       if (id === roomId && userId === user.userid) {
+        console.log('поменялись пропсы');
         setVoteData(nextVote);
       }
     });
@@ -74,6 +76,7 @@ function GamePage() {
             setPunchData(elem.punch);
           }
         });
+        console.log('broke everybodyVote');
         setStatus('showround');
         setTimeout(() => setStatus('game'), 1500);
       }
