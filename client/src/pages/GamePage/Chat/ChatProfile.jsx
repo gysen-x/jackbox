@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import EmojiPicker, { Theme } from 'emoji-picker-react';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import style from './css/style.module.css';
 import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
@@ -13,10 +15,13 @@ function ChatProfile({ id, name, hadleCloseChat }) {
   const user = useSelector((store) => store.user);
   const token = localStorage.getItem('token');
   const socketRef = useRef(null);
+  const theme = localStorage.getItem('theme');
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
-  const theme = localStorage.getItem('theme');
   const [styles, setStyles] = useState(theme);
+  const [showEmoji, setShowEmoji] = useState(false);
+
+  const emojiTheme = theme === 'light' ? Theme.LIGHT : Theme.DARK;
 
   useEffect(() => {
     setStyles(theme);
@@ -67,8 +72,13 @@ function ChatProfile({ id, name, hadleCloseChat }) {
     }
   };
 
+  const handleShowEmoji = () => {
+    setShowEmoji(!showEmoji);
+  };
+
   return (
     <div className={style.chatDiv}>
+      {showEmoji && <EmojiPicker theme={emojiTheme} />}
       <div className={style.header}>
         <div className={style.title}>
           Chat with:
@@ -96,6 +106,7 @@ function ChatProfile({ id, name, hadleCloseChat }) {
           name="text"
           onChange={handleChange}
         />
+        <EmojiEmotionsIcon fontSize="large" onClick={handleShowEmoji} />
         <CustomButton type="submit" color="#fe9e84" title="Send" />
       </form>
     </div>
