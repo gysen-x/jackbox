@@ -3,151 +3,155 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900;1000&display=swap');
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  /* font-family: 'Sono', sans-serif; */
-  font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* font-family: 'Sono', sans-serif; */
+    font-family: 'Nunito', sans-serif;
 }
+
 .main {
-  width: 100%;
+    width: 100%;
 
 }
+
 body {
-  display: flex;
-  width: 100vw;
-  justify-content: center;
+    display: flex;
+    width: 100vw;
+    justify-content: center;
 }
+
 #root {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1490px;
     justify-content: center;
-    
+
 }
+
 .logoMini {
-  display: block;
-  width: 143px;
-  height: 40px;
-  filter: drop-shadow(5px 5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
-  /* max-width: 320px;
-  margin: 20px auto;
-  color: transparent;
-  background-size: contain;
-  background-position: top center;
-  background-repeat: no-repeat; */
+    display: block;
+    width: 143px;
+    height: 40px;
+    filter: drop-shadow(5px 5px 0 navy) drop-shadow(-0.5px 0.5px 0 navy) drop-shadow(0.5px -0.5px 0 navy) drop-shadow(-0.5px -0.5px 0 navy);
+    /* max-width: 320px;
+    margin: 20px auto;
+    color: transparent;
+    background-size: contain;
+    background-position: top center;
+    background-repeat: no-repeat; */
 }
 
 .nyan {
-  display: block;
-  position: absolute;
-  width: 30%;
-  bottom: 0;
-  left: 0;
-  z-index: -10;
+    display: block;
+    position: absolute;
+    width: 30%;
+    bottom: 0;
+    left: 0;
+    z-index: -10;
 }
 
 .homepageH1 {
-  font-size: 30px;
-  font-weight: 900;
-  filter: drop-shadow(0px 1px 0px #333) drop-shadow(0px 2px 0px #333) drop-shadow(0px 3px 0px #333);
-  /* color: black; */
-  /* color: azure */
+    font-size: 30px;
+    font-weight: 900;
+    filter: drop-shadow(0px 1px 0px #333) drop-shadow(0px 2px 0px #333) drop-shadow(0px 3px 0px #333);
+    /* color: black; */
+    /* color: azure */
 }
 
 .contentWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 10px;
-  font-size: 17px;
-  font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 400px;
-  height: auto;
-  width: 100%;
-  color: azure;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 10px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 400px;
+    height: auto;
+    width: 100%;
+    color: azure;
 }
 
 /* The switch - the box around the slider */
 .switch {
-  /* Variables */
-  --switch_width: 2em;
-  --switch_height: 1em;
-  --thumb_color: #e8e8e8;
-  --track_color: #e8e8e8;
-  --track_active_color: #888;
-  --outline_color: #000;
-  font-size: 17px;
-  position: relative;
-  display: inline-block;
-  width: var(--switch_width);
-  height: var(--switch_height);
+    /* Variables */
+    --switch_width: 2em;
+    --switch_height: 1em;
+    --thumb_color: #e8e8e8;
+    --track_color: #e8e8e8;
+    --track_active_color: #888;
+    --outline_color: #000;
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: var(--switch_width);
+    height: var(--switch_height);
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* The slider */
 .slider {
-  box-sizing: border-box;
-  border: 2px solid var(--outline_color);
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--track_color);
-  transition: .15s;
-  border-radius: var(--switch_height);
+    box-sizing: border-box;
+    border: 2px solid var(--outline_color);
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--track_color);
+    transition: .15s;
+    border-radius: var(--switch_height);
 }
 
 .slider:before {
-  box-sizing: border-box;
-  position: absolute;
-  content: "";
-  height: var(--switch_height);
-  width: var(--switch_height);
-  border: 2px solid var(--outline_color);
-  border-radius: 100%;
-  left: -2px;
-  bottom: -2px;
-  background-color: var(--thumb_color);
-  transform: translateY(-0.2em);
-  box-shadow: 0 0.2em 0 var(--outline_color);
-  transition: .15s;
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    height: var(--switch_height);
+    width: var(--switch_height);
+    border: 2px solid var(--outline_color);
+    border-radius: 100%;
+    left: -2px;
+    bottom: -2px;
+    background-color: var(--thumb_color);
+    transform: translateY(-0.2em);
+    box-shadow: 0 0.2em 0 var(--outline_color);
+    transition: .15s;
 }
 
-input:checked+.slider {
-  background-color: var(--track_active_color);
+input:checked + .slider {
+    background-color: var(--track_active_color);
 }
 
-input:focus-visible+.slider {
-  box-shadow: 0 0 0 2px var(--track_active_color);
+input:focus-visible + .slider {
+    box-shadow: 0 0 0 2px var(--track_active_color);
 }
 
 /* Raise thumb when hovered */
-input:hover+.slider:before {
-  transform: translateY(-0.3em);
-  box-shadow: 0 0.3em 0 var(--outline_color);
+input:hover + .slider:before {
+    transform: translateY(-0.3em);
+    box-shadow: 0 0.3em 0 var(--outline_color);
 }
 
-input:checked+.slider:before {
-  transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.2em);
+input:checked + .slider:before {
+    transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.2em);
 }
 
 /* Raise thumb when hovered & checked */
-input:hover:checked+.slider:before {
-  transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.3em);
-  box-shadow: 0 0.3em 0 var(--outline_color);
+input:hover:checked + .slider:before {
+    transform: translateX(calc(var(--switch_width) - var(--switch_height))) translateY(-0.3em);
+    box-shadow: 0 0.3em 0 var(--outline_color);
 }
 
 /* switchCheckbox */

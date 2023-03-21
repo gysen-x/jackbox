@@ -37,7 +37,14 @@ exports.deleteFriendhip = async (req, res) => {
   const { id: userId2 } = req.body;
 
   try {
-    await Friendship.destroy({ where: { userId1, userId2 } });
+    await Friendship.destroy({
+      where: {
+        [Op.or]: [
+          { userId1, userId2 },
+          { userId1: userId2, userId2: userId1 },
+        ],
+      },
+    });
     res.sendStatus(200);
   } catch (error) {
     res.sendStatus(401);

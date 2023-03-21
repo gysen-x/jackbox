@@ -12,18 +12,18 @@
 }
 
 .allMessages, .allLightMessages {
+    display: flex;
+    position: relative;
     flex-direction: column;
     flex-grow: 2;
     margin-bottom: 20px;
     background: #00777b !important;
     border-radius: 20px;
     align-self: center;
-    justify-content: center;
     overflow-y: scroll;
     max-height: 72vh;
     padding: 10px !important;
-    position: relative;
-    width: 32vw;
+    width: 25vw;
 }
 
 .allLightMessages {
@@ -52,13 +52,14 @@
     flex-wrap: nowrap;
     align-items: center;
     color: azure;
-  font-size: 30px;
-  font-weight: 900;
-  filter: drop-shadow(0px 1px 0px #333) drop-shadow(0px 2px 0px #333) drop-shadow(0px 3px 0px #333);
+    font-size: 30px;
+    font-weight: 900;
+    filter: drop-shadow(0px 1px 0px #333) drop-shadow(0px 2px 0px #333) drop-shadow(0px 3px 0px #333);
 }
 
 .emojiTable {
-    position: fixed !important;
-    bottom: 135px !important;
-    right: 222px !important;
+    display: flex;
+    justify-content: center;
+    bottom: 80px;
+    right: 65px;
 }
