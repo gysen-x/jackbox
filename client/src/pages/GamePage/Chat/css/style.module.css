@@ -1,8 +1,7 @@
 .chatDiv {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    min-height: 500px;
+    height: 80vh;
 }
 
 .header {
@@ -15,14 +14,16 @@
 .allMessages, .allLightMessages {
     flex-direction: column;
     flex-grow: 2;
-    margin-right: 20px;
     margin-bottom: 20px;
     background: #00777b !important;
     border-radius: 20px;
-    justify-content: flex-end;
+    align-self: center;
+    justify-content: center;
     overflow-y: scroll;
     max-height: 72vh;
     padding: 10px !important;
+    position: relative;
+    width: 32vw;
 }
 
 .allLightMessages {
@@ -33,6 +34,7 @@
 .messageInputForm {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
 }
 
@@ -50,4 +52,10 @@
     flex-wrap: nowrap;
     align-items: center;
     font-size: 3vw;
+}
+
+.emojiTable {
+    position: fixed !important;
+    bottom: 135px !important;
+    right: 222px !important;
 }
