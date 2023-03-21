@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import style from './css/style.module.css';
 import Chat from './Chat/Chat';
@@ -14,6 +14,7 @@ import PunchGamePage from './GameField/PunchGamePage/PunchGamePage';
 import VoteGamePage from './GameField/VoteGamePage/VoteGamePage';
 import ShowRoundPage from './GameField/ShowRoundPage/ShowRoundPage';
 import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const SERVER_URL = 'http://localhost:3000';
 
@@ -97,36 +98,85 @@ function GamePage() {
   };
 
   return (
-    <Grid className={style.gamePage} container spacing={2}>
-      <Grid item xs>
-        {status === 'start' && <StartGamePage socketRef={socketRef} />}
-        {status === 'game' && (
-        <PunchGamePage
-          status={status}
-          setStatus={setStatus}
-          punchData={punchData}
-          socketRef={socketRef}
-        />
-        )}
-        {status === 'showround' && <ShowRoundPage round={currentRound} />}
-        {status === 'everybodyAnswers'
+    <Grid
+      sx={{
+        padding: '10px',
+        minWidth: '500px',
+      }}
+      wrap
+      className={style.gamePage}
+      container
+      spacing={2}
+    >
+      <Grid
+        sx={{
+          minWidth: '500px',
+        }}
+        item
+        xs
+      >
+        <Box
+          sx={{
+            textAlign: 'center',
+            color: 'azure',
+          }}
+          className="homepageH1"
+        >
+          Rhymes and Punches
+
+        </Box>
+        <Box
+          sx={{
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+        >
+          {status === 'start' && <StartGamePage socketRef={socketRef} />}
+          {status === 'game' && (
+          <PunchGamePage
+            status={status}
+            setStatus={setStatus}
+            punchData={punchData}
+            socketRef={socketRef}
+          />
+          )}
+          {status === 'showround' && <ShowRoundPage round={currentRound} />}
+          {status === 'everybodyAnswers'
          && (
          <p>все ответили</p>
          )}
-        {status === 'voting'
+          {status === 'voting'
         && (
         <VoteGamePage
           socketRef={socketRef}
           voteData={voteData}
         />
         )}
-        {status === 'finished'
+          {status === 'finished'
         && (
         <ResultsGamePage />
         )}
+          <Box
+            sx={{
+              position: 'absolute',
+              zIndex: '1000',
+              bottom: '10px',
+              right: '10px',
+            }}
+          >
+            <CustomButton color="#c41e3a" title="Quit" handleOnClick={handleClick} />
+          </Box>
+        </Box>
         <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
       </Grid>
-      <Grid item xs={4}>
+      <Grid
+        item
+        xs={4}
+        sx={{
+          minWidth: '200px',
+        }}
+      >
         <Chat socketRef={socketRef} />
       </Grid>
     </Grid>
