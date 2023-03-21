@@ -54,7 +54,7 @@ function Chat({ socketRef }) {
   return (
     <div className={style.chatDiv}>
       <div className={style.header}>
-        <div className={style.title}>Online-chat</div>
+        <div className={style.title}>Room chat</div>
       </div>
       <div ref={scroll} className={styles === 'light' ? (style.allLightMessages) : (style.allMessages)}>
         {allMessages.join()

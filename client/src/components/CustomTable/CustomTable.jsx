@@ -160,9 +160,11 @@ export default function CustomTable({
 
   return (
     <Box
-      height="500px"
-      minWidth="300px"
+      height="50vh"
+      minHeight="300px"
+      maxHeight="600px"
       width="100%"
+      minWidth="300px"
       maxWidth="500px"
       sx={{
         '& .MuiDataGrid-root': {

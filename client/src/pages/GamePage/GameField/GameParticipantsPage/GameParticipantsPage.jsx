@@ -67,7 +67,7 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
   return (
     <div>
       <div className={style.gamefriends__title}>
-        <CustomButton color="#c41e3a" title="Quit" handleOnClick={handleClick} />
+        {/* <CustomButton color="#c41e3a" title="Quit" handleOnClick={handleClick} /> */}
         <h1 className={style.title}>Participants</h1>
       </div>
       <div className={style.gamefriends__wrapper}>

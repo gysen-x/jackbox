@@ -16,11 +16,15 @@ export default function ResultsGamePage() {
       </div>
       <div className={style.resultsGamePage__rating}>
         <div className={style.resultsGamePage__ratingSecond}>
-          <p className={style.resultsGamePage__ratingSecond}>2</p>
+          <p className={style.resultsGamePage__second}>2</p>
           <Avatar />
         </div>
         <div className={style.resultsGamePage__ratingFirst}>
-          <p className={style.resultsGamePage__second}>1</p>
+          <p className={style.resultsGamePage__first}>1</p>
+          <Avatar />
+        </div>
+        <div className={style.resultsGamePage__ratingThird}>
+          <p className={style.resultsGamePage__third}>3</p>
           <Avatar />
         </div>
       </div>

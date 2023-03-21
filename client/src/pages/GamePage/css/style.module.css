@@ -1,3 +1,16 @@
 .gamePage {
     height: 90vh;
 }
+
+.GamePage__everybodyAnswers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    height: 60vh;
+    background-color: cornflowerblue;
+}
+
+.GamePage__nyan {
+    width: 40%;
+}

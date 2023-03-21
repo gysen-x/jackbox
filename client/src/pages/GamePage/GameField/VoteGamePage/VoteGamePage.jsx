@@ -31,10 +31,32 @@ export default function VoteGamePage({ voteData, socketRef }) {
   };
 
   return (
-    <div className={style.voteGamePage__container}>
+    <div
+      className={style.voteGamePage__container}
+      style={{
+        textAlign: 'center',
+      }}
+    >
 
       {waitingStatus && (
-      <p>Waiting</p>
+        <div className="voteGamePage__wait-wrapper">
+          <p
+            className="voteGamePage__wait-text"
+            style={{
+              fontSize: '30px',
+            }}
+          >
+            Waiting for other players
+          </p>
+          <img
+            className="voteGamePage__nyan"
+            src="/images/nyan.gif"
+            alt="logo"
+            style={{
+              width: '200px',
+            }}
+          />
+        </div>
       )}
       {!waitingStatus && (
       <>
