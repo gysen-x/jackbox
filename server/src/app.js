@@ -253,6 +253,8 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use('/public', express.static('public'));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

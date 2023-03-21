@@ -15,7 +15,7 @@ export default function Profile() {
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
-  const [changedInfo, setChangedInfo] = useState({ login: '', email: '', avatar: '' });
+  const [changedInfo, setChangedInfo] = useState({ login: '', email: '', avatar: null });
   const [showChange, setShowChange] = useState(false);
   const [passwords, setPasswords] = useState({ oldPass: '', newPass: '' });
   const [success, setSuccess] = useState(false);
@@ -25,7 +25,6 @@ export default function Profile() {
   const [errorText, setErrorText] = useState('');
   const [openTooltipEdit, setTooltipEdit] = useState(false);
   const [openTooltipCheckPassword, setTooltipCheckPassword] = useState(false);
-  // const id = useSelector((state) => state.user.userid);
 
   useEffect(() => {
     (async () => {
@@ -64,7 +63,7 @@ export default function Profile() {
 
   const hadleShowEdit = () => {
     setShowEdit(true);
-    setChangedInfo({ login: user.login, email: user.email, avatar: user.avatar });
+    setChangedInfo({ login: user.login, email: user.email, avatar: null });
   };
 
   const handleCheckForm = (event) => {
@@ -73,26 +72,40 @@ export default function Profile() {
     } else if (event.target.name === 'Email') {
       setChangedInfo({ ...changedInfo, email: event.target.value });
     } else {
-      setChangedInfo({ ...changedInfo, avatar: event.target.value });
+      setChangedInfo({ ...changedInfo, avatar: event.target.files[0] });
     }
   };
 
   async function handleEdit(event) {
     event.preventDefault();
+    const data = new FormData();
+    data.append('avatar', changedInfo.avatar);
     const tokenJWT = localStorage.getItem('token');
     const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (changedInfo.email.match(emailValidation)) {
       try {
+        if (changedInfo.avatar) {
+          const responseAvatar = await fetch('/users', {
+            method: 'PUT',
+            headers: {
+              Authentication: `Bearer ${tokenJWT}`,
+            },
+            body: data,
+          });
+          const result = await responseAvatar.json();
+          setUser({ ...user, avatar: result.avatar });
+        }
+
         const response = await fetch('/users', {
           method: 'PUT',
           headers: {
             Authentication: `Bearer ${tokenJWT}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(changedInfo),
+          body: JSON.stringify({ login: changedInfo.login, email: changedInfo.email }),
         });
         if (response.status === 200) {
-          setUser({ ...user, ...changedInfo });
+          setUser((prev) => ({ ...prev, login: changedInfo.login, email: changedInfo.email }));
           setChangedInfo({ login: '', email: '', avatar: '' });
           setShowEdit(false);
           setSuccess(true);
@@ -175,7 +188,7 @@ export default function Profile() {
                 <CustomModal
                   setSwitchModal={setShowEdit}
                   inner={(
-                    <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass">
+                    <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass" encType="multipart/form-data">
                       <CustomInput
                         title="Login"
                         className="form-control"
@@ -198,10 +211,9 @@ export default function Profile() {
                         title="Avatar"
                         className="form-control"
                         id="Avatar"
-                        type="text"
+                        type="file"
                         name="Avatar"
                         onChange={handleCheckForm}
-                        value={changedInfo.avatar}
                       />
                       <CustomTooltip
                         message={errorText}
@@ -301,24 +313,24 @@ export default function Profile() {
                 {friends.map(({ id, login, avatar }) => (
                   <li className="liFriend" key={id}>
                     <Avatar
-                        alt="Remy Sharp"
-                        src={avatar}
-                        sx={{ width: 50, height: 50, marginRight: 1 }}
-                      />
+                      alt="Remy Sharp"
+                      src={avatar}
+                      sx={{ width: 50, height: 50, marginRight: 1 }}
+                    />
                     <p>{login}</p>
                     <EmailIcon
-                        onPointerDown={() => {
-                            hadleShowChat(id, login);
-                          }}
-                        className="chatFriends"
-                      />
+                      onPointerDown={() => {
+                        hadleShowChat(id, login);
+                      }}
+                      className="chatFriends"
+                    />
                     <ClearRoundedIcon
-                        onPointerDown={() => {
-                            deleteFriends(id);
-                          }}
-                        className="deleteFriends"
-                        fontSize="medium"
-                      />
+                      onPointerDown={() => {
+                        deleteFriends(id);
+                      }}
+                      className="deleteFriends"
+                      fontSize="medium"
+                    />
                   </li>
                 ))}
               </ul>
