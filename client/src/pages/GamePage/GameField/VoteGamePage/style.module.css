@@ -2,14 +2,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 20px;
   padding: 20px;
+  height: 60vh;
+  background-color: cornflowerblue;
+}
+
+.voteGamePage__wait-text {
+  align-self: center;
+  text-align: center;
+  font-size: 40px;
+}
+
+.voteGamePage__wait-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .voteGamePage__wrapper {
   display: flex;
+  align-items: center;
   gap: 20px;
   width: 100%;
+}
+
+.voteGamePage__title {
+  font-size: 40px;
 }
 
 .voteGamePage__box {

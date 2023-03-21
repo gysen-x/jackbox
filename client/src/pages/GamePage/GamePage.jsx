@@ -102,6 +102,8 @@ function GamePage() {
       sx={{
         padding: '10px',
         minWidth: '500px',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
       }}
       wrap
       className={style.gamePage}
@@ -110,7 +112,7 @@ function GamePage() {
     >
       <Grid
         sx={{
-          minWidth: '500px',
+          minWidth: '600px',
         }}
         item
         xs
@@ -144,7 +146,9 @@ function GamePage() {
           {status === 'showround' && <ShowRoundPage round={currentRound} />}
           {status === 'everybodyAnswers'
          && (
-         <p>все ответили</p>
+           <div className={style.GamePage__everybodyAnswers}>
+             <img className={style.GamePage__nyan} src="/images/nyan.gif" alt="logo" />
+           </div>
          )}
           {status === 'voting'
         && (
@@ -174,7 +178,7 @@ function GamePage() {
         item
         xs={4}
         sx={{
-          minWidth: '200px',
+          minWidth: '400px',
         }}
       >
         <Chat socketRef={socketRef} />
