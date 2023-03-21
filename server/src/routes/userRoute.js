@@ -1,6 +1,10 @@
 const express = require('express');
+const multer = require('multer');
+const { storage } = require('../middles/middles');
 
 const router = express.Router();
+
+const upload = multer({ storage });
 
 const {
   getUser, deleteFriendhip, changeUserInfo, changeUserPassword, getMessages,
@@ -10,7 +14,7 @@ router.get('/', getUser);
 
 router.delete('/', deleteFriendhip);
 
-router.put('/', changeUserInfo);
+router.put('/', upload.single('avatar'), changeUserInfo);
 
 router.patch('/', changeUserPassword);
 

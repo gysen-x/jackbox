@@ -40,8 +40,8 @@ export default function Topbar() {
   }, []);
 
   const logOutHandle = () => {
-    dispatch(logOut());
     navigate('/');
+    setTimeout(() => { dispatch(logOut()); }, 0);
   };
 
   const list = () => (
