@@ -48,13 +48,27 @@ exports.changeUserInfo = async (req, res) => {
   const oldToken = req.headers.authentication.split(' ')[1];
   const decoded = decodeToken(oldToken);
   const { id } = decoded;
-  const { login, email, avatar } = req.body;
+  const { login, email } = req.body;
 
-  try {
-    await User.update({ login, email, avatar }, { where: { id } });
-    res.sendStatus(200);
-  } catch (error) {
-    res.sendStatus(401);
+  if (req.file?.path) {
+    const avatar = req.file.path;
+    const url = `${req.protocol}://${req.get('host')}/`;
+
+    try {
+      await User.update({ avatar: url + avatar }, { where: { id } });
+      res.json({ avatar: url + avatar });
+    } catch (error) {
+      res.sendStatus(401);
+    }
+  }
+
+  if (login || email) {
+    try {
+      await User.update({ login, email }, { where: { id } });
+      res.sendStatus(200);
+    } catch (error) {
+      res.sendStatus(401);
+    }
   }
 };
 
