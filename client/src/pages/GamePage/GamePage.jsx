@@ -105,7 +105,6 @@ function GamePage() {
         flexWrap: 'wrap',
         justifyContent: 'center',
       }}
-      wrap
       className={style.gamePage}
       container
       spacing={2}
