@@ -1,3 +1,9 @@
-.private-button {
-  font-size: 13px;
+.tableButton span {
+  padding: 4px 0px;
+  border-radius: 8px;
+  background-color: rgb(254, 158, 132);
+}
+
+.tableButton button {
+  border-radius: 8px;
 }

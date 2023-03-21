@@ -1,5 +1,8 @@
 .signin__title {
+  color: azure;
   font-size: 46px;
+  font-weight: 900;
+  filter: drop-shadow(0px 1px 0px #333) drop-shadow(0px 2px 0px #333) drop-shadow(0px 3px 0px #333);
 }
 
 .signin__form {

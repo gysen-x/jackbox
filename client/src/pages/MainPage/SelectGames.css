@@ -1,4 +1,5 @@
 .gamesWrapper {
+    position: relative;
     height: 290px;
     width: 338px;
     gap: 10px;

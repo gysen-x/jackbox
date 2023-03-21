@@ -15,6 +15,7 @@ export default function MainPage() {
   const [allRooms, setAllRooms] = useState([]);
   const [filtredRooms, setFiltredRooms] = useState([]);
   const [switchModal, setSwitchModal] = useState(false);
+  const [switchModalNewGame, setSwitchModalNewGame] = useState(false);
   const [openTooltip, setOpenTooltip] = useState(false);
   const [openTooltipFind, setTooltipFind] = useState(false);
   const [roomId, setRoomId] = useState('');
@@ -123,7 +124,7 @@ export default function MainPage() {
   };
 
   return (
-    <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(500px, auto))" justifyContent="center">
+    <>
       <Box className="contentWrapper">
         <h1 className="homepageH1">ROOMS</h1>
         <CustomTooltip
@@ -147,10 +148,23 @@ export default function MainPage() {
           handlePrivate={handlePrivate}
           handleClick={handleClick}
         />
+        <CustomButton
+          handleOnClick={() => setSwitchModalNewGame(true)}
+          width="290px"
+          title="New Game"
+          color="#fe9e84"
+          type="button"
+        />
       </Box>
-      <Box>
-        <GameSetup />
-      </Box>
+      {switchModalNewGame
+                && (
+                <CustomModal
+                  setSwitchModal={setSwitchModalNewGame}
+                  inner={(
+                    <GameSetup />
+                  )}
+                />
+                )}
       {switchModal
                 && (
                 <CustomModal
@@ -184,6 +198,6 @@ export default function MainPage() {
                         )}
                 />
                 )}
-    </Box>
+    </>
   );
 }

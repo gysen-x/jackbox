@@ -2,3 +2,9 @@
   display: flex;
   gap: 10px;
 }
+
+.menuButton span{
+  writing-mode: vertical-rl;
+  padding: 8px 11px 8px 13px;
+  white-space: nowrap;
+}

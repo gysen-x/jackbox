@@ -88,7 +88,7 @@ export default function GameSetup() {
   };
 
   return (
-    <div className="contentWrapper">
+    <div className="contentWrapper newGame">
       <h1 className="homepageH1">CREATE GAME</h1>
       {/* <div className="switchWrapper">
         <p>Private</p>
@@ -101,8 +101,8 @@ export default function GameSetup() {
           <span className="slider" />
         </label>
       </div> */}
-      <p>Tap to card</p>
       <div className="gamesWrapper">
+        <div className="badgeGame">Tap to card</div>
         <Button size="large" className="buttonColor" onClick={handleBack} disabled={activeStep === 0}>
           {theme.direction === 'rtl' ? (
             <ArrowForwardIosRoundedIcon fontSize="large" />
@@ -162,6 +162,10 @@ export default function GameSetup() {
 
       </div>
       <MobileStepper
+        sx={{
+          position: 'absolute',
+          top: '375px',
+        }}
         className="dotColor"
         variant="dots"
         steps={maxSteps}
