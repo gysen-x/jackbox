@@ -76,9 +76,12 @@ function ChatProfile({ id, name, hadleCloseChat }) {
     setShowEmoji(!showEmoji);
   };
 
+  const handleOnEmoji = (emoji) => {
+    setMessage(message + emoji.emoji);
+  };
+
   return (
     <div className={style.chatDiv}>
-      {showEmoji && <EmojiPicker theme={emojiTheme} />}
       <div className={style.header}>
         <div className={style.title}>
           Chat with:
@@ -94,6 +97,12 @@ function ChatProfile({ id, name, hadleCloseChat }) {
         </div>
       </div>
       <div ref={scroll} className={styles === 'light' ? (style.allLightMessages) : (style.allMessages)}>
+        {showEmoji
+                    && (
+                    <div className={style.emojiTable}>
+                      <EmojiPicker onEmojiClick={handleOnEmoji} width="300px" height="400px" theme={emojiTheme} />
+                    </div>
+                    )}
         {allMessages.join()
           ? (allMessages.map((msg) => (msg.text !== '' ? (
             <Messages id={id} key={msg.id} message={msg} />) : (''))))
