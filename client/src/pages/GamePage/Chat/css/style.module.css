@@ -14,16 +14,16 @@
 .allMessages, .allLightMessages {
     flex-direction: column;
     flex-grow: 2;
-    margin-right: 20px;
     margin-bottom: 20px;
     background: #00777b !important;
     border-radius: 20px;
-    justify-content: flex-end;
+    align-self: center;
+    justify-content: center;
     overflow-y: scroll;
     max-height: 72vh;
     padding: 10px !important;
     position: relative;
-    width: 40vw;
+    width: 32vw;
 }
 
 .allLightMessages {
@@ -56,6 +56,6 @@
 
 .emojiTable {
     position: fixed !important;
-    bottom: 130px !important;
-    right: 130px !important;
+    bottom: 135px !important;
+    right: 222px !important;
 }
