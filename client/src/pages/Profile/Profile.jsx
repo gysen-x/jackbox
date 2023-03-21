@@ -58,6 +58,9 @@ export default function Profile() {
     if (response.status === 200) {
       const refreshFriends = friends.filter((friend) => friend.id !== id);
       setFriends(refreshFriends);
+      if (id === friendId) {
+        setShowChat(false);
+      }
     }
   }
 
@@ -188,7 +191,12 @@ export default function Profile() {
                 <CustomModal
                   setSwitchModal={setShowEdit}
                   inner={(
-                    <form style={{ gap: 20 }} onSubmit={handleEdit} className="formCheckPass" encType="multipart/form-data">
+                    <form
+                      style={{ gap: 20 }}
+                      onSubmit={handleEdit}
+                      className="formCheckPass"
+                      encType="multipart/form-data"
+                    >
                       <CustomInput
                         title="Login"
                         className="form-control"
@@ -313,24 +321,24 @@ export default function Profile() {
                 {friends.map(({ id, login, avatar }) => (
                   <li className="liFriend" key={id}>
                     <Avatar
-                      alt="Remy Sharp"
-                      src={avatar}
-                      sx={{ width: 50, height: 50, marginRight: 1 }}
-                    />
+                        alt="Remy Sharp"
+                        src={avatar}
+                        sx={{ width: 50, height: 50, marginRight: 1 }}
+                      />
                     <p>{login}</p>
                     <EmailIcon
-                      onPointerDown={() => {
-                        hadleShowChat(id, login);
-                      }}
-                      className="chatFriends"
-                    />
+                        onPointerDown={() => {
+                            hadleShowChat(id, login);
+                          }}
+                        className="chatFriends"
+                      />
                     <ClearRoundedIcon
-                      onPointerDown={() => {
-                        deleteFriends(id);
-                      }}
-                      className="deleteFriends"
-                      fontSize="medium"
-                    />
+                        onPointerDown={() => {
+                            deleteFriends(id);
+                          }}
+                        className="deleteFriends"
+                        fontSize="medium"
+                      />
                   </li>
                 ))}
               </ul>

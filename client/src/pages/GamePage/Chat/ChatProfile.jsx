@@ -61,11 +61,12 @@ function ChatProfile({ id, name, hadleCloseChat }) {
         });
       }
     },
-    [allMessages],
+    [allMessages, showEmoji],
   );
 
   const onSubmitHandle = (event) => {
     event.preventDefault();
+    setShowEmoji(false);
     if (message) {
       socketRef.current.emit('sendPrivateMessage', { id, token, message });
       setMessage('');
@@ -97,16 +98,16 @@ function ChatProfile({ id, name, hadleCloseChat }) {
         </div>
       </div>
       <div ref={scroll} className={styles === 'light' ? (style.allLightMessages) : (style.allMessages)}>
+        {allMessages.join()
+          ? (allMessages.map((msg) => (msg.text !== '' ? (
+            <Messages id={id} key={msg.id} message={msg} />) : (''))))
+          : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
         {showEmoji
                     && (
                     <div className={style.emojiTable}>
                       <EmojiPicker onEmojiClick={handleOnEmoji} width="300px" height="400px" theme={emojiTheme} />
                     </div>
                     )}
-        {allMessages.join()
-          ? (allMessages.map((msg) => (msg.text !== '' ? (
-            <Messages id={id} key={msg.id} message={msg} />) : (''))))
-          : <p style={{ textAlign: 'center' }}>Сообщений нет</p>}
       </div>
       <form onSubmit={onSubmitHandle} className={style.messageInputForm}>
         <CustomInput

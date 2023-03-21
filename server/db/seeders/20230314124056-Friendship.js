@@ -23,8 +23,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      userId1: 2,
-      userId2: 4,
+      userId1: 3,
+      userId2: 2,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -34,7 +34,7 @@ module.exports = {
       updatedAt: new Date(),
     }, {
       userId1: 5,
-      userId2: 3,
+      userId2: 2,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -43,8 +43,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      userId1: 8,
-      userId2: 1,
+      userId1: 3,
+      userId2: 4,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -53,13 +53,19 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      userId1: 10,
-      userId2: 11,
+      userId1: 6,
+      userId2: 7,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
       userId1: 11,
       userId2: 10,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      userId1: 10,
+      userId2: 11,
       createdAt: new Date(),
       updatedAt: new Date(),
     }], {});
