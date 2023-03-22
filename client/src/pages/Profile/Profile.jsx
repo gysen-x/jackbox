@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState, useCallback } from 'react';
 import './Profile.css';
 import { Avatar } from '@mui/material';
@@ -215,14 +216,15 @@ export default function Profile() {
                         onChange={handleCheckForm}
                         value={changedInfo.email}
                       />
-                      <CustomInput
+                      <input
                         title="Avatar"
-                        className="form-control"
+                        className="inputfile"
                         id="Avatar"
                         type="file"
                         name="Avatar"
                         onChange={handleCheckForm}
                       />
+                      <label htmlFor="Avatar">Change avatar</label>
                       <CustomTooltip
                         message={errorText}
                         openTooltip={openTooltipEdit}
