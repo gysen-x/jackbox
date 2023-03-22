@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     members: DataTypes.INTEGER,
     votes: DataTypes.INTEGER,
     round: DataTypes.INTEGER,
+    maxPlayers: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Room',

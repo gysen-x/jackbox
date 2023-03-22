@@ -19,6 +19,10 @@ export default function PunchGamePage({ socketRef, punchData }) {
       socketRef.current.emit('pushAnswer', ({ punch: punchInput || 'no answer', token, roomId }));
     }, 30000);
     setTimeoutId(timer);
+
+    return function disconnect() {
+      clearTimeout(timer);
+    };
   }, []);
 
   const handlePunchInput = (event) => {
