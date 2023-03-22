@@ -6,10 +6,12 @@ import CustomButton from '../../../../components/CustomButton/CustomButton';
 import style from './style.module.css';
 
 export default function VoteGamePage({ voteData, socketRef }) {
+  console.log('voteData: ', voteData);
   const { id: roomId } = useParams();
   const [nextVote, setNextVote] = useState(false);
   const user = useSelector((state) => state.user);
   const [waitingStatus, setWaitingStatus] = useState(false);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (socketRef.current) {
@@ -21,8 +23,15 @@ export default function VoteGamePage({ voteData, socketRef }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (socketRef.current) {
+      if (user.userid === voteData.first.id || user.userid === voteData.second.id) {
+        socketRef.current.emit('currentParticipantVote', { token, roomId });
+      }
+    }
+  }, [voteData]);
+
   const handleVoteClick = (id) => {
-    const token = localStorage.getItem('token');
     socketRef.current.emit('currentParticipantVote', { token, roomId, id });
     // setNextVote(true);
     // setTimeout(() => {
@@ -69,22 +78,22 @@ export default function VoteGamePage({ voteData, socketRef }) {
             <div className={style.voteGamePage__wrapper}>
               <div className={style.voteGamePage__box}>
                 <div className={style.voteGamePage__punchBox}>
-                  <h4 className={style.voteGamePage__punch}>{voteData.first.punch}</h4>
+                  <h4 className={style.voteGamePage__punch}>{voteData.first?.punch}</h4>
                 </div>
                 <CustomButton
                   title="Vote"
                   color="rgb(254, 158, 132)"
-                  handleOnClick={() => handleVoteClick(voteData.first.id)}
+                  handleOnClick={() => handleVoteClick(voteData.first?.id)}
                 />
               </div>
               <div className={style.voteGamePage__box}>
                 <div className={style.voteGamePage__punchBox}>
-                  <h4 className={style.voteGamePage__punch}>{voteData.second.punch}</h4>
+                  <h4 className={style.voteGamePage__punch}>{voteData.second?.punch}</h4>
                 </div>
                 <CustomButton
                   title="Vote"
                   color="rgb(254, 158, 132)"
-                  handleOnClick={() => handleVoteClick(voteData.second.id)}
+                  handleOnClick={() => handleVoteClick(voteData.second?.id)}
                 />
               </div>
             </div>

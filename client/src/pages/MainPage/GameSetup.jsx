@@ -30,7 +30,6 @@ export default function GameSetup() {
   const socketRef = useRef(null);
   const theme = useTheme();
   const [radio, setRadio] = useState(4);
-  console.log('radio: ', radio);
 
   const changeRadio = (event) => {
     setRadio(event.target.value);
