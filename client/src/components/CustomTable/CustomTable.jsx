@@ -196,6 +196,7 @@ export default function CustomTable({
         // },
         '& .MuiDataGrid-columnHeaders': {
           backgroundColor: '#f7e7be',
+          color: 'black',
           borderBottom: 'none',
           width: 'auto',
           fontSize: '17px',
@@ -205,12 +206,12 @@ export default function CustomTable({
           backgroundColor: '#009f92',
           width: 'auto',
         },
+        '& .MuiCheckbox-root': {
+          color: `${'#f7e7be'} !important`,
+        },
         '& .MuiDataGrid-footerContainer': {
           borderTop: 'none',
           backgroundColor: '#f7e7be',
-        },
-        '& .MuiCheckbox-root': {
-          color: `${'#f7e7be'} !important`,
         },
         '& .MuiDataGrid-cell': {
           padding: '0px !important',
