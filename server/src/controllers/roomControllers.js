@@ -94,3 +94,19 @@ exports.getParticipants = async (req, res) => {
     res.sendStatus(401);
   }
 };
+
+exports.checkUserInRoom = async (req, res) => {
+  const token = req.headers.authentication.split(' ')[1];
+  const { id } = decodeToken(token);
+  const { id: roomId } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (user.roomId === Number(roomId)) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(401);
+    }
+  } catch (error) {
+    res.sendStatus(401);
+  }
+};

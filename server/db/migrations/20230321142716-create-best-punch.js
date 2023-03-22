@@ -1,12 +1,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('AnswersAndPairs', {
+    await queryInterface.createTable('BestPunches', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      setup: {
+        type: Sequelize.TEXT,
+      },
+      punch: {
+        type: Sequelize.TEXT,
       },
       roomId: {
         type: Sequelize.INTEGER,
@@ -14,38 +20,17 @@ module.exports = {
           model: 'Rooms',
           key: 'id',
         },
-        onDelete: 'cascade',
+        onDelete: 'CASCADE',
       },
-      playerId1: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
           key: 'id',
         },
       },
-      playerId2: {
+      votes: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
-      setup: {
-        type: Sequelize.STRING,
-      },
-      punchPlayer1: {
-        type: Sequelize.STRING,
-      },
-      votesFor1: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      punchPlayer2: {
-        type: Sequelize.STRING,
-      },
-      votesFor2: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -58,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('AnswersAndPairs');
+    await queryInterface.dropTable('BestPunches');
   },
 };

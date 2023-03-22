@@ -27,8 +27,21 @@ function GamePage() {
   const [punchData, setPunchData] = useState('');
   const [voteData, setVoteData] = useState({});
   const [currentRound, setCurrentRound] = useState(1);
+  const [results, setResults] = useState({});
 
   useEffect(() => {
+    fetch(`/rooms/${id}/check`, {
+      headers: {
+        Authentication: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          navigate('/');
+        }
+      })
+      .catch((error) => console.error(error));
+
     socketRef.current = io(SERVER_URL);
     socketRef.current.emit('connection');
 
@@ -78,8 +91,15 @@ function GamePage() {
       }
     });
 
-    socketRef.current.on('gameFinished', ({ roomId }) => {
+    socketRef.current.on('gameFinished', ({ roomId, participants, finalBestPunch }) => {
       if (id === roomId) {
+        const topThreeResults = participants
+          .sort((a, b) => b.pointsInGame - a.pointsInGame)
+          .slice(0, 2);
+        setResults({
+          finalBestPunch,
+          topThreeResults,
+        });
         setStatus('finished');
       }
     });
@@ -158,7 +178,7 @@ function GamePage() {
         )}
           {status === 'finished'
         && (
-        <ResultsGamePage />
+        <ResultsGamePage results={results} />
         )}
           <Box
             sx={{

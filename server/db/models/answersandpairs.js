@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     playerId2: DataTypes.INTEGER,
     setup: DataTypes.STRING,
     punchPlayer1: DataTypes.STRING,
+    votesFor1: DataTypes.INTEGER,
     punchPlayer2: DataTypes.STRING,
+    votesFor2: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'AnswersAndPairs',
