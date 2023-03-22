@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.AnswersAndPairs, { foreignKey: 'roomId' }, { onDelete: 'cascade' }, { hooks: true });
       this.belongsTo(models.AllGames, { foreignKey: 'gameId' });
       this.hasMany(models.Message, { foreignKey: 'roomId' }, { onDelete: 'cascade' }, { hooks: true });
+      this.hasOne(models.BestPunch, { foreignKey: 'roomId' }, { onDelete: 'cascade' }, { hooks: true });
     }
   }
 

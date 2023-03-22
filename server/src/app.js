@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 const { makePairsWithPunches } = require('./lib/functions');
 
 const {
-  User, PrivateMessage, Room, AllGames, Message, Setup, AnswersAndPairs,
+  User, PrivateMessage, Room, AllGames, Message, Setup, AnswersAndPairs, BestPunch,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -204,11 +204,52 @@ io.on('connection', (socket) => {
     const votedUser = await User.increment({ votes: 1 }, { where: { id: userId } });
     const votedRoom = await Room.increment({ votes: 1 }, { where: { id: roomId } });
     const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    const currentPair = allPairs.find((el) => el.playerId1 === id || el.playerId2 === id);
+    if (id === currentPair.playerId1) {
+      await AnswersAndPairs.increment({ votesFor1: 1 }, { where: { id: currentPair.id } });
+    } else {
+      await AnswersAndPairs.increment({ votesFor2: 1 }, { where: { id: currentPair.id } });
+    }
+
     if (votedUser[0][0][0].votes < allPairs.length) {
       const nextVote = allPairs[votedUser[0][0][0].votes];
       io.emit('nextVote', { roomId, nextVote, userId });
     } else if (votedRoom[0][0][0].members === votedRoom[0][0][0].votes) {
+      let maxVotes = 0;
+      for (let i = 0; i < allPairs.length; i += 1) {
+        if (allPairs[i].votesFor1 > maxVotes) {
+          maxVotes = allPairs[i].votesFor1;
+        } else if (allPairs[i].votesFor2 > maxVotes) {
+          maxVotes = allPairs[i].votesFor2;
+        }
+      }
+
+      const bestPunch = {
+        roomId,
+      };
+
+      for (let i = 0; i < allPairs.length; i += 1) {
+        if (allPairs[i].votesFor1 === maxVotes || allPairs[i].votesFor2 === maxVotes) {
+          if (allPairs[i].votesFor1 === maxVotes) {
+            bestPunch.userId = allPairs[i].playerId1;
+            bestPunch.punch = allPairs[i].punchPlayer1;
+            bestPunch.votes = maxVotes;
+            bestPunch.setup = allPairs[i].setup;
+            break;
+          }
+        }
+      }
+
       if (votedRoom[0][0][0].round < 3) {
+        if (votedRoom[0][0][0].round === 1) {
+          await BestPunch.create(bestPunch);
+        } else {
+          const oldBestPunch = await BestPunch.findOne({ where: { roomId } });
+          if (maxVotes > oldBestPunch.votes) {
+            await BestPunch.update(bestPunch, { where: { roomId } });
+          }
+        }
+
         await AnswersAndPairs.destroy({ where: { roomId } });
         const refreshParticipants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
         const room = await Room.increment({ round: 1 }, { where: { id: roomId } });
@@ -231,10 +272,27 @@ io.on('connection', (socket) => {
           roomId, refreshParticipants, round, data,
         });
       } else {
+        const oldBestPunch = await BestPunch.findOne({ where: { roomId } });
+        if (maxVotes > oldBestPunch.votes) {
+          await BestPunch.update(bestPunch, { where: { roomId } });
+        }
+
         await AnswersAndPairs.destroy({ where: { roomId } });
         await Room.update({ round: 1, votes: 0 }, { where: { id: roomId } });
+        const finalBestPunchDB = await BestPunch.findOne({
+          where: { roomId },
+          include: { model: User },
+        });
+        const finalBestPunch = {
+          user: finalBestPunchDB.User.login,
+          punch: finalBestPunchDB.punch,
+          votes: finalBestPunchDB.votes,
+          setup: finalBestPunchDB.setup,
+        };
         const participants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
-        io.emit('gameFinished', { roomId, participants });
+        io.emit('gameFinished', { roomId, participants, finalBestPunch });
+        await User.update({ pointsInGame: 0 }, { where: { roomId } });
+        await BestPunch.destroy({ where: { roomId } });
       }
     } else {
       io.emit('waitingOtherVotes', { id: roomId, userId });

@@ -61,6 +61,13 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
           setParticipants(refreshParticipants);
         }
       });
+
+      socketRef.current.on('gameFinished', ({ roomId }) => {
+        if (id === roomId) {
+          const participantsWithoutPoints = participants.map((el) => ({ ...el, points: 0 }));
+          setParticipants(participantsWithoutPoints);
+        }
+      });
     }
   }, [participants]);
 
