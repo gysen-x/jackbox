@@ -72,6 +72,7 @@ function GamePage() {
 
     socketRef.current.on('nextVote', ({ roomId, nextVote, userId }) => {
       if (id === roomId && userId === user.userid) {
+        console.log('nextVote: ', nextVote);
         setVoteData(nextVote);
       }
     });
@@ -95,7 +96,7 @@ function GamePage() {
       if (id === roomId) {
         const topThreeResults = participants
           .sort((a, b) => b.pointsInGame - a.pointsInGame)
-          .slice(0, 2);
+          .slice(0, 3);
         setResults({
           finalBestPunch,
           topThreeResults,

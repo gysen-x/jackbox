@@ -3,6 +3,7 @@ import React from 'react';
 import style from './style.module.css';
 
 export default function ResultsGamePage({ results }) {
+  console.log('results: ', results);
   return (
     <div className={style.resultsGamePage__container}>
       <h1 className={style.resultsGamePage__title}>Results</h1>
@@ -48,13 +49,13 @@ export default function ResultsGamePage({ results }) {
             src={results.topThreeResults[0].avatar}
           />
         </div>
-        {/* <div className={style.resultsGamePage__ratingThird}>
+        <div className={style.resultsGamePage__ratingThird}>
           <p>3</p>
           <p className={style.resultsGamePage__second}>{results.topThreeResults[2].login}</p>
           <Avatar
             src={results.topThreeResults[2].avatar}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

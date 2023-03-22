@@ -179,7 +179,7 @@ io.on('connection', (socket) => {
       );
     }
 
-    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    const allPairs = await AnswersAndPairs.findAll({ where: { roomId }, order: ['id'] });
     const isEverybodyAnswers = allPairs.every((el) => el.punchPlayer1 && el.punchPlayer2);
     if (isEverybodyAnswers) {
       const fisrtVote = allPairs[0];
@@ -213,12 +213,24 @@ io.on('connection', (socket) => {
       }
     }
 
-    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
+    const allPairs = await AnswersAndPairs.findAll({ where: { roomId }, order: ['id'] });
 
     if (votedUser[0][0][0].votes < allPairs.length) {
-      const nextVote = allPairs[votedUser[0][0][0].votes];
+      const nextPair = allPairs[votedUser[0][0][0].votes];
+      const nextVote = {
+        setup: nextPair.setup,
+        first: {
+          id: nextPair.playerId1,
+          punch: nextPair.punchPlayer1,
+        },
+        second: {
+          id: nextPair.playerId2,
+          punch: nextPair.punchPlayer2,
+        },
+      };
+
       io.emit('nextVote', { roomId, nextVote, userId });
-    } else if ((votedRoom[0][0][0].members * (allPairs.length - 1)) === votedRoom[0][0][0].votes) {
+    } else if ((votedRoom[0][0][0].members * allPairs.length) === votedRoom[0][0][0].votes) {
       let maxVotes = 0;
       for (let i = 0; i < allPairs.length; i += 1) {
         if (allPairs[i].votesFor1 > maxVotes) {
