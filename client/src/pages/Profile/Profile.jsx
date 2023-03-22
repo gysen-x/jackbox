@@ -321,24 +321,24 @@ export default function Profile() {
                 {friends.map(({ id, login, avatar }) => (
                   <li className="liFriend" key={id}>
                     <Avatar
-                        alt="Remy Sharp"
-                        src={avatar}
-                        sx={{ width: 50, height: 50, marginRight: 1 }}
-                      />
+                      alt="Remy Sharp"
+                      src={avatar}
+                      sx={{ width: 50, height: 50, marginRight: 1 }}
+                    />
                     <p>{login}</p>
                     <EmailIcon
-                        onPointerDown={() => {
-                            hadleShowChat(id, login);
-                          }}
-                        className="chatFriends"
-                      />
+                      onPointerDown={() => {
+                        hadleShowChat(id, login);
+                      }}
+                      className="chatFriends"
+                    />
                     <ClearRoundedIcon
-                        onPointerDown={() => {
-                            deleteFriends(id);
-                          }}
-                        className="deleteFriends"
-                        fontSize="medium"
-                      />
+                      onPointerDown={() => {
+                        deleteFriends(id);
+                      }}
+                      className="deleteFriends"
+                      fontSize="medium"
+                    />
                   </li>
                 ))}
               </ul>
