@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, MobileStepper } from '@mui/material';
+import {
+  Button, FormControlLabel, MobileStepper, Radio, RadioGroup,
+} from '@mui/material';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { useTheme } from '@mui/material/styles';
@@ -27,6 +29,12 @@ export default function GameSetup() {
   const navigate = useNavigate();
   const socketRef = useRef(null);
   const theme = useTheme();
+  const [radio, setRadio] = useState(4);
+  console.log('radio: ', radio);
+
+  const changeRadio = (event) => {
+    setRadio(event.target.value);
+  };
 
   // const handleSwitch = () => {
   //   setSwitchButton((prev) => !prev);
@@ -62,7 +70,7 @@ export default function GameSetup() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, password, gameId: 1, token,
+          name, password, gameId: 1, token, maxPlayers: radio,
         }),
       });
       response
@@ -180,6 +188,33 @@ export default function GameSetup() {
         onChange={handleOnChange}
         placeholder="Room name 4 to 10 chars"
       />
+      <RadioGroup
+        row
+        aria-label="position"
+        name="position"
+        defaultValue="top"
+        onChange={changeRadio}
+      >
+        <FormControlLabel
+          value="4"
+          control={<Radio color="primary" />}
+          label="4"
+          labelPlacement="top"
+        />
+        <FormControlLabel
+          value="6"
+          control={<Radio color="primary" />}
+          label="6"
+          labelPlacement="top"
+        />
+        <FormControlLabel
+          value="8"
+          control={<Radio color="primary" />}
+          label="8"
+          labelPlacement="top"
+        />
+
+      </RadioGroup>
       {/* {switchButton && ( */}
       <CustomInput
         title="Password"
