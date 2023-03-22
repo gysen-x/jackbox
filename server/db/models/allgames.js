@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     rules: DataTypes.STRING,
     description: DataTypes.STRING,
-    maxPlayers: DataTypes.INTEGER,
     img: DataTypes.STRING,
   }, {
     sequelize,

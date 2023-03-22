@@ -17,9 +17,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
-      maxPlayers: {
-        type: Sequelize.INTEGER,
-      },
       img: {
         type: Sequelize.STRING,
       },

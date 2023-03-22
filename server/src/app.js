@@ -44,14 +44,14 @@ io.on('connection', (socket) => {
         isPassword: true,
         members: el.members,
         gameName: el.AllGame.name,
-        maxPlayers: el.AllGame.maxPlayers,
+        maxPlayers: el.maxPlayers,
       }) : {
       id: el.id,
       name: el.name,
       isPassword: false,
       members: el.members,
       gameName: el.AllGame.name,
-      maxPlayers: el.AllGame.maxPlayers,
+      maxPlayers: el.maxPlayers,
     }));
 
     io.emit('updateRooms', roomsWithGames);
@@ -79,13 +79,13 @@ io.on('connection', (socket) => {
     const user = await User.findByPk(userId);
     if (user.status === 'admin') {
       await User.update({
-        status: null, roomId: null, ready: false, pointsInGame: 0,
+        status: null, roomId: null, ready: false, pointsInGame: 0, votes: 0,
       }, { where: { roomId: id } });
       await Room.destroy({ where: { id } });
       io.emit('destroyRoom', { id });
     } else if (user.status === 'player') {
       await User.update({
-        status: null, roomId: null, ready: false, pointsInGame: 0,
+        status: null, roomId: null, ready: false, pointsInGame: 0, votes: 0,
       }, { where: { id: userId } });
       await Room.increment({ members: -1 }, { where: { id } });
       io.emit('playerQuitRoom', { id, userId });
@@ -133,7 +133,8 @@ io.on('connection', (socket) => {
     await User.update({ ready: true }, { where: { id: userId } });
     const usersInThisRoom = await User.findAll({ where: { roomId } });
     const everybodyReady = usersInThisRoom.every((el) => el.ready === true);
-    if (usersInThisRoom.length === 2 && everybodyReady) {
+    const { round, maxPlayers } = await Room.findOne({ where: { id: roomId } });
+    if (usersInThisRoom.length === maxPlayers && everybodyReady) {
       io.emit('playerReady', { roomId, userId });
       setTimeout(async () => {
         User.update({ ready: false }, { where: { roomId } });
@@ -141,7 +142,6 @@ io.on('connection', (socket) => {
         const allPunchesDB = await Setup.findAll();
         const textPunches = allPunchesDB.map((el) => el.body);
         const data = makePairsWithPunches(usersIds, textPunches);
-        const { round } = await Room.findOne({ where: { id: roomId } });
         const dataForDB = data.map((el) => ({
           roomId,
           playerId1: el.pairs[0],
@@ -200,21 +200,25 @@ io.on('connection', (socket) => {
 
   socket.on('currentParticipantVote', async ({ token, roomId, id }) => {
     const { id: userId } = decodeToken(token);
-    await User.increment({ pointsInGame: 100 }, { where: { id } });
     const votedUser = await User.increment({ votes: 1 }, { where: { id: userId } });
     const votedRoom = await Room.increment({ votes: 1 }, { where: { id: roomId } });
-    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
-    const currentPair = allPairs.find((el) => el.playerId1 === id || el.playerId2 === id);
-    if (id === currentPair.playerId1) {
-      await AnswersAndPairs.increment({ votesFor1: 1 }, { where: { id: currentPair.id } });
-    } else {
-      await AnswersAndPairs.increment({ votesFor2: 1 }, { where: { id: currentPair.id } });
+    if (id) {
+      await User.increment({ pointsInGame: 100 }, { where: { id } });
+      const allPairsWOVotes = await AnswersAndPairs.findAll({ where: { roomId } });
+      const currentPair = allPairsWOVotes.find((el) => el.playerId1 === id || el.playerId2 === id);
+      if (id === currentPair.playerId1) {
+        await AnswersAndPairs.increment({ votesFor1: 1 }, { where: { id: currentPair.id } });
+      } else {
+        await AnswersAndPairs.increment({ votesFor2: 1 }, { where: { id: currentPair.id } });
+      }
     }
+
+    const allPairs = await AnswersAndPairs.findAll({ where: { roomId } });
 
     if (votedUser[0][0][0].votes < allPairs.length) {
       const nextVote = allPairs[votedUser[0][0][0].votes];
       io.emit('nextVote', { roomId, nextVote, userId });
-    } else if (votedRoom[0][0][0].members === votedRoom[0][0][0].votes) {
+    } else if ((votedRoom[0][0][0].members * (allPairs.length - 1)) === votedRoom[0][0][0].votes) {
       let maxVotes = 0;
       for (let i = 0; i < allPairs.length; i += 1) {
         if (allPairs[i].votesFor1 > maxVotes) {
@@ -254,6 +258,7 @@ io.on('connection', (socket) => {
         const refreshParticipants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
         const room = await Room.increment({ round: 1 }, { where: { id: roomId } });
         await Room.update({ votes: 0 }, { where: { id: roomId } });
+        await User.update({ votes: 0 }, { where: { roomId } });
         const { round } = room[0][0][0];
 
         const usersIds = refreshParticipants.map((el) => el.id);
@@ -291,7 +296,7 @@ io.on('connection', (socket) => {
         };
         const participants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
         io.emit('gameFinished', { roomId, participants, finalBestPunch });
-        await User.update({ pointsInGame: 0 }, { where: { roomId } });
+        await User.update({ pointsInGame: 0, votes: 0 }, { where: { roomId } });
         await BestPunch.destroy({ where: { roomId } });
       }
     } else {

@@ -13,27 +13,29 @@ exports.getRooms = async (req, res) => {
       isPassword: true,
       members: el.members,
       gameName: el.AllGame.name,
-      maxPlayers: el.AllGame.maxPlayers,
+      maxPlayers: el.maxPlayers,
     }) : {
     id: el.id,
     name: el.name,
     isPassword: false,
     members: el.members,
     gameName: el.AllGame.name,
-    maxPlayers: el.AllGame.maxPlayers,
+    maxPlayers: el.maxPlayers,
   }));
   res.json(roomsWithGames);
 };
 
 exports.createRoom = async (req, res) => {
   const {
-    name, gameId, password, token,
+    name, gameId, password, token, maxPlayers,
   } = req.body;
   const { id: userId } = decodeToken(token);
   try {
     let newRoom;
     if (!password) {
-      newRoom = await Room.create({ name, gameId, members: 1 });
+      newRoom = await Room.create({
+        name, gameId, members: 1, maxPlayers,
+      });
     } else {
       newRoom = await Room.create({
         name, gameId, password, members: 1,
