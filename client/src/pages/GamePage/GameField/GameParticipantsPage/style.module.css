@@ -36,3 +36,8 @@
 .badgeStatus {
     width: 40px;
 }
+
+.badgeAddFriend {
+    width: 40px;
+    cursor: pointer;
+}

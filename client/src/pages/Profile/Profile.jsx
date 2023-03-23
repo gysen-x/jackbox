@@ -33,6 +33,7 @@ export default function Profile() {
   const [errorText, setErrorText] = useState('');
   const [openTooltipEdit, setTooltipEdit] = useState(false);
   const [openTooltipCheckPassword, setTooltipCheckPassword] = useState(false);
+  const [newAvatar, setNewAvatar] = useState('');
 
   useEffect(() => {
     socketRef.current = io(url);
@@ -90,16 +91,25 @@ export default function Profile() {
 
   const hadleShowEdit = () => {
     setShowEdit(true);
+    setNewAvatar('');
     setChangedInfo({ login: user.login, email: user.email, avatar: null });
   };
 
-  const handleCheckForm = (event) => {
+  const handleCheckForm = async (event) => {
     if (event.target.name === 'Login') {
       setChangedInfo({ ...changedInfo, login: event.target.value });
     } else if (event.target.name === 'Email') {
       setChangedInfo({ ...changedInfo, email: event.target.value });
     } else {
       setChangedInfo({ ...changedInfo, avatar: event.target.files[0] });
+      if (event.target.files[0]) {
+        const files = event.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(files);
+        fileReader.addEventListener('load', (e) => {
+          setNewAvatar(e.target.result);
+        });
+      }
     }
   };
 
@@ -226,13 +236,14 @@ export default function Profile() {
                         className="inputfile"
                         id="Avatar"
                         type="file"
+                        accept="image/*"
                         name="Avatar"
                         onChange={handleCheckForm}
                       />
                       <label className="avatar" htmlFor="Avatar">
                         <Avatar
                           alt="Remy Sharp"
-                          src={user.avatar}
+                          src={newAvatar || user.avatar}
                           sx={{
                             width: 100, height: 100,
                           }}
