@@ -1,18 +1,25 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect, useState, useCallback, useRef,
+} from 'react';
 import './Profile.css';
+import io from 'socket.io-client';
 import { Avatar } from '@mui/material';
 import ChromeDinoGame from 'react-chrome-dino';
 import EmailIcon from '@mui/icons-material/Email';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ChatProfile from '../GamePage/Chat/ChatProfile';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
+const SERVER_URL = 'http://localhost:3000';
+
 export default function Profile() {
+  const { userid: uId } = useSelector((store) => store.user);
+  const socketRef = useRef(null);
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
@@ -28,6 +35,8 @@ export default function Profile() {
   const [openTooltipCheckPassword, setTooltipCheckPassword] = useState(false);
 
   useEffect(() => {
+    socketRef.current = io(SERVER_URL);
+    socketRef.current.emit('connection');
     (async () => {
       const tokenJWT = localStorage.getItem('token');
       const response = await fetch(
@@ -46,6 +55,18 @@ export default function Profile() {
     })();
   }, []);
 
+  useEffect(() => {
+    socketRef.current.on('checkDeleteFriend', ({ ourId, frId }) => {
+      if (uId === ourId) {
+        const refreshFriends = friends.filter((friend) => friend.id !== frId);
+        setFriends(refreshFriends);
+        if (frId === friendId) {
+          setShowChat(false);
+        }
+      }
+    });
+  }, [friends, friendId]);
+
   async function deleteFriends(id) {
     const tokenJWT = localStorage.getItem('token');
     const response = await fetch('/users', {
@@ -57,11 +78,13 @@ export default function Profile() {
       body: JSON.stringify({ id }),
     });
     if (response.status === 200) {
+      socketRef.current.emit('deleteFriend', { id, tokenJWT });
       const refreshFriends = friends.filter((friend) => friend.id !== id);
-      setFriends(refreshFriends);
+      console.log(id, friendId);
       if (id === friendId) {
         setShowChat(false);
       }
+      setFriends(refreshFriends);
     }
   }
 
@@ -350,7 +373,12 @@ export default function Profile() {
       {showChat
         ? (
           <div className="chatProfile">
-            <ChatProfile id={friendId} name={friendName} hadleCloseChat={hadleCloseChat} />
+            <ChatProfile
+              id={friendId}
+              name={friendName}
+              hadleCloseChat={hadleCloseChat}
+              socketRef={socketRef}
+            />
           </div>
         )
         : (

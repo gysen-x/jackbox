@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
@@ -9,12 +8,11 @@ import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
 
-const SERVER_URL = 'http://localhost:3000';
-
-function ChatProfile({ id, name, hadleCloseChat }) {
+function ChatProfile({
+  id, name, hadleCloseChat, socketRef,
+}) {
   const user = useSelector((store) => store.user);
   const token = localStorage.getItem('token');
-  const socketRef = useRef(null);
   const theme = localStorage.getItem('theme');
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
@@ -34,8 +32,6 @@ function ChatProfile({ id, name, hadleCloseChat }) {
   };
 
   useEffect(() => {
-    socketRef.current = io(SERVER_URL);
-    socketRef.current.emit('connection');
     fetch(
       `/users/${id}/messages`,
       {
