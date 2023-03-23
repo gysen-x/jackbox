@@ -221,6 +221,24 @@ export default function Profile() {
                       className="formCheckPass"
                       encType="multipart/form-data"
                     >
+                      <input
+                        title="Avatar"
+                        className="inputfile"
+                        id="Avatar"
+                        type="file"
+                        name="Avatar"
+                        onChange={handleCheckForm}
+                      />
+                      <label className="avatar" htmlFor="Avatar">
+                        <Avatar
+                          alt="Remy Sharp"
+                          src={user.avatar}
+                          sx={{
+                            width: 100, height: 100,
+                          }}
+                        />
+                        <p className="editAvatar">change</p>
+                      </label>
                       <CustomInput
                         title="Login"
                         className="form-control"
@@ -239,15 +257,6 @@ export default function Profile() {
                         onChange={handleCheckForm}
                         value={changedInfo.email}
                       />
-                      <input
-                        title="Avatar"
-                        className="inputfile"
-                        id="Avatar"
-                        type="file"
-                        name="Avatar"
-                        onChange={handleCheckForm}
-                      />
-                      <label htmlFor="Avatar">Change avatar</label>
                       <CustomTooltip
                         message={errorText}
                         openTooltip={openTooltipEdit}
