@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
+const fs = require('fs').promises;
+const path = require('path');
 
 const { User, Friendship, PrivateMessage } = require('../../db/models');
 
@@ -62,7 +64,16 @@ exports.changeUserInfo = async (req, res) => {
     const url = `${req.protocol}://${req.get('host')}/`;
 
     try {
+      const user = await User.findByPk(id);
+      const { avatar: deletefile } = user;
+      const deletepath = path.join(__dirname, '..', '..', deletefile.replace(url, ''));
       await User.update({ avatar: url + avatar }, { where: { id } });
+      if (deletefile.slice(0, 5) === 'http:') {
+        try {
+          await fs.rm(deletepath);
+        } catch (error) {
+        }
+      }
       res.json({ avatar: url + avatar });
     } catch (error) {
       res.sendStatus(401);

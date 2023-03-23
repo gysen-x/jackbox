@@ -14,8 +14,6 @@ function Messages({ message }) {
     setStyles(theme);
   }, [theme]);
 
-  console.log(message);
-
   return (
     user.userid === message.user.id ? (
       <div className={style.message}>

@@ -41,7 +41,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          body: 'То, что ты не ожидал прочесть на записке из бытылки?',
+          body: 'То, что ты не ожидал прочесть на записке из бутылки?',
           gameId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),

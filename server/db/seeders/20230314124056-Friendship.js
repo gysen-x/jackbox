@@ -1,74 +1,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Friendships', [{
-      userId1: 1,
-      userId2: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      userId1: 2,
-      userId2: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 1,
-      userId2: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 2,
-      userId2: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 3,
-      userId2: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 2,
-      userId2: 5,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 5,
-      userId2: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 4,
-      userId2: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 3,
-      userId2: 4,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 7,
-      userId2: 6,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 6,
-      userId2: 7,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }, {
-      userId1: 11,
-      userId2: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      userId1: 10,
-      userId2: 11,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }], {});
+    const friends = [];
+    for (let i = 1; i < 9; i += 1) {
+      for (let j = 1; j < 9; j += 1) {
+        if (i !== j) {
+          friends.push({
+            userId1: i,
+            userId2: j,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        }
+      }
+    }
+
+    await queryInterface.bulkInsert('Friendships', friends, {});
   },
 
   async down(queryInterface, Sequelize) {
