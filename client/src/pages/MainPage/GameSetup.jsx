@@ -17,7 +17,6 @@ import './SelectGames.css';
 const SERVER_URL = 'http://localhost:3000';
 
 export default function GameSetup() {
-  // const [switchButton, setSwitchButton] = useState(false);
   const [switchModal, setSwitchModal] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [allGames, setAllGames] = useState([]);
@@ -34,11 +33,6 @@ export default function GameSetup() {
   const changeRadio = (event) => {
     setRadio(event.target.value);
   };
-
-  // const handleSwitch = () => {
-  //   setSwitchButton((prev) => !prev);
-  //   if (switchButton) setFormData({ name: formData.name, password: '' });
-  // };
 
   useEffect(() => {
     const response = fetch('/games');
@@ -176,6 +170,7 @@ export default function GameSetup() {
         className="dotColor"
         variant="dots"
         steps={maxSteps}
+        classes
         position="static"
         activeStep={activeStep}
       />
@@ -187,33 +182,39 @@ export default function GameSetup() {
         onChange={handleOnChange}
         placeholder="Room name 4 to 10 chars"
       />
-      <RadioGroup
-        row
-        aria-label="position"
-        name="position"
-        defaultValue="top"
-        onChange={changeRadio}
-      >
-        <FormControlLabel
-          value="4"
-          control={<Radio color="primary" />}
-          label="4"
-          labelPlacement="top"
-        />
-        <FormControlLabel
-          value="6"
-          control={<Radio color="primary" />}
-          label="6"
-          labelPlacement="top"
-        />
-        <FormControlLabel
-          value="8"
-          control={<Radio color="primary" />}
-          label="8"
-          labelPlacement="top"
-        />
+      <div className="radio-wrapper">
+        <p>Choose number of players</p>
+        <RadioGroup
+          row
+          aria-label="position"
+          name="position"
+          defaultValue="left"
+          onChange={changeRadio}
+          style={{
+            gap: '20px',
+          }}
+        >
+          <FormControlLabel
+            value="4"
+            control={<Radio color="primary" />}
+            label="4"
+            labelPlacement="left"
+          />
+          <FormControlLabel
+            value="6"
+            control={<Radio color="primary" />}
+            label="6"
+            labelPlacement="left"
+          />
+          <FormControlLabel
+            value="8"
+            control={<Radio color="primary" />}
+            label="8"
+            labelPlacement="left"
+          />
 
-      </RadioGroup>
+        </RadioGroup>
+      </div>
       {/* {switchButton && ( */}
       <CustomInput
         title="Password"
