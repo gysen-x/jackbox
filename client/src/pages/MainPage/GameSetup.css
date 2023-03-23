@@ -1,8 +1,8 @@
 .switchWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100px;
 }
 
 .newGame {
@@ -12,20 +12,21 @@
 	min-width: 300px;
 	max-width: 450px;
 }
+
 .badgeGame {
 	position: absolute;
-    font-size: 14px;
-    padding: 10px 9px;
-    text-align: center;
-    top: -11px;
-    right: 61px;
-    width: 60px;
-    height: 60px;
-    z-index: 1000;
-    transform: rotate(15deg);
-    border-radius: 50%;
-    text-shadow: 1px 1px 0px #333;
-    background-color: #ff9800d9;
+	font-size: 14px;
+	padding: 10px 9px;
+	text-align: center;
+	top: -11px;
+	right: 61px;
+	width: 60px;
+	height: 60px;
+	z-index: 1000;
+	transform: rotate(15deg);
+	border-radius: 50%;
+	text-shadow: 1px 1px 0px #333;
+	background-color: #ff9800d9;
 }
 
 /* */
@@ -41,10 +42,10 @@
 }
 
 .inputSlider {
-  display: none;
+	display: none;
 }
 
-.inputSlider + * {
+.inputSlider+* {
 	position: absolute;
 	display: block;
 	top: 0;
@@ -58,7 +59,7 @@
 	background: #ddd;
 }
 
-.inputSlider:checked + * {
+.inputSlider:checked+* {
 	transform: translateX(0);
 	z-index: 1;
 }
@@ -67,7 +68,7 @@
 	just to be safe we hide every element that comes after
 	each slide and that's not an .inputSlider of type radio
 */
-.inputSlider + * + *:not(.inputSlider[type=radio]) {
+.inputSlider+*+*:not(.inputSlider[type=radio]) {
 	display: none;
 }
 
@@ -98,24 +99,34 @@
 	transform: translate(-25%, -50%) rotate(45deg);
 }
 
-.inputSlider:checked:before, .inputSlider:checked:after {
+.inputSlider:checked:before,
+.inputSlider:checked:after {
 	display: none;
 }
 
-.inputSlider:checked + * + .inputSlider:before {
+.inputSlider:checked+*+.inputSlider:before {
 	left: calc(100% - 3rem);
 }
 
-.inputSlider:checked + * + .inputSlider:after {
+.inputSlider:checked+*+.inputSlider:after {
 	left: calc(100% - 2rem);
 	transform: translate(-75%, -50%) rotate(-135deg);
 }
 
-.inputSlider:checked + * + .inputSlider + * ~ .inputSlider:before,
-.inputSlider:checked + * + .inputSlider + * ~ .inputSlider:after {
+.inputSlider:checked+*+.inputSlider+*~.inputSlider:before,
+.inputSlider:checked+*+.inputSlider+*~.inputSlider:after {
 	display: none;
 }
 
 .inputSlider:last-of-type:before {
 	background: green;
+}
+
+.MuiPaper-root,
+.MuiMobileStepper-root {
+	background-color: transparent !important;
+}
+
+.radio-wrapper {
+	width: 290px;
 }

@@ -59,7 +59,7 @@ export default function PunchGamePage({ socketRef, punchData }) {
           </form>
         </div>
       ) : (
-        <img className="nyan" src="/images/nyan.gif" alt="logo" />
+        <img className={style.PunchGamePage__nyan} src="/images/nyan.gif" alt="logo" />
       )}
       <Timer className={style.PunchGamePage__timer} />
     </div>

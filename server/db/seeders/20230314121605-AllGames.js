@@ -5,7 +5,7 @@ module.exports = {
       name: 'Рифмы и панчи',
       rules: 'Добей шутку',
       description: 'Добей шутку, выиграй остальных',
-      img: 'https://stihi.ru/pics/2014/02/28/5146.jpg',
+      img: 'http://localhost:3000/public/punches.png',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {

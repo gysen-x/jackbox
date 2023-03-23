@@ -37,4 +37,9 @@
 
 .PunchGamePage__timer {
   align-self: center;
+  justify-content: center;
+}
+
+.PunchGamePage__nyan {
+  width: 30%;
 }
