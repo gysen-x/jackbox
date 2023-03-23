@@ -170,7 +170,6 @@ export default function GameSetup() {
         className="dotColor"
         variant="dots"
         steps={maxSteps}
-        classes
         position="static"
         activeStep={activeStep}
       />
@@ -188,7 +187,7 @@ export default function GameSetup() {
           row
           aria-label="position"
           name="position"
-          defaultValue="left"
+          defaultValue="4"
           onChange={changeRadio}
           style={{
             gap: '20px',
@@ -198,19 +197,19 @@ export default function GameSetup() {
             value="4"
             control={<Radio color="primary" />}
             label="4"
-            labelPlacement="left"
+            labelPlacement="start"
           />
           <FormControlLabel
             value="6"
             control={<Radio color="primary" />}
             label="6"
-            labelPlacement="left"
+            labelPlacement="start"
           />
           <FormControlLabel
             value="8"
             control={<Radio color="primary" />}
             label="8"
-            labelPlacement="left"
+            labelPlacement="start"
           />
 
         </RadioGroup>
