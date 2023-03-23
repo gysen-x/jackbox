@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { ColorModeContext } from '../../theme';
+
 import CustomCheckbox from '../../components/CustomCheckbox/CustomCheckbox';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import style from './style.module.css';
