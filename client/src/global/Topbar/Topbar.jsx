@@ -110,6 +110,7 @@ export default function Topbar() {
             sx={{
               '.MuiDrawer-paper': {
                 backgroundColor: 'transparent',
+                backgroundImage: 'none',
                 boxShadow: 0,
               },
             }}
