@@ -1,16 +1,35 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import { Avatar, Badge } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import style from './style.module.css';
-import CustomButton from '../../../../components/CustomButton/CustomButton';
 
-export default function GameParticipantsPage({ socketRef, handleClick }) {
+export default function GameParticipantsPage({ socketRef, status }) {
+  const ourUser = useSelector((store) => store.user);
   const [participants, setParticipants] = useState([]);
+  const [ourFriends, setOurFriends] = useState([]);
 
   const { id } = useParams();
 
   useEffect(() => {
+    (async () => {
+      const tokenJWT = localStorage.getItem('token');
+      const response = await fetch(
+        '/users',
+        {
+          headers: {
+            Authentication: `Bearer ${tokenJWT}`,
+          },
+        },
+      );
+      const result = await response.json();
+      const { friends } = result;
+      const friendsIds = friends.map((el) => el.id);
+      setOurFriends(friendsIds);
+    })();
+
     fetch(`/rooms/${id}/participants`)
       .then((res) => res.json())
       .then((data) => setParticipants(data))
@@ -71,10 +90,28 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
     }
   }, [participants]);
 
+  useEffect(() => {
+    if (socketRef.current) {
+      socketRef.current.on('checkAddFriend', ({ ourId, friendId }) => {
+        if (ourUser.userid === ourId || ourUser.userid === friendId) {
+          if (ourUser.userid === ourId) {
+            setOurFriends([...ourFriends, friendId]);
+          } else {
+            setOurFriends([...ourFriends, ourId]);
+          }
+        }
+      });
+    }
+  }, [ourFriends]);
+
+  const addFriendShip = (friendId) => {
+    const token = localStorage.getItem('token');
+    socketRef.current.emit('addFriend', { friendId, token });
+  };
+
   return (
     <div>
       <div className={style.gamefriends__title}>
-        {/* <CustomButton color="#c41e3a" title="Quit" handleOnClick={handleClick} /> */}
         <h1 className={style.title}>Participants</h1>
       </div>
       <div className={style.gamefriends__wrapper}>
@@ -85,7 +122,22 @@ export default function GameParticipantsPage({ socketRef, handleClick }) {
                 <Avatar alt="Remy Sharp" src={participant.avatar} />
               </Badge>
             ) : (
-              <Avatar alt="Remy Sharp" src={participant.avatar} />
+              status === 'finished' && !ourFriends.includes(participant.id) && ourUser.userid !== participant.id
+                ? (
+                  <Badge
+                    className={style.badgeStatus}
+                    badgeContent="+"
+                    color="info"
+                    onClick={() => { addFriendShip(participant.id); }}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Avatar alt="Remy Sharp" src={participant.avatar} />
+                  </Badge>
+                )
+                : (<Avatar alt="Remy Sharp" src={participant.avatar} />)
             )}
             <h3 className={style.participantlogin}>{participant.login}</h3>
             <h4>{participant.pointsInGame}</h4>

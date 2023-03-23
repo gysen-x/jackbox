@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 const { makePairsWithPunches } = require('./lib/functions');
 
 const {
-  User, PrivateMessage, Room, AllGames, Message, Setup, AnswersAndPairs, BestPunch,
+  User, PrivateMessage, Room, AllGames, Message, Setup, AnswersAndPairs, BestPunch, Friendship,
 } = require('../db/models');
 
 const { decodeToken } = require('./controllers/lib/jwt');
@@ -35,6 +35,39 @@ const io = new Server(
 
 io.on('connection', (socket) => {
   console.log('законектились');
+
+  socket.on('sendPrivateMessage', async ({ id, token, message }) => {
+    const { id: senderId } = decodeToken(token);
+    const messageDB = await PrivateMessage.create({ senderId, recipientId: id, text: message });
+    const user = await User.findByPk(senderId);
+
+    const messageNew = {
+      id: messageDB.id,
+      text: messageDB.text,
+      time: messageDB.createdAt,
+      user: {
+        login: user.login,
+        id: user.id,
+      },
+    };
+
+    io.emit('newPrivateMessage', { id, senderId, messageNew });
+  });
+
+  socket.on('deleteFriend', async ({ id: ourId, tokenJWT }) => {
+    const { id: frId } = decodeToken(tokenJWT);
+    io.emit('checkDeleteFriend', { ourId, frId });
+  });
+
+  socket.on('addFriend', async ({ friendId, token }) => {
+    const { id: ourId } = decodeToken(token);
+    await Friendship.bulkCreate([
+      { userId1: ourId, userId2: friendId },
+      { userId1: friendId, userId2: ourId },
+    ]);
+    io.emit('checkAddFriend', { ourId, friendId });
+  });
+
   socket.on('addRoom', async () => {
     const rooms = await Room.findAll({ include: { model: AllGames }, raw: true, nest: true });
     const roomsWithGames = rooms.map((el) => (el.password ? (
@@ -108,24 +141,6 @@ io.on('connection', (socket) => {
     };
 
     io.emit('newMessage', { id, messageNew });
-  });
-
-  socket.on('sendPrivateMessage', async ({ id, token, message }) => {
-    const { id: senderId } = decodeToken(token);
-    const messageDB = await PrivateMessage.create({ senderId, recipientId: id, text: message });
-    const user = await User.findByPk(senderId);
-
-    const messageNew = {
-      id: messageDB.id,
-      text: messageDB.text,
-      time: messageDB.createdAt,
-      user: {
-        login: user.login,
-        id: user.id,
-      },
-    };
-
-    io.emit('newPrivateMessage', { id, senderId, messageNew });
   });
 
   socket.on('readyParticipants', async ({ token, roomId }) => {

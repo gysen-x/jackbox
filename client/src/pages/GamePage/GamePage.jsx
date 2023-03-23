@@ -72,7 +72,6 @@ function GamePage() {
 
     socketRef.current.on('nextVote', ({ roomId, nextVote, userId }) => {
       if (id === roomId && userId === user.userid) {
-        console.log('nextVote: ', nextVote);
         setVoteData(nextVote);
       }
     });
@@ -192,7 +191,7 @@ function GamePage() {
             <CustomButton color="#c41e3a" title="Quit" handleOnClick={handleClick} />
           </Box>
         </Box>
-        <GameParticipantsPage socketRef={socketRef} handleClick={handleClick} />
+        <GameParticipantsPage status={status} socketRef={socketRef} handleClick={handleClick} />
       </Grid>
       <Grid
         item
