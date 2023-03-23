@@ -6,7 +6,6 @@ import CustomButton from '../../../../components/CustomButton/CustomButton';
 import style from './style.module.css';
 
 export default function VoteGamePage({ voteData, socketRef }) {
-  console.log('voteData: ', voteData);
   const { id: roomId } = useParams();
   const [nextVote, setNextVote] = useState(false);
   const user = useSelector((state) => state.user);
@@ -33,10 +32,7 @@ export default function VoteGamePage({ voteData, socketRef }) {
 
   const handleVoteClick = (id) => {
     socketRef.current.emit('currentParticipantVote', { token, roomId, id });
-    // setNextVote(true);
-    // setTimeout(() => {
     setNextVote(false);
-    // }, 500);
   };
 
   return (

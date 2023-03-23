@@ -14,7 +14,7 @@ import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 import './GameSetup.css';
 import './SelectGames.css';
 
-const SERVER_URL = 'http://localhost:3000';
+import url from '../../url';
 
 export default function GameSetup() {
   const [switchModal, setSwitchModal] = useState(false);
@@ -35,7 +35,7 @@ export default function GameSetup() {
   };
 
   useEffect(() => {
-    const response = fetch('/games');
+    const response = fetch(`${url}/games`);
     response
       .then((res) => res.json())
       .then((data) => {
@@ -59,7 +59,7 @@ export default function GameSetup() {
     if (formData.name.length > 3 && formData.name.length < 11) {
       const { name, password } = formData;
       const token = localStorage.getItem('token');
-      const response = fetch('/rooms', {
+      const response = fetch(`${url}/rooms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -73,7 +73,7 @@ export default function GameSetup() {
             setAlertMessage('fail');
             setSwitchModal(true);
           } else {
-            socketRef.current = io(SERVER_URL);
+            socketRef.current = io(url);
             socketRef.current.emit('addRoom');
             navigate(`/rooms/${data.id}`);
           }

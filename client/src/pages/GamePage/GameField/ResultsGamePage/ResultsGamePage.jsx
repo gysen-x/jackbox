@@ -3,7 +3,6 @@ import React from 'react';
 import style from './style.module.css';
 
 export default function ResultsGamePage({ results }) {
-  console.log('results: ', results);
   return (
     <div className={style.resultsGamePage__container}>
       <h1 className={style.resultsGamePage__title}>Results</h1>

@@ -13,6 +13,7 @@ import GamePage from './pages/GamePage/GamePage';
 import Profile from './pages/Profile/Profile';
 import VoteGamePage from './pages/GamePage/GameField/VoteGamePage/VoteGamePage';
 import Page404 from './pages/404/Page404';
+import url from './url';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -22,7 +23,7 @@ function App() {
   useEffect(() => {
     async function checkAuth() {
       const tokenJWT = localStorage.getItem('token');
-      const response = await fetch('/auth/check', {
+      const response = await fetch(`${url}/auth/check`, {
         headers: {
           Authentication: `Bearer ${tokenJWT}`,
         },

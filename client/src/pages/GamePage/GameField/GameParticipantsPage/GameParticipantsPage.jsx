@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import style from './style.module.css';
+import url from '../../../../url';
 
 export default function GameParticipantsPage({ socketRef, status }) {
   const ourUser = useSelector((store) => store.user);
@@ -17,7 +18,7 @@ export default function GameParticipantsPage({ socketRef, status }) {
     (async () => {
       const tokenJWT = localStorage.getItem('token');
       const response = await fetch(
-        '/users',
+        `${url}/users`,
         {
           headers: {
             Authentication: `Bearer ${tokenJWT}`,
@@ -30,7 +31,7 @@ export default function GameParticipantsPage({ socketRef, status }) {
       setOurFriends(friendsIds);
     })();
 
-    fetch(`/rooms/${id}/participants`)
+    fetch(`${url}/rooms/${id}/participants`)
       .then((res) => res.json())
       .then((data) => setParticipants(data))
       .catch((error) => console.error(error));

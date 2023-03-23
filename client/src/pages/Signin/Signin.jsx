@@ -8,6 +8,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import style from './style.module.css';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
+import url from '../../url';
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export default function Signin() {
     const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (userSignin.email.match(emailValidation)) {
       try {
-        const response = await fetch('http://localhost:3000/auth/signin ', {
+        const response = await fetch(`${url}/auth/signin `, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(userSignin),

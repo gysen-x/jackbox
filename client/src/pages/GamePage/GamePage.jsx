@@ -16,7 +16,7 @@ import ShowRoundPage from './GameField/ShowRoundPage/ShowRoundPage';
 import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
-const SERVER_URL = 'http://localhost:3000';
+import url from '../../url';
 
 function GamePage() {
   const user = useSelector((store) => store.user);
@@ -30,7 +30,7 @@ function GamePage() {
   const [results, setResults] = useState({});
 
   useEffect(() => {
-    fetch(`/rooms/${id}/check`, {
+    fetch(`${url}/rooms/${id}/check`, {
       headers: {
         Authentication: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -42,7 +42,7 @@ function GamePage() {
       })
       .catch((error) => console.error(error));
 
-    socketRef.current = io(SERVER_URL);
+    socketRef.current = io(url);
     socketRef.current.emit('connection');
 
     socketRef.current.on('destroyRoom', ({ id: roomId }) => {

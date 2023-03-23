@@ -7,6 +7,7 @@ import style from './css/style.module.css';
 import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
+import url from '../../../url';
 
 function ChatProfile({
   id, name, hadleCloseChat, socketRef,
@@ -33,7 +34,7 @@ function ChatProfile({
 
   useEffect(() => {
     fetch(
-      `/users/${id}/messages`,
+      `${url}/users/${id}/messages`,
       {
         headers: {
           Authentication: `Bearer ${token}`,

@@ -15,7 +15,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
-const SERVER_URL = 'http://localhost:3000';
+import url from '../../url';
 
 export default function Profile() {
   const { userid: uId } = useSelector((store) => store.user);
@@ -35,12 +35,12 @@ export default function Profile() {
   const [openTooltipCheckPassword, setTooltipCheckPassword] = useState(false);
 
   useEffect(() => {
-    socketRef.current = io(SERVER_URL);
+    socketRef.current = io(url);
     socketRef.current.emit('connection');
     (async () => {
       const tokenJWT = localStorage.getItem('token');
       const response = await fetch(
-        '/users',
+        `${url}/users`,
         {
           headers: {
             Authentication: `Bearer ${tokenJWT}`,
@@ -69,7 +69,7 @@ export default function Profile() {
 
   async function deleteFriends(id) {
     const tokenJWT = localStorage.getItem('token');
-    const response = await fetch('/users', {
+    const response = await fetch(`${url}/users`, {
       method: 'DELETE',
       headers: {
         Authentication: `Bearer ${tokenJWT}`,
@@ -112,7 +112,7 @@ export default function Profile() {
     if (changedInfo.email.match(emailValidation)) {
       try {
         if (changedInfo.avatar) {
-          const responseAvatar = await fetch('/users', {
+          const responseAvatar = await fetch(`${url}/users`, {
             method: 'PUT',
             headers: {
               Authentication: `Bearer ${tokenJWT}`,
@@ -123,7 +123,7 @@ export default function Profile() {
           setUser({ ...user, avatar: result.avatar });
         }
 
-        const response = await fetch('/users', {
+        const response = await fetch(`${url}/users`, {
           method: 'PUT',
           headers: {
             Authentication: `Bearer ${tokenJWT}`,
@@ -169,7 +169,7 @@ export default function Profile() {
   async function handleChange(event) {
     event.preventDefault();
     const tokenJWT = localStorage.getItem('token');
-    const response = await fetch('/users', {
+    const response = await fetch(`${url}/users`, {
       method: 'PATCH',
       headers: {
         Authentication: `Bearer ${tokenJWT}`,

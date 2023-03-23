@@ -6,6 +6,7 @@ import style from './css/style.module.css';
 import Messages from './Messages/Messages';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
+import url from '../../../url';
 
 function Chat({ socketRef }) {
   const [message, setMessage] = useState('');
@@ -29,7 +30,7 @@ function Chat({ socketRef }) {
   }, [theme]);
 
   useEffect(() => {
-    const response = fetch(`/rooms/${id}/messages`);
+    const response = fetch(`${url}/rooms/${id}/messages`);
     response
       .then((res) => res.json())
       .then((data) => setAllMessages(data))

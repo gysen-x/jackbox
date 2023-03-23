@@ -15,7 +15,6 @@ export default function PunchGamePage({ socketRef, punchData }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const timer = setTimeout(() => {
-      console.log('timer is working: ', token);
       socketRef.current.emit('pushAnswer', ({ punch: punchInput || 'no answer', token, roomId }));
     }, 30000);
     setTimeoutId(timer);

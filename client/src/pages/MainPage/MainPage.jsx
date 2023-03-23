@@ -9,7 +9,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
-const SERVER_URL = 'http://localhost:3000';
+import url from '../../url';
 
 export default function MainPage() {
   const [allRooms, setAllRooms] = useState([]);
@@ -25,7 +25,7 @@ export default function MainPage() {
 
   // get array of rooms from database
   useEffect(() => {
-    const response = fetch('/rooms');
+    const response = fetch(`${url}/rooms`);
     response
       .then((res) => res.json())
       .then((data) => {
@@ -36,7 +36,7 @@ export default function MainPage() {
 
   // get room from another user by socket.io
   useEffect(() => {
-    socketRef.current = io(SERVER_URL);
+    socketRef.current = io(url);
     socketRef.current.emit('connection');
     socketRef.current.on('updateRooms', (rooms) => {
       setAllRooms(rooms);
@@ -101,7 +101,7 @@ export default function MainPage() {
   // checking password to enter the room
   const handleCheckPass = (event) => {
     event.preventDefault();
-    const response = fetch('/rooms/checkpass', {
+    const response = fetch(`${url}/rooms/checkpass`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: roomId, password: formData }), // id room
