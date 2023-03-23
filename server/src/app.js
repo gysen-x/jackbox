@@ -355,10 +355,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/auth', authRoute);
-app.use('/games', gameRoute);
-app.use('/rooms', roomRoute);
-app.use('/users', userRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/games', gameRoute);
+app.use('/api/rooms', roomRoute);
+app.use('/api/users', userRoute);
 
 server.listen(PORT, () => {
   console.log(`server started on http://localhost:${PORT}`);
