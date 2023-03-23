@@ -69,10 +69,7 @@ exports.changeUserInfo = async (req, res) => {
       const deletepath = path.join(__dirname, '..', '..', deletefile.replace(url, ''));
       await User.update({ avatar: url + avatar }, { where: { id } });
       if (deletefile.slice(0, 5) === 'http:') {
-        try {
-          await fs.rm(deletepath);
-        } catch (error) {
-        }
+        await fs.rm(deletepath);
       }
       res.json({ avatar: url + avatar });
     } catch (error) {
