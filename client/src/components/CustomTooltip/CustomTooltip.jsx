@@ -7,7 +7,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 const StyledTooltip = styled(({ className, ...props }) => (
   <Tooltip
     {...props}
-    placement="right"
+    placement="top"
     disableInteractive
     leaveDelay={500}
     TransitionComponent={Zoom}
