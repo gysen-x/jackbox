@@ -1,3 +1,9 @@
-PORT=3000
-DATABASE=postgres://postgres:""@localhost:5432/baseName
+PORT=4000
+DATABASE=postgres://ilyaignatov:123@localhost:5432/jackbox
 SECRET_JWT=qwerty
+DB_USERNAME=admin
+DB_PASS=pass
+DB_NAME=fbgame
+DB_HOST=45.9.42.85
+DB_DIALECT=postgres
+DATABASE_URL=postgres://admin:pass@45.9.42.85:5432/fbgame

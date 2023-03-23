@@ -27,7 +27,7 @@ const io = new Server(
   server,
   {
     cors: {
-      origin: 'http://localhost:4000',
+      origin: 'http://localhost:4100',
       methods: ['GET', 'POST'],
     },
   },
@@ -282,7 +282,10 @@ io.on('connection', (socket) => {
         }
 
         await AnswersAndPairs.destroy({ where: { roomId } });
-        const refreshParticipants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
+        const refreshParticipants = await User.findAll({
+          where: { roomId },
+          attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'],
+        });
         const room = await Room.increment({ round: 1 }, { where: { id: roomId } });
         await Room.update({ votes: 0 }, { where: { id: roomId } });
         await User.update({ votes: 0 }, { where: { roomId } });
@@ -321,7 +324,10 @@ io.on('connection', (socket) => {
           votes: finalBestPunchDB.votes,
           setup: finalBestPunchDB.setup,
         };
-        const participants = await User.findAll({ where: { roomId }, attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'] });
+        const participants = await User.findAll({
+          where: { roomId },
+          attributes: ['id', 'login', 'avatar', 'ready', 'pointsInGame'],
+        });
         io.emit('gameFinished', { roomId, participants, finalBestPunch });
         await User.update({ pointsInGame: 0, votes: 0 }, { where: { roomId } });
         await BestPunch.destroy({ where: { roomId } });
@@ -339,7 +345,7 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT ?? 3000;
 
 app.use(cors({
-  origin: 'http://localhost:4000',
+  origin: 'http://localhost:4100',
   credentials: true,
 }));
 
