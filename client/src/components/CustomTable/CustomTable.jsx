@@ -195,8 +195,8 @@ export default function CustomTable({
         //   fontSize: '17px',
         // },
         '& .MuiDataGrid-columnHeaders': {
-          backgroundColor: '#f7e7be',
-          color: 'black',
+          backgroundColor: 'rgb(247 231 190 / 80%)',
+          // color: 'black',
           borderBottom: 'none',
           width: 'auto',
           fontSize: '17px',
@@ -211,7 +211,7 @@ export default function CustomTable({
         },
         '& .MuiDataGrid-footerContainer': {
           borderTop: 'none',
-          backgroundColor: '#f7e7be',
+          backgroundColor: 'rgb(247 231 190 / 80%)',
         },
         '& .MuiDataGrid-cell': {
           padding: '0px !important',

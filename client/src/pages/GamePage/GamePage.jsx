@@ -151,6 +151,8 @@ function GamePage() {
             borderRadius: '20px',
             overflow: 'hidden',
             position: 'relative',
+            border: '2px solid #333',
+            boxShadow: '0 0.4rem #333',
           }}
         >
           {status === 'start' && <StartGamePage socketRef={socketRef} />}
