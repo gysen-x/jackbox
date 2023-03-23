@@ -334,7 +334,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use('/public', express.static('public'));
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -344,6 +344,9 @@ app.use('/auth', authRoute);
 app.use('/games', gameRoute);
 app.use('/rooms', roomRoute);
 app.use('/users', userRoute);
+// app.use('/*', (req, res) => {
+//   res.sendfile(path.join(__dirname, '../public/index.html'));
+// });
 
 server.listen(PORT, () => {
   console.log(`server started on http://localhost:${PORT}`);
