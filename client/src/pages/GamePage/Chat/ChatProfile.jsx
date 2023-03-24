@@ -58,6 +58,7 @@ function ChatProfile({
           }
         });
       }
+      // return () => {}
     },
     [allMessages, showEmoji, id],
   );
