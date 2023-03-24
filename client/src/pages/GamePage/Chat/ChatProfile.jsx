@@ -52,7 +52,8 @@ function ChatProfile({
       }
       if (socketRef.current) {
         socketRef.current.on('newPrivateMessage', ({ id: ourId, senderId, messageNew }) => {
-          if (user.userid === ourId || user.userid === senderId) {
+          if ((user.userid === ourId || user.userid === senderId)
+                        && (id === ourId || id === senderId)) {
             setAllMessages([...allMessages, messageNew]);
           }
         });
