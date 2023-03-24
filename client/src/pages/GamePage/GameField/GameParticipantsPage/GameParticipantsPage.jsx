@@ -33,7 +33,7 @@ export default function GameParticipantsPage({ socketRef, status }) {
 
     fetch(`${url}/rooms/${id}/participants`)
       .then((res) => res.json())
-      .then((data) => setParticipants(data))
+      .then((data) => setParticipants(data.sort((a, b) => a.id - b.id)))
       .catch((error) => console.error(error));
   }, []);
 
@@ -41,7 +41,8 @@ export default function GameParticipantsPage({ socketRef, status }) {
     if (socketRef.current) {
       socketRef.current.on('checkEnterToRoom', ({ id: roomId, user }) => {
         if (Number(id) === Number(roomId)) {
-          setParticipants([...participants, user]);
+          const orderParticipants = [...participants, user].sort((a, b) => a.id - b.id);
+          setParticipants(orderParticipants);
         }
       });
 
@@ -78,7 +79,7 @@ export default function GameParticipantsPage({ socketRef, status }) {
 
       socketRef.current.on('everybodyVote', ({ roomId, refreshParticipants }) => {
         if (id === roomId) {
-          setParticipants(refreshParticipants);
+          setParticipants(refreshParticipants.sort((a, b) => a.id - b.id));
         }
       });
 
