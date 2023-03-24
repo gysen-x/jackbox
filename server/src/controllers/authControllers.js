@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 
+const { Op } = require('sequelize');
 const { User } = require('../../db/models');
 
 const { generateAccessToken, decodeToken } = require('./lib/jwt');
@@ -9,7 +10,10 @@ exports.signInAndSendStatus = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const userFromDatabase = await User.findOne({ where: { email }, raw: true });
+    const userFromDatabase = await User.findOne({
+      where: { email: { [Op.iLike]: email } },
+      raw: true,
+    });
     const isSamePassword = await bcrypt.compare(password, userFromDatabase.password);
     if (isSamePassword) {
       const { id, login: name } = userFromDatabase;
@@ -29,7 +33,11 @@ exports.signUpAndSendStatus = async (req, res) => {
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      login, email, password: hashPassword, avatar: 'https://img.freepik.com/fotos-premium/cabeza-hipster-espacio-vacio-ilustracion-render-3d_1172-983.jpg', ready: false,
+      login,
+      email,
+      password: hashPassword,
+      avatar: 'https://img.freepik.com/fotos-premium/cabeza-hipster-espacio-vacio-ilustracion-render-3d_1172-983.jpg',
+      ready: false,
     });
 
     const { id, login: name } = user;
