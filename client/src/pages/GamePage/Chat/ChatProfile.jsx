@@ -59,7 +59,7 @@ function ChatProfile({
         });
       }
     },
-    [allMessages, showEmoji, id],
+    [allMessages, showEmoji],
   );
 
   const onSubmitHandle = (event) => {
