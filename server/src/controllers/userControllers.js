@@ -61,7 +61,7 @@ exports.changeUserInfo = async (req, res) => {
 
   if (req.file?.path) {
     const avatar = req.file.path;
-    const url = `${req.protocol}://${req.get('host')}/`;
+    const url = 'http://funboxgame.ru/api/';
     console.log(url);
     console.log(url + avatar);
 
