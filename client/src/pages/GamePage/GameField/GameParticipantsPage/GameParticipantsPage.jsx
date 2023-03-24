@@ -126,10 +126,12 @@ export default function GameParticipantsPage({ socketRef, status }) {
               status === 'finished' && !ourFriends.includes(participant.id) && ourUser.userid !== participant.id
                 ? (
                   <Badge
-                    className={style.badgeStatus}
+                    className={style.badgeAddFriend}
                     badgeContent="+"
                     color="info"
-                    onClick={() => { addFriendShip(participant.id); }}
+                    onClick={() => {
+                      addFriendShip(participant.id);
+                    }}
                     anchorOrigin={{
                       vertical: 'top',
                       horizontal: 'left',
