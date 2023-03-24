@@ -267,6 +267,12 @@ io.on('connection', (socket) => {
             bestPunch.votes = maxVotes;
             bestPunch.setup = allPairs[i].setup;
             break;
+          } else {
+            bestPunch.userId = allPairs[i].playerId2;
+            bestPunch.punch = allPairs[i].punchPlayer2;
+            bestPunch.votes = maxVotes;
+            bestPunch.setup = allPairs[i].setup;
+            break;
           }
         }
       }
