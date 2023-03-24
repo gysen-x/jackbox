@@ -37,6 +37,7 @@ export default function MainPage() {
   // get room from another user by socket.io
   useEffect(() => {
     socketRef.current = io(url);
+    console.log('socketRef.current = io(url);', url);
     socketRef.current.emit('connection');
     socketRef.current.on('updateRooms', (rooms) => {
       setAllRooms(rooms);
@@ -78,7 +79,9 @@ export default function MainPage() {
 
     if (!finded.join()) {
       setTooltipFind(true);
-    } else { setTooltipFind(false); }
+    } else {
+      setTooltipFind(false);
+    }
 
     setFiltredRooms(finded);
   };
@@ -140,7 +143,7 @@ export default function MainPage() {
               onChange={handleFindChange}
               placeholder="Find room..."
             />
-        )}
+                    )}
         />
         <CustomTable
           allRooms={allRooms}
@@ -162,7 +165,7 @@ export default function MainPage() {
                   setSwitchModal={setSwitchModalNewGame}
                   inner={(
                     <GameSetup />
-                  )}
+                        )}
                 />
                 )}
       {switchModal
@@ -192,7 +195,7 @@ export default function MainPage() {
                             color="#fe9e84"
                             type="submit"
                           />
-)}
+                                    )}
                       />
                     </form>
                         )}

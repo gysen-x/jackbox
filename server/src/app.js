@@ -27,7 +27,7 @@ const io = new Server(
   server,
   {
     cors: {
-      origin: 'http://funboxgame.ru',
+      origin: 'http://funboxgame.ru/api',
       methods: ['GET', 'POST'],
     },
   },
