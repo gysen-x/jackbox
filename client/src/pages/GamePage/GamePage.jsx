@@ -17,6 +17,7 @@ import ResultsGamePage from './GameField/ResultsGamePage/ResultsGamePage';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
 import url from '../../url';
+import socketUrl from '../../socketUrl';
 
 function GamePage() {
   const user = useSelector((store) => store.user);
@@ -42,7 +43,7 @@ function GamePage() {
       })
       .catch((error) => console.error(error));
 
-    socketRef.current = io(url);
+    socketRef.current = io(socketUrl);
     socketRef.current.emit('connection');
 
     socketRef.current.on('destroyRoom', ({ id: roomId }) => {
@@ -157,31 +158,31 @@ function GamePage() {
         >
           {status === 'start' && <StartGamePage socketRef={socketRef} />}
           {status === 'game' && (
-          <PunchGamePage
-            status={status}
-            setStatus={setStatus}
-            punchData={punchData}
-            socketRef={socketRef}
-          />
+            <PunchGamePage
+              status={status}
+              setStatus={setStatus}
+              punchData={punchData}
+              socketRef={socketRef}
+            />
           )}
           {status === 'showround' && <ShowRoundPage round={currentRound} />}
           {status === 'everybodyAnswers'
-         && (
-           <div className={style.GamePage__everybodyAnswers}>
-             <img className={style.GamePage__nyan} src="/images/nyan.gif" alt="logo" />
-           </div>
-         )}
+                        && (
+                        <div className={style.GamePage__everybodyAnswers}>
+                          <img className={style.GamePage__nyan} src="/images/nyan.gif" alt="logo" />
+                        </div>
+                        )}
           {status === 'voting'
-        && (
-        <VoteGamePage
-          socketRef={socketRef}
-          voteData={voteData}
-        />
-        )}
+                        && (
+                        <VoteGamePage
+                          socketRef={socketRef}
+                          voteData={voteData}
+                        />
+                        )}
           {status === 'finished'
-        && (
-        <ResultsGamePage results={results} />
-        )}
+                        && (
+                        <ResultsGamePage results={results} />
+                        )}
           <Box
             sx={{
               position: 'absolute',

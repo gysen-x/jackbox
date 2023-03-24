@@ -15,6 +15,7 @@ import './GameSetup.css';
 import './SelectGames.css';
 
 import url from '../../url';
+import socketUrl from '../../socketUrl';
 
 export default function GameSetup() {
   const [switchModal, setSwitchModal] = useState(false);
@@ -73,7 +74,7 @@ export default function GameSetup() {
             setAlertMessage('fail');
             setSwitchModal(true);
           } else {
-            socketRef.current = io(url);
+            socketRef.current = io(socketUrl);
             socketRef.current.emit('addRoom');
             navigate(`/rooms/${data.id}`);
           }
@@ -118,27 +119,32 @@ export default function GameSetup() {
             }, index) => (
               <div key={`div${id}`}>
                 {index === 0
-                  ? <input className="inputSlider" defaultChecked="checked" type="radio" name="input-slider" />
+                  ? (
+                    <input
+                        className="inputSlider" defaultChecked="checked" type="radio"
+                        name="input-slider"
+                      />
+                  )
                   : <input className="inputSlider" type="radio" name="input-slider" />}
                 <div className="gameWrapper">
                   <input id={`radioCheck${id}`} type="checkbox" className="checkCard" />
                   <label htmlFor={`radioCheck${id}`} className="flipCard">
                     <div className="card">
-                      <img className="img-card" src={img} alt="game card" />
-                      <div className="info-card">
-                        <p>{name}</p>
-                        <p>{description}</p>
+                        <img className="img-card" src={img} alt="game card" />
+                        <div className="info-card">
+                            <p>{name}</p>
+                            <p>{description}</p>
+                          </div>
                       </div>
-                    </div>
                     <div className="card_back">
-                      <p>Rules:</p>
-                      <p>{rules}</p>
-                      <p>
-                        Max players:
-                        {' '}
-                        {maxPlayers}
-                      </p>
-                    </div>
+                        <p>Rules:</p>
+                        <p>{rules}</p>
+                        <p>
+                            Max players:
+                                                {' '}
+                            {maxPlayers}
+                          </p>
+                      </div>
                   </label>
                 </div>
               </div>
@@ -235,11 +241,11 @@ export default function GameSetup() {
             type="button"
             handleOnClick={handleCreateGame}
           />
-)}
+                )}
       />
 
       {switchModal
-      && <CustomModal setSwitchModal={setSwitchModal} inner={<p>{alertMessage}</p>} />}
+                && <CustomModal setSwitchModal={setSwitchModal} inner={<p>{alertMessage}</p>} />}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 import url from '../../url';
+import socketUrl from '../../socketUrl';
 
 export default function MainPage() {
   const [allRooms, setAllRooms] = useState([]);
@@ -36,8 +37,7 @@ export default function MainPage() {
 
   // get room from another user by socket.io
   useEffect(() => {
-    socketRef.current = io(url);
-    console.log('socketRef.current = io(url);', url);
+    socketRef.current = io(socketUrl);
     socketRef.current.emit('connection');
     socketRef.current.on('updateRooms', (rooms) => {
       setAllRooms(rooms);

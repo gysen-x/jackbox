@@ -16,6 +16,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomTooltip from '../../components/CustomTooltip/CustomTooltip';
 
 import url from '../../url';
+import socketUrl from '../../socketUrl';
 
 export default function Profile() {
   const { userid: uId } = useSelector((store) => store.user);
@@ -36,7 +37,7 @@ export default function Profile() {
   const [newAvatar, setNewAvatar] = useState('');
 
   useEffect(() => {
-    socketRef.current = io(url);
+    socketRef.current = io(socketUrl);
     socketRef.current.emit('connection');
     (async () => {
       const tokenJWT = localStorage.getItem('token');
