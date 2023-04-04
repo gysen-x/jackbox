@@ -75,6 +75,7 @@ export default function CustomTable({
             id={id}
             className={style.tableButton}
             title={isPassword ? 'Join 🔒' : 'Join'}
+            disabled={allRooms.members === allRooms.maxPlayers}
             fontSize="13px"
             width="50px"
             height="30px"

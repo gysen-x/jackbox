@@ -34,7 +34,7 @@ export default function PunchGamePage({ socketRef, punchData }) {
     setTimeoutId(null);
     const token = localStorage.getItem('token');
     setWaiting(true);
-    socketRef.current.emit('pushAnswer', ({ punch: punchInput, token, roomId }));
+    socketRef.current.emit('pushAnswer', ({ punch: punchInput || 'no answer', token, roomId }));
   };
 
   return (

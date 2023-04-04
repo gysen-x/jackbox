@@ -4,7 +4,16 @@ import React from 'react';
 import './CustomButton.css';
 
 export default function CustomButton({
-  id, title, color, type, handleOnClick, className, width, height, fontSize,
+  id,
+  title,
+  color,
+  type,
+  handleOnClick,
+  className,
+  width,
+  height,
+  fontSize,
+  disabled,
 }) {
   // const [sizeWidthHeight, setSizeWidthHeight] = useState(['100px', 'auto']);
 
@@ -41,6 +50,7 @@ export default function CustomButton({
         )
         : (
           <button
+            disabled={disabled}
             id={id}
             className="buttonAction"
             type={type}
