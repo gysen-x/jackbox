@@ -26,7 +26,29 @@ export default function CustomButton({
   return (
     <div className={className}>
       {handleOnClick
-        ? (
+        ? (disabled ? (
+          <button
+            data-id={id}
+            className="buttonAction"
+            disabled
+            type={type}
+            onClick={handleOnClick}
+            style={{
+              width,
+              height,
+            }}
+          >
+            <span
+              className="button_top"
+              style={{
+                backgroundColor: color,
+                fontSize,
+              }}
+            >
+              {title}
+            </span>
+          </button>
+        ) : (
           <button
             data-id={id}
             className="buttonAction"
@@ -48,28 +70,53 @@ export default function CustomButton({
             </span>
           </button>
         )
+
+        )
         : (
-          <button
-            disabled={disabled}
-            id={id}
-            className="buttonAction"
-            type={type}
-            style={{
-              width,
-              height,
-            }}
-          >
-            <span
-              fontSize={fontSize}
-              className="button_top"
+          disabled ? (
+            <button
+              disabled
+              id={id}
+              className="buttonAction"
+              type={type}
               style={{
-                backgroundColor: color,
-                fontSize,
+                width,
+                height,
               }}
             >
-              {title}
-            </span>
-          </button>
+              <span
+                fontSize={fontSize}
+                className="button_top"
+                style={{
+                  backgroundColor: color,
+                  fontSize,
+                }}
+              >
+                {title}
+              </span>
+            </button>
+          ) : (
+            <button
+              id={id}
+              className="buttonAction"
+              type={type}
+              style={{
+                width,
+                height,
+              }}
+            >
+              <span
+                fontSize={fontSize}
+                className="button_top"
+                style={{
+                  backgroundColor: color,
+                  fontSize,
+                }}
+              >
+                {title}
+              </span>
+            </button>
+          )
         )}
     </div>
   );
