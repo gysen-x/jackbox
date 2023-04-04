@@ -29,6 +29,7 @@ function GamePage() {
   const [voteData, setVoteData] = useState({});
   const [currentRound, setCurrentRound] = useState(1);
   const [results, setResults] = useState({});
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetch(`${url}/rooms/${id}/check`, {
@@ -45,6 +46,10 @@ function GamePage() {
 
     socketRef.current = io(socketUrl);
     socketRef.current.emit('connection');
+
+    window.addEventListener('unload', () => {
+      socketRef.current.emit('disconnectRoom', { id, token });
+    });
 
     socketRef.current.on('destroyRoom', ({ id: roomId }) => {
       if (id === roomId) navigate('/');
@@ -106,14 +111,12 @@ function GamePage() {
     });
 
     return function disconnect() {
-      const token = localStorage.getItem('token');
       socketRef.current.emit('disconnectRoom', { id, token });
     };
   }, []);
 
   // На выход из комнаты
   const handleClick = () => {
-    const token = localStorage.getItem('token');
     socketRef.current.emit('disconnectRoom', { id, token });
     navigate('/');
   };
@@ -167,22 +170,22 @@ function GamePage() {
           )}
           {status === 'showround' && <ShowRoundPage round={currentRound} />}
           {status === 'everybodyAnswers'
-                        && (
-                        <div className={style.GamePage__everybodyAnswers}>
-                          <img className={style.GamePage__nyan} src="/images/nyan.gif" alt="logo" />
-                        </div>
-                        )}
+                && (
+                <div className={style.GamePage__everybodyAnswers}>
+                  <img className={style.GamePage__nyan} src="/images/nyan.gif" alt="logo" />
+                </div>
+                )}
           {status === 'voting'
-                        && (
-                        <VoteGamePage
-                          socketRef={socketRef}
-                          voteData={voteData}
-                        />
-                        )}
+                && (
+                <VoteGamePage
+                  socketRef={socketRef}
+                  voteData={voteData}
+                />
+                )}
           {status === 'finished'
-                        && (
-                        <ResultsGamePage results={results} />
-                        )}
+                && (
+                <ResultsGamePage results={results} />
+                )}
           <Box
             sx={{
               position: 'absolute',
