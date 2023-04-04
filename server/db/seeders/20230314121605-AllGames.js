@@ -5,7 +5,7 @@ module.exports = {
       name: 'Рифмы и панчи',
       rules: 'Добей шутку',
       description: 'Добей шутку, выиграй остальных',
-      img: 'http://localhost:3000/public/punches.png',
+      img: 'http://funboxgame.ru/api/public/punches.png',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {

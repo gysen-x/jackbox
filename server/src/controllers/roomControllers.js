@@ -38,7 +38,7 @@ exports.createRoom = async (req, res) => {
       });
     } else {
       newRoom = await Room.create({
-        name, gameId, password, members: 1,
+        name, gameId, password, members: 1, maxPlayers,
       });
     }
 

@@ -62,8 +62,6 @@ exports.changeUserInfo = async (req, res) => {
   if (req.file?.path) {
     const avatar = req.file.path;
     const url = 'http://funboxgame.ru/api/';
-    console.log(url);
-    console.log(url + avatar);
 
     try {
       const user = await User.findByPk(id);
