@@ -69,13 +69,17 @@ export default function CustomTable({
         sortable: false,
         align: 'center',
         renderCell: (
-          { row: { isPassword, id } },
+          {
+            row: {
+              isPassword, id, members, maxPlayers,
+            },
+          },
         ) => (
           <CustomButton
             id={id}
             className={style.tableButton}
             title={isPassword ? 'Join 🔒' : 'Join'}
-            disabled={allRooms.members === allRooms.maxPlayers}
+            disabled={members === maxPlayers}
             fontSize="13px"
             width="50px"
             height="30px"
@@ -143,11 +147,16 @@ export default function CustomTable({
         sortable: false,
         align: 'center',
         renderCell: (
-          { row: { isPassword, id } },
+          {
+            row: {
+              isPassword, id, members, maxPlayers,
+            },
+          },
         ) => (
           <CustomButton
             id={id}
             className={style.tableButton}
+            disabled={members === maxPlayers}
             title="Join"
             fontSize="13px"
             width="50px"
